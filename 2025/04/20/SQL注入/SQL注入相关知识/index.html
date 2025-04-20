@@ -13,7 +13,7 @@
 
 
 
-<title>Hello World | Apzx7</title>
+<title>SQL注入相关知识 | Apzx7</title>
 
 
 
@@ -196,7 +196,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">Hello World</h1>
+            <h1 class="post-title">SQL注入相关知识</h1>
             
                 <div class="post-meta">
                     
@@ -205,28 +205,53 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">四月 13, 2025&nbsp;&nbsp;19:21:45</a>
+                        Date: <a href="#">四月 20, 2025&nbsp;&nbsp;0:00:00</a>
                         </span>
                     
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
+                            
+                        </span>
                     
                 </div>
             
         </header>
 
         <div class="post-content">
-            <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+            <h1 id="名字"><a href="#名字" class="headerlink" title="名字"></a>名字</h1><p>重要数据库名：information_schema;<br>重要的表名：columns,tables,<br>SCHEMA_NAME—记录库的信息；<br>table表字段名TABLE_NAME——记录表名；<br>table表字段名TABLE_SCHEMA——记录库名；<br>columns 存储该用户创建的所有数据库的库名、标名和字段名。</p>
+<ul>
+<li>通过 infomation_schema 查询 www_dvwa_com 库里所有的表和字段</li>
+</ul>
+<p>select * from information_schema.<code>COLUMNS</code> where TABLE_SCHEMA&#x3D;’www_dvwa_com’；<br>（where表条件）<br>数据库.表名 这种查询方法是指定某个数据库某个表 <code> </code> 这个符号可以忽略不用；</p>
+<ul>
+<li>查询某个库某个表的字段可以这样查询</li>
+</ul>
+<p>select * from information_schema.COLUMNS where</p>
+<p>TABLE_SCHEMA&#x3D;’www_dvwa_com’ and TABLE_NAME&#x3D;’users’<br>（’*’为通配符）</p>
+<h1 id="sql注释符"><a href="#sql注释符" class="headerlink" title="sql注释符"></a>sql注释符</h1><p>  ‘# ’单行注释<br>注意与 url 中的#区分，常编码为%23</p>
+<p>–空格&#x2F;+ 单行注释 注意为短线短线空格</p>
+<p>&#x2F;<em>（）</em>&#x2F; 多行注释 至少存在俩处的注入</p>
+<p>&#x2F;* * &#x2F;常用来作为空格；</p>
+<h1 id="SQL-注入分类"><a href="#SQL-注入分类" class="headerlink" title="SQL 注入分类"></a>SQL 注入分类</h1><p>SQL 注入分类：按 SQLMap 中的分类来看，SQL 注入类型有以下 5 种：</p>
+<p>UNION query SQL injection（可联合查询注入）[[1.5 UNION联合注入]]</p>
+<p>Stacked queries SQL injection（可多语句查询注入）堆叠查询Boolean-based blind SQL injection（布尔型注入）</p>
+<p>Error-based SQL injection（报错型注入）</p>
+<p>Time-based blind SQL injection（基于时间延迟注入）</p>
+<h1 id="接受请求类型区分"><a href="#接受请求类型区分" class="headerlink" title="接受请求类型区分"></a>接受请求类型区分</h1><p>GET 注入：</p>
+<p>GET 请求的参数是放在 URL 里的，GET 请求的 URL 传参有长度限制 中文需要URL 编码</p>
+<p>POST 注入：</p>
+<p>POST 请求参数是放在请求 body 里的，长度没有限制</p>
+<p>COOKIE 注入：</p>
+<p>cookie 参数放在请求头信息，提交的时候 服务器会从请求头获取</p>
+<h1 id="注入数据类型的区分"><a href="#注入数据类型的区分" class="headerlink" title="注入数据类型的区分"></a>注入数据类型的区分</h1><p>int 整型</p>
+<p>select * from users where id&#x3D;1</p>
+<p>sting 字符型</p>
+<p>select * from users where username&#x3D;’admin’</p>
+<p>like 搜索型</p>
+<p>select * from news where title like ‘%标题%’</p>
 
         </div>
 
@@ -241,7 +266,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://apzx7.github.io/2025/04/13/hello-world/">http://apzx7.github.io/2025/04/13/hello-world/</a></span>
+                        <span><a href="http://apzx7.github.io/2025/04/20/SQL%E6%B3%A8%E5%85%A5/SQL%E6%B3%A8%E5%85%A5%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/">http://apzx7.github.io/2025/04/20/SQL%E6%B3%A8%E5%85%A5/SQL%E6%B3%A8%E5%85%A5%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/</a></span>
                     </p>
                 
                 
@@ -264,6 +289,12 @@
                 <span>Tag(s):</span>
                 <span class="tag">
                     
+                    
+                        <a href="/tags/Hexo/"># Hexo</a>
+                    
+                        <a href="/tags/%E6%95%99%E7%A8%8B/"># 教程</a>
+                    
+                        
                 </span>
             </div>
             <div>
@@ -274,8 +305,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2025/04/20/SQL%E6%B3%A8%E5%85%A5/SQL%E6%B3%A8%E5%85%A5%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/">SQL注入相关知识</a>
             
+            <a class="next" rel="next" href="/2025/04/13/hello-world/">Hello World</a>
             
         </section>
 
