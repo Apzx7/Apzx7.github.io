@@ -127,6 +127,71 @@
                 <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
 
     
     <article class="post-wrap">
@@ -144,12 +209,26 @@
                         </span>
                     
                     
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/upload/">upload</a>
+                            
+                        </span>
+                    
                 </div>
             
         </header>
 
         <div class="post-content">
-            
+            <p>js绕过方法</p>
+<p>按 F12 使用网页审计元素，把<strong>校验的上传文件后缀名文件删除（或在浏览器禁用js）</strong>，即可上传。<br>把恶意文件改成 js 允许上传的文件后缀，如 jpg、gif、png 等，<strong>再通过burpsuite抓取 post 的数据包，把后缀名改成可执行的脚本后缀如 php 、asp、jsp、net 等</strong>。即可绕过上传。删除 js 文件</p>
+<p>抓包修改后缀名</p>
+<h1 id="js前端检测原理"><a href="#js前端检测原理" class="headerlink" title="js前端检测原理"></a>js前端检测原理</h1><p>在文件上传时，用户选择文件时，或者提交时，有些<strong>网站会对前端文件名进行验证</strong>，一般检测后缀名，是否为上传的格式。如果上传的格式不对，则弹出提示文字。此时<strong>数据包并没有提交到服务器</strong>，只是在客户端通过 js 文件进行校验，验证不通过则不会提交到服务器进行处理。</p>
+<h1 id="js前端检测代码分析"><a href="#js前端检测代码分析" class="headerlink" title="js前端检测代码分析"></a>js前端检测代码分析</h1><p>客户段 html 上传文件时会调用 <strong>checkFile 函数</strong>，首先获取文件后缀名。如果文件为空，则弹出“请选择要上传的文件”，如果文件不为空，获取上传的文件后缀名不 .jpg、.png 、.gif 其中一种则提示“该文<br>件不允许上传”，上传失败。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">`&lt;in put type=&quot;file&quot; name=&quot;upload_file&quot; id=&quot;fileInput&quot;&gt;`</span><br><span class="line">`&lt;button onclick=&quot;checkFile()&quot;&gt;Check File&lt;/button&gt;`</span><br><span class="line">`&lt;script&gt;`</span><br><span class="line">`function checkFile() &#123;`</span><br><span class="line">    `// 获取文件输入框的值`</span><br><span class="line">    `var file = document.getElementById(&#x27;fileInput&#x27;).value;`</span><br><span class="line">    `if (file == null || file == &quot;&quot;) &#123;`</span><br><span class="line">        `alert(&quot;请选择要上传的文件!&quot;);`</span><br><span class="line">        `return false;`</span><br><span class="line">    `&#125;`</span><br><span class="line"></span><br><span class="line">    `// 定义允许上传的文件类型`</span><br><span class="line">    `var allow_ext = &quot;.jpg|.png|.gif&quot;;`</span><br><span class="line">    `// 提取上传文件的类型`</span><br><span class="line">    `var ext_name = file.substring(file.lastIndexOf(&quot;.&quot;));`</span><br><span class="line">    `// 判断上传文件类型是否允许上传`</span><br><span class="line">    `if (allow_ext.indexOf(ext_name + &quot;|&quot;) == -1) &#123;`</span><br><span class="line">        `var errMsg = &quot;该文件不允许上传，请上传&quot; + allow_ext + &quot;类型的文件,当前文件类型为：&quot; + ext_name;`</span><br><span class="line">        `alert(errMsg);`</span><br><span class="line">        `return false;`</span><br><span class="line">    `&#125;`</span><br><span class="line"></span><br><span class="line">    `// 如果文件类型验证通过，返回 true`</span><br><span class="line">    `return true;`</span><br><span class="line">`&#125;`</span><br><span class="line">`&lt;/script&gt;`</span><br></pre></td></tr></table></figure>
+
+
         </div>
 
         
