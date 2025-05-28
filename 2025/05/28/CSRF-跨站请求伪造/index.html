@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="dirseach的安装和使用, Apzx7">
+    <meta name="keywords" content="CSRF(跨站请求伪造), Apzx7">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>dirseach的安装和使用 | Apzx7</title>
+    <title>CSRF(跨站请求伪造) | Apzx7</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">dirseach的安装和使用</h1>
+                    <h1 class="description center-align post-title">CSRF(跨站请求伪造)</h1>
                 </div>
             </div>
         </div>
@@ -429,13 +429,9 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/%E5%B7%A5%E5%85%B7/">
-                                <span class="chip bg-color">工具</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -447,7 +443,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2025-05-21
+                    2025-05-28
                 </div>
                 
 
@@ -456,14 +452,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    881
+                    2.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    10 分
                 </div>
                 
 
@@ -486,64 +482,72 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=dirsearch&spm=1001.2101.3001.7020">dirsearch</a>是一个基于python的命令行工具，用于暴力扫描页面结构，包括网页中的目录和文件。</p>
-<p>dirsearch下载地址： <a target="_blank" rel="noopener" href="https://github.com/maurosoria/dirsearch" title="GitHub - maurosoria/dirsearch: Web path scanner">GitHub - maurosoria&#x2F;dirsearch: Web path scanner</a></p>
-<p>运行环境：必须安装python3.7或更高版本</p>
-<h2 id="一、Dirsearch是什么？"><a href="#一、Dirsearch是什么？" class="headerlink" title="一、Dirsearch是什么？"></a>一、Dirsearch是什么？</h2><p>Dirsearch是一个用于探测WEB服务器下的<strong>敏感文件&#x2F;目录</strong>的命令行工具。</p>
-<h2 id="二、安装和使用"><a href="#二、安装和使用" class="headerlink" title="二、安装和使用"></a>二、安装和使用</h2><h3 id="1-安装"><a href="#1-安装" class="headerlink" title="1.安装"></a>1.安装</h3><p>1.1选择以下安装选项之一：</p>
-<ul>
-<li>使用 <strong>git</strong> 安装：（<strong>推荐</strong><code>git clone https://github.com/maurosoria/dirsearch.git --depth 1</code>)</li>
-<li>使用 ZIP 文件安装：<a target="_blank" rel="noopener" href="https://github.com/maurosoria/dirsearch/archive/master.zip" title="在此处下载">在此处下载</a></li>
-<li>使用 Docker 安装：（更多信息可以<a target="_blank" rel="noopener" href="https://github.com/maurosoria/dirsearch#support-docker" title="在这里">在这里</a>找到<code>docker build -t &quot;dirsearch:v0.4.3&quot; .</code>)</li>
-<li>使用 PyPi 安装：或<code>pip3 install dirsearch``pip install dirsearch</code></li>
-<li>使用 Kali Linux 安装：（已弃用）<code>sudo apt-get install dirsearch</code></li>
+                <h1 id="6-1-csrf-漏洞描述"><a href="#6-1-csrf-漏洞描述" class="headerlink" title="6.1 csrf 漏洞描述"></a>6.1 csrf 漏洞描述</h1><p>CSRF 定义： 跨站请求伪造（英语：Cross-site request forgery），也被称为 one-click attack 或者<br>session riding，通常缩写为 CSRF ， 是一种挟制用户在当前已登录的 Web 应用程序上执行非本意的操作的攻击方法。<br>简单地说，是攻击者通过一些技术手段欺骗用户的浏览器去访问一个自己曾经认证过的网站并执行一些操作（如发邮件，发消息，甚至财产操作如转账和购买商品）。由于浏览器曾经认证过，所以被访问的网站会认为是真正的用户操作而去执行。这利用了 web 中用户身份验证的一个漏洞：简单的身份验证只能保证请求发自某个用户的浏览器，却不能保证请求本身是用户自愿发出的。</p>
+<h1 id="6-2-csrf-漏洞攻击原理"><a href="#6-2-csrf-漏洞攻击原理" class="headerlink" title="6.2 csrf 漏洞攻击原理"></a>6.2 csrf 漏洞攻击原理</h1><p>用户打开浏览器，访问登陆受信任的 A 网站</p>
+<p>在用户信息通过验证后，服务器会返回一个 cookie 给浏览器，用户登陆网站 A 成功，可以正常发送请求到网站 A</p>
+<p>用户未退出网站 A，在同一浏览器中，打开一个危险网站 B</p>
+<p>网站 B 收到用户请求后，返回一些恶意代码，并发出请求要求访问网站 A</p>
+<p>浏览器收到这些恶意代码以后，在用户不知情的情况下，利用 cookie 信息，向网站 A 发送恶意请求，网站A 会根据 cookie 信息以用户的权限去处理该请求，导致来自网站 B 的恶意代码被执行</p>
+<h1 id="6-3-CSRF-漏洞攻击"><a href="#6-3-CSRF-漏洞攻击" class="headerlink" title="6.3 CSRF 漏洞攻击"></a>6.3 CSRF 漏洞攻击</h1><p>一个数据包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">向apzx7账号afafaa@qq.com转账10000的请求</span><br><span class="line">www.alipay/?pay.html?name=apzx7&amp;account=afafaa@qq.com&amp;money=10000</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">www.apzx.com首页或某个页面写上一个加载数据包代码（付款数据包）</span><br></pre></td></tr></table></figure>
+
+
+<p>受害者登录上去，同时访问<a target="_blank" rel="noopener" href="http://www.apzx.com/">www.apzx.com</a>  等于触发付款数据包</p>
+<p>csrf攻击（跨站请求伪造）</p>
+<p>跨站<a target="_blank" rel="noopener" href="http://www.apzx.com请求/">www.apzx.com请求</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">请求伪造www.alipay/?pay.html?name=apzx7&amp;account=afafaa@qq.com&amp;money=10000</span><br></pre></td></tr></table></figure>
+<p>—-没防护且能绕过</p>
+<h3 id="攻击条件"><a href="#攻击条件" class="headerlink" title="攻击条件"></a>攻击条件</h3><p>1.需要求情伪造数据包；<br>2.无过滤防护，有过滤能绕过；<br>3.受害者需触发（诱惑）</p>
+<p>来到 csrf（get）漏洞，输入用户登录后发现修改密码处没有任何验证，存在 csrf 攻</p>
+<p>击，通过 csrf 漏洞攻击修改资料。</p>
+<p>使用 burpsuite 构造攻击 exp 输入信息后 选择 generate csrf-poc</p>
+<p>复制下来 写入到 poc.html</p>
+<p>受害者受到攻击的途径有</p>
+<p>1.受害者登录网站后，没有退出的情况下，访问网站 b 触发</p>
+<p>2.在存在漏洞的网站，挖掘 xss 漏洞，自动调用这 poc.html</p>
+<p>受害者访问 poc.html 点击 poc.html</p>
+<h1 id="6-4-CSRF-防御方案"><a href="#6-4-CSRF-防御方案" class="headerlink" title="6.4 CSRF 防御方案"></a>6.4 CSRF 防御方案</h1><p>1.增加 Token 验证（常用做法）</p>
+<p>对关键操作增加 Token 参数，token 必须随机，每次都不一样</p>
+<p>2 关于安全的会话管理（避免会话被利用）</p>
+<p>不要在客户端保存敏感信息（比如身份验证信息）</p>
+<p>退出、关闭浏览器时的会话过期机制</p>
+<p>设置会话过机制，比如 15 分钟无操作，则自动登录超时</p>
+<p>3 访问控制安全管理</p>
+<p>敏感信息的修改时需要身份进行二次认证，比如修改账号密码，需要判断旧密码</p>
+<p>敏感信息的修改使用 POST，而不是 GET</p>
+<p>通过 HTTP 头部中的 REFERER 来限制原页面</p>
+<p>4 增加验证码</p>
+<p>一般在登录（防暴力破解），也可以用在其他重要信息操作的表单中（需要考虑可用性）</p>
+<h1 id="6-5-同源策略"><a href="#6-5-同源策略" class="headerlink" title="6.5 同源策略"></a>6.5 同源策略</h1><p>监测当前数据包是否为内部产生的</p>
+<p>基于严谨的检测绕过；<br>基于不严谨的监测绕过</p>
+<p>检测是否同源：<br>目标<br>攻击</p>
+<p>完全对比：一样才行<br>无法更改来源<br>配合xss和上传（触发数据包保证是同一来源）<br>匹配对比：有就行<br>条件：点击过来的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://0.0.0.0/8.8.8.8/11.html（目录形式）</span><br></pre></td></tr></table></figure>
+<p>逻辑判断隐患：置空</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name=&quot;referrer&quot; content=&quot;&quot;no-referrer&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="PHP-同源检测的代码示例"><a href="#PHP-同源检测的代码示例" class="headerlink" title="PHP 同源检测的代码示例"></a>PHP 同源检测的代码示例</h3><p>同源检测是一种在服务器端验证请求来源的方法，通过检查请求的来源URL和目标URL是否匹配，可以防止跨域请求被执行。以下是一些常见的实现方法和代码示例。</p>
+<h4 id="1-使用-HTTP-REFERER-检测"><a href="#1-使用-HTTP-REFERER-检测" class="headerlink" title="1. 使用 HTTP_REFERER 检测"></a>1. 使用 <code>HTTP_REFERER</code> 检测</h4><p><code>HTTP_REFERER</code> 是一个 HTTP 头部字段，表示请求的来源页面。通过检查 <code>HTTP_REFERER</code>，可以验证请求是否来自合法的来源。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 检测来源</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkReferrer</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="variable">$expectedReferrer</span> = <span class="string">&quot;http://example.com&quot;</span>; <span class="comment">// 期望的来源页面</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">isset</span>(<span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_REFERER&#x27;</span>]) || <span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_REFERER&#x27;</span>] !== <span class="variable">$expectedReferrer</span>) &#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">&quot;非法访问&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 处理表单提交</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$_SERVER</span>[<span class="string">&#x27;REQUEST_METHOD&#x27;</span>] === <span class="string">&#x27;POST&#x27;</span>) &#123;</span><br><span class="line">    <span class="comment">// 检测来源</span></span><br><span class="line">    <span class="title function_ invoke__">checkReferrer</span>();</span><br><span class="line">    <span class="comment">// 获取用户输入的数据</span></span><br><span class="line">    <span class="variable">$name</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;name&#x27;</span>];</span><br><span class="line">    <span class="variable">$email</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;email&#x27;</span>];</span><br><span class="line">    <span class="comment">// 输出用户输入的数据</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;姓名：<span class="subst">$name</span>&lt;br&gt;&quot;</span>;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;邮箱：<span class="subst">$email</span>&lt;br&gt;&quot;</span>;</span><br><span class="line">    <span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;检测来源示例&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h1&gt;检测来源示例&lt;/h1&gt;</span><br><span class="line">    &lt;form action=<span class="string">&quot;&lt;?php echo <span class="subst">$_SERVER</span>[&#x27;PHP_SELF&#x27;]; ?&gt;&quot;</span> method=<span class="string">&quot;POST&quot;</span>&gt;</span><br><span class="line">        &lt;label <span class="keyword">for</span>=<span class="string">&quot;name&quot;</span>&gt;姓名：&lt;/label&gt;</span><br><span class="line">        &lt;input type=<span class="string">&quot;text&quot;</span> name=<span class="string">&quot;name&quot;</span> id=<span class="string">&quot;name&quot;</span> required /&gt;</span><br><span class="line">        &lt;br&gt;</span><br><span class="line">        &lt;label <span class="keyword">for</span>=<span class="string">&quot;email&quot;</span>&gt;邮箱：&lt;/label&gt;</span><br><span class="line">        &lt;input type=<span class="string">&quot;email&quot;</span> name=<span class="string">&quot;email&quot;</span> id=<span class="string">&quot;email&quot;</span> required /&gt;</span><br><span class="line">        &lt;br&gt;</span><br><span class="line">        &lt;input type=<span class="string">&quot;submit&quot;</span> value=<span class="string">&quot;提交&quot;</span> /&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：<code>HTTP_REFERER</code> 可以被客户端伪造，因此这种方法并不完全可靠。</p>
+<h4 id="HTTP-REFERER绕过"><a href="#HTTP-REFERER绕过" class="headerlink" title="HTTP_REFERER绕过"></a>HTTP_REFERER绕过</h4><p>抓包修改REFERER值为同网站；</p>
+<h4 id="2-使用-HTTP-ORIGIN-检测"><a href="#2-使用-HTTP-ORIGIN-检测" class="headerlink" title="2. 使用 HTTP_ORIGIN 检测"></a>2. 使用 <code>HTTP_ORIGIN</code> 检测</h4><p><code>HTTP_ORIGIN</code> 是一个 HTTP 头部字段，表示请求的来源域。通过检查 <code>HTTP_ORIGIN</code>，可以验证请求是否来自合法的域。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 检测来源</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkOrigin</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="variable">$allowedOrigins</span> = <span class="keyword">array</span>(<span class="string">&#x27;https://example.com&#x27;</span>, <span class="string">&#x27;https://www.example.com&#x27;</span>); <span class="comment">// 允许的合法来源</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">isset</span>(<span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_ORIGIN&#x27;</span>]) || !<span class="title function_ invoke__">in_array</span>(<span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_ORIGIN&#x27;</span>], <span class="variable">$allowedOrigins</span>)) &#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">&quot;非法访问&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 处理表单提交</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$_SERVER</span>[<span class="string">&#x27;REQUEST_METHOD&#x27;</span>] === <span class="string">&#x27;POST&#x27;</span>) &#123;</span><br><span class="line">    <span class="comment">// 检测来源</span></span><br><span class="line">    <span class="title function_ invoke__">checkOrigin</span>();</span><br><span class="line">    <span class="comment">// 获取用户输入的数据</span></span><br><span class="line">    <span class="variable">$name</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;name&#x27;</span>];</span><br><span class="line">    <span class="variable">$email</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;email&#x27;</span>];</span><br><span class="line">    <span class="comment">// 输出用户输入的数据</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;姓名：<span class="subst">$name</span>&lt;br&gt;&quot;</span>;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;邮箱：<span class="subst">$email</span>&lt;br&gt;&quot;</span>;</span><br><span class="line">    <span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;检测来源示例&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h1&gt;检测来源示例&lt;/h1&gt;</span><br><span class="line">    &lt;form action=<span class="string">&quot;&lt;?php echo <span class="subst">$_SERVER</span>[&#x27;PHP_SELF&#x27;]; ?&gt;&quot;</span> method=<span class="string">&quot;POST&quot;</span>&gt;</span><br><span class="line">        &lt;label <span class="keyword">for</span>=<span class="string">&quot;name&quot;</span>&gt;姓名：&lt;/label&gt;</span><br><span class="line">        &lt;input type=<span class="string">&quot;text&quot;</span> name=<span class="string">&quot;name&quot;</span> id=<span class="string">&quot;name&quot;</span> required /&gt;</span><br><span class="line">        &lt;br&gt;</span><br><span class="line">        &lt;label <span class="keyword">for</span>=<span class="string">&quot;email&quot;</span>&gt;邮箱：&lt;/label&gt;</span><br><span class="line">        &lt;input type=<span class="string">&quot;email&quot;</span> name=<span class="string">&quot;email&quot;</span> id=<span class="string">&quot;email&quot;</span> required /&gt;</span><br><span class="line">        &lt;br&gt;</span><br><span class="line">        &lt;input type=<span class="string">&quot;submit&quot;</span> value=<span class="string">&quot;提交&quot;</span> /&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：<code>HTTP_ORIGIN</code> 也可以被客户端伪造，因此这种方法同样不完全可靠。</p>
+<h4 id="3-使用-CSRF-Token-验证"><a href="#3-使用-CSRF-Token-验证" class="headerlink" title="3. 使用 CSRF Token 验证"></a>3. 使用 CSRF Token 验证</h4><p>给每一个数据包上一个编号；</p>
+<p>CSRF Token 是一种常见的防护 CSRF 攻击的方法。通过生成和验证 CSRF Token，可以确保请求的来源是合法的。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">session_start</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成并存储 CSRF Token</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">generateCSRFToken</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="variable">$token</span> = <span class="title function_ invoke__">bin2hex</span>(<span class="title function_ invoke__">random_bytes</span>(<span class="number">32</span>));</span><br><span class="line">    <span class="variable">$_SESSION</span>[<span class="string">&#x27;csrf_token&#x27;</span>] = <span class="variable">$token</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$token</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 检查 CSRF Token 是否有效</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">validateCSRFToken</span>(<span class="params"><span class="variable">$token</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">isset</span>(<span class="variable">$_SESSION</span>[<span class="string">&#x27;csrf_token&#x27;</span>]) &amp;&amp; <span class="variable">$_SESSION</span>[<span class="string">&#x27;csrf_token&#x27;</span>] === <span class="variable">$token</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 处理表单提交</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$_SERVER</span>[<span class="string">&#x27;REQUEST_METHOD&#x27;</span>] === <span class="string">&#x27;POST&#x27;</span>) &#123;</span><br><span class="line">    <span class="comment">// 检查 CSRF Token</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;csrf_token&#x27;</span>]) || !<span class="title function_ invoke__">validateCSRFToken</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;csrf_token&#x27;</span>])) &#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">&quot;CSRF Token 验证失败&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 获取用户输入的数据</span></span><br><span class="line">    <span class="variable">$name</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;name&#x27;</span>];</span><br><span class="line">    <span class="variable">$email</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;email&#x27;</span>];</span><br><span class="line">    <span class="comment">// 输出用户输入的数据</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;姓名：<span class="subst">$name</span>&lt;br&gt;&quot;</span>;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;邮箱：<span class="subst">$email</span>&lt;br&gt;&quot;</span>;</span><br><span class="line">    <span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成 CSRF Token</span></span><br><span class="line"><span class="variable">$csrfToken</span> = <span class="title function_ invoke__">generateCSRFToken</span>();</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;CSRF Token 示例&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h1&gt;CSRF Token 示例&lt;/h1&gt;</span><br><span class="line">    &lt;form action=<span class="string">&quot;&lt;?php echo <span class="subst">$_SERVER</span>[&#x27;PHP_SELF&#x27;]; ?&gt;&quot;</span> method=<span class="string">&quot;POST&quot;</span>&gt;</span><br><span class="line">        &lt;input type=<span class="string">&quot;hidden&quot;</span> name=<span class="string">&quot;csrf_token&quot;</span> value=<span class="string">&quot;&lt;?php echo <span class="subst">$csrfToken</span>; ?&gt;&quot;</span> /&gt;</span><br><span class="line">        &lt;label <span class="keyword">for</span>=<span class="string">&quot;name&quot;</span>&gt;姓名：&lt;/label&gt;</span><br><span class="line">        &lt;input type=<span class="string">&quot;text&quot;</span> name=<span class="string">&quot;name&quot;</span> id=<span class="string">&quot;name&quot;</span> required /&gt;</span><br><span class="line">        &lt;br&gt;</span><br><span class="line">        &lt;label <span class="keyword">for</span>=<span class="string">&quot;email&quot;</span>&gt;邮箱：&lt;/label&gt;</span><br><span class="line">        &lt;input type=<span class="string">&quot;email&quot;</span> name=<span class="string">&quot;email&quot;</span> id=<span class="string">&quot;email&quot;</span> required /&gt;</span><br><span class="line">        &lt;br&gt;</span><br><span class="line">        &lt;input type=<span class="string">&quot;submit&quot;</span> value=<span class="string">&quot;提交&quot;</span> /&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：CSRF Token 是一种更可靠的方法，因为它通过会话存储和验证，难以被伪造。</p>
+<h4 id="绕过"><a href="#绕过" class="headerlink" title="绕过"></a>绕过</h4><p>token：（不严谨）</p>
+<p>复用：tokan<br>删除     不带该参数<br>置空      token&#x3D;</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>**使用 <code>HTTP_REFERER</code> 或 <code>HTTP_ORIGIN</code>**：这些方法简单易用，但不够安全，因为这些头部字段可以被客户端伪造。</li>
+<li><strong>使用 CSRF Token</strong>：这是一种更安全的方法，通过生成和验证 CSRF Token，可以有效防止 CSRF 攻击。</li>
 </ul>
-<p>1.2下载zip包，解压后进入控制台，输入下面命令进行安装依赖：</p>
-<blockquote>
-<p>pip3 install -r requirements.txt        &#x2F;&#x2F;安装依赖</p>
-</blockquote>
-<p><img src="https://i-blog.csdnimg.cn/blog_migrate/c3d17841af4d685b8bb7a98de8270d51.png"></p>
-<blockquote>
-<p> python dirsearch.py -h        &#x2F;&#x2F;查看帮助</p>
-</blockquote>
-<p><img src="https://i-blog.csdnimg.cn/blog_migrate/41ac200e7abd9a1eb6311c40ccd5453c.png"></p>
-<p> 帮助信息的简单翻译：</p>
-<blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-h, --help                                 显示此帮助消息并退出</span><br></pre></td></tr></table></figure>
-</blockquote>
-<h2 id="2-使用方法"><a href="#2-使用方法" class="headerlink" title="2.使用方法"></a><strong>2.使用方法</strong></h2><h4 id="1-基本扫描命令"><a href="#1-基本扫描命令" class="headerlink" title="1. 基本扫描命令"></a>1. <strong>基本扫描命令</strong></h4><ul>
-<li>扫描指定 URL：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python dirsearch.py -u http://example.com</span><br></pre></td></tr></table></figure></li>
-<li>指定文件扩展名（如 <code>php,html,js</code>）：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python dirsearch.py -u http://example.com -e php,html,js</span><br></pre></td></tr></table></figure></li>
-<li>使用自定义字典文件：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python dirsearch.py -u http://example.com -w /path/to/your/wordlist.txt</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="3-高级选项"><a href="#3-高级选项" class="headerlink" title="3. 高级选项"></a>3. <strong>高级选项</strong></h4><ul>
-<li><strong>递归扫描</strong>：使用 <code>-r</code> 参数进行递归扫描，可以发现更多隐藏的子目录。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python dirsearch.py -u http://example.com -r</span><br></pre></td></tr></table></figure></li>
-<li><strong>设置线程数</strong>：使用 <code>-t</code> 参数设置并发线程数，提高扫描速度。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python dirsearch.py -u http://example.com -t 20</span><br></pre></td></tr></table></figure></li>
-<li><strong>排除状态码</strong>：使用 <code>-x</code> 参数排除某些 HTTP 状态码，减少结果噪声。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python dirsearch.py -u http://example.com -x 404,403</span><br></pre></td></tr></table></figure></li>
-<li><strong>输出结果到文件</strong>：使用 <code>-o</code> 参数将结果保存到文件。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python dirsearch.py -u http://example.com -o results.txt</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="4-自定义字典"><a href="#4-自定义字典" class="headerlink" title="4. 自定义字典"></a>4. <strong>自定义字典</strong></h4><ul>
-<li><code>dirsearch</code> 使用内置字典进行扫描，但你可以通过 <code>-w</code> 参数指定自定义字典文件。</li>
-</ul>
-<h3 id="高级技巧"><a href="#高级技巧" class="headerlink" title="高级技巧"></a>高级技巧</h3><h4 id="1-设置代理"><a href="#1-设置代理" class="headerlink" title="1. 设置代理"></a>1. <strong>设置代理</strong></h4><ul>
-<li>使用 <code>--proxy</code> 参数指定代理服务器，隐藏真实 IP 地址。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python dirsearch.py -u http://example.com --proxy http://127.0.0.1:8080</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="2-自定义请求头"><a href="#2-自定义请求头" class="headerlink" title="2. 自定义请求头"></a>2. <strong>自定义请求头</strong></h4><ul>
-<li>使用 <code>-H</code> 参数定制请求头，例如添加 <code>User-Agent</code>。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python dirsearch.py -u http://example.com -H <span class="string">&quot;User-Agent: IE&quot;</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="3-限制扫描速率"><a href="#3-限制扫描速率" class="headerlink" title="3. 限制扫描速率"></a>3. <strong>限制扫描速率</strong></h4><ul>
-<li>使用 <code>--max-rate</code> 参数限制扫描速率，避免对目标服务器造成过大负载。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python dirsearch.py -u http://example.com --max-rate 10</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h4 id="4-实时日志查看"><a href="#4-实时日志查看" class="headerlink" title="4. 实时日志查看"></a>4. <strong>实时日志查看</strong></h4><ul>
-<li>通过 Web 控制台实时查看扫描日志和结果。</li>
-</ul>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
-<li><strong>合法性</strong>：仅在合法授权的情况下对目标进行扫描。未经授权的扫描可能违反法律和道德规范。</li>
-<li><strong>性能</strong>：调整线程数和字典大小以平衡扫描速度和系统负载。</li>
-</ul>
-<p>通过这些基本和高级用法，你可以灵活地使用 <code>dirsearch</code> 来发现网站上的隐藏文件和目录，从而提高安全性。</p>
-<hr>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>        以上就是今天要讲的内容，本文演示了如何使用有效的Web目录暴力破解工具Dirsearch来扫描和搜索用户可能看不到的隐藏Web目录。<br>####################<br>免责声明：工具本身并无好坏，希望大家以遵守《网络安全法》相关法律为前提来使用该工具，支持研究学习，切勿用于非法犯罪活动，对于恶意使用该工具造成的损失，和本人及开发者无关。<br>####################</p>
 
                 
             </div>
@@ -570,7 +574,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://Apzx7.github.io/2025/05/21/dirseach%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/">http://Apzx7.github.io/2025/05/21/dirseach%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</a>
+                    <a href="http://Apzx7.github.io/2025/05/28/CSRF-%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/">http://Apzx7.github.io/2025/05/28/CSRF-%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -607,11 +611,7 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            
-                                <a href="/tags/%E5%B7%A5%E5%85%B7/">
-                                    <span class="chip bg-color">工具</span>
-                                </a>
-                            
+                            <span class="chip bg-color">无标签</span>
                         </div>
                     
                 </div>
@@ -779,9 +779,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2025/05/28/CSRF-%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0/">
                     <div class="card-image">
@@ -799,9 +800,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2025-05-28
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-05-28
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -810,6 +811,7 @@
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -820,13 +822,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2025/05/17/upload/">
+                <a href="/2025/05/21/dirseach%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="upload">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="dirseach的安装和使用">
                         
-                        <span class="card-title">upload</span>
+                        <span class="card-title">dirseach的安装和使用</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -837,7 +839,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2025-05-17
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-05-21
                             </span>
                         <span class="publish-author">
                             
@@ -850,8 +852,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/upload/">
-                        <span class="chip bg-color">upload</span>
+                    <a href="/tags/%E5%B7%A5%E5%85%B7/">
+                        <span class="chip bg-color">工具</span>
                     </a>
                     
                 </div>

