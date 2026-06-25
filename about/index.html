@@ -364,21 +364,21 @@
                     <div class="post-statis col l4 hide-on-med-and-down" data-aos="zoom-in-right">
                         
 <div class="statis">
-    <span class="count"><a href="/">12</a></span>
+    <span class="count"><a href="/">23</a></span>
     <span class="name">文章</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/categories">5</a></span>
+    <span class="count"><a href="/categories">6</a></span>
     <span class="name">分类</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/tags">21</a></span>
+    <span class="count"><a href="/tags">34</a></span>
     <span class="name">标签</span>
 </div>
 
@@ -394,21 +394,21 @@
                                 <div class="post-statis hide-on-large-only" data-aos="zoom-in-right">
                                     
 <div class="statis">
-    <span class="count"><a href="/">12</a></span>
+    <span class="count"><a href="/">23</a></span>
     <span class="name">文章</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/categories">5</a></span>
+    <span class="count"><a href="/categories">6</a></span>
     <span class="name">分类</span>
 </div>
 
 
 
 <div class="statis">
-    <span class="count"><a href="/tags">21</a></span>
+    <span class="count"><a href="/tags">34</a></span>
     <span class="name">标签</span>
 </div>
 
@@ -594,7 +594,7 @@
                 type: 'pie',
                 radius: '50%',
                 color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],
-                data: [{"name":"CTF","value":3},{"name":"工具","value":2},{"name":"Web安全","value":3},{"name":"Java安全","value":2},{"name":"sql","value":1}],
+                data: [{"name":"工具","value":2},{"name":"CTF","value":3},{"name":"Web安全","value":3},{"name":"Java安全","value":2},{"name":"AI","value":11},{"name":"sql","value":1}],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -618,7 +618,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: ["CTF","Web","Web安全","漏洞原理","RCE","SQL注入","工具","信息收集","Java安全","目录扫描"]
+                data: ["AI","LangChain","LLM","CTF","Web","Web安全","漏洞原理","Python","记忆","工具"]
             }
         ],
         yAxis: [
@@ -631,7 +631,7 @@
                 type: 'bar',
                 color: ['#82d3f4'],
                 barWidth : 18,
-                data: [3,3,3,3,2,2,2,2,2,1],
+                data: [11,11,5,3,3,3,3,3,3,2],
                 markPoint: {
                     symbolSize: 45,
                     data: [{
@@ -801,6 +801,24 @@
         <div class="tag-chips center-align">
             
             
+            <a href="/tags/%E5%B7%A5%E5%85%B7/">
+                <span class="chip center-align waves-effect waves-light chip-default">工具</span>
+            </a>
+            
+            
+            
+            <a href="/tags/%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F/">
+                <span class="chip center-align waves-effect waves-light chip-default">目录扫描</span>
+            </a>
+            
+            
+            
+            <a href="/tags/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">
+                <span class="chip center-align waves-effect waves-light chip-default">信息收集</span>
+            </a>
+            
+            
+            
             <a href="/tags/CTF/">
                 <span class="chip center-align waves-effect waves-light chip-default">CTF</span>
             </a>
@@ -821,24 +839,6 @@
             
             <a href="/tags/SQL%E6%B3%A8%E5%85%A5/">
                 <span class="chip center-align waves-effect waves-light chip-default">SQL注入</span>
-            </a>
-            
-            
-            
-            <a href="/tags/%E5%B7%A5%E5%85%B7/">
-                <span class="chip center-align waves-effect waves-light chip-default">工具</span>
-            </a>
-            
-            
-            
-            <a href="/tags/%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F/">
-                <span class="chip center-align waves-effect waves-light chip-default">目录扫描</span>
-            </a>
-            
-            
-            
-            <a href="/tags/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">
-                <span class="chip center-align waves-effect waves-light chip-default">信息收集</span>
             </a>
             
             
@@ -867,18 +867,6 @@
             
             
             
-            <a href="/tags/Python/">
-                <span class="chip center-align waves-effect waves-light chip-default">Python</span>
-            </a>
-            
-            
-            
-            <a href="/tags/%E8%84%9A%E6%9C%AC/">
-                <span class="chip center-align waves-effect waves-light chip-default">脚本</span>
-            </a>
-            
-            
-            
             <a href="/tags/Shiro/">
                 <span class="chip center-align waves-effect waves-light chip-default">Shiro</span>
             </a>
@@ -896,6 +884,18 @@
             </a>
             
             
+            
+            
+            
+            <a href="/tags/Python/">
+                <span class="chip center-align waves-effect waves-light chip-default">Python</span>
+            </a>
+            
+            
+            
+            <a href="/tags/%E8%84%9A%E6%9C%AC/">
+                <span class="chip center-align waves-effect waves-light chip-default">脚本</span>
+            </a>
             
             
             
@@ -917,8 +917,86 @@
             
             
             
+            <a href="/tags/LangChain/">
+                <span class="chip center-align waves-effect waves-light chip-default">LangChain</span>
+            </a>
+            
+            
+            
+            <a href="/tags/Prompt/">
+                <span class="chip center-align waves-effect waves-light chip-default">Prompt</span>
+            </a>
+            
+            
+            
+            <a href="/tags/LLM/">
+                <span class="chip center-align waves-effect waves-light chip-default">LLM</span>
+            </a>
+            
+            
+            
+            <a href="/tags/Model/">
+                <span class="chip center-align waves-effect waves-light chip-default">Model</span>
+            </a>
+            
+            
+            
+            <a href="/tags/OutputParser/">
+                <span class="chip center-align waves-effect waves-light chip-default">OutputParser</span>
+            </a>
+            
+            
+            
+            <a href="/tags/LCEL/">
+                <span class="chip center-align waves-effect waves-light chip-default">LCEL</span>
+            </a>
+            
+            
+            
+            <a href="/tags/Runnable/">
+                <span class="chip center-align waves-effect waves-light chip-default">Runnable</span>
+            </a>
+            
+            
+            
+            <a href="/tags/%E8%AE%B0%E5%BF%86/">
+                <span class="chip center-align waves-effect waves-light chip-default">记忆</span>
+            </a>
+            
+            
+            
+            <a href="/tags/%E7%BB%84%E4%BB%B6/">
+                <span class="chip center-align waves-effect waves-light chip-default">组件</span>
+            </a>
+            
+            
+            
             <a href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/">
                 <span class="chip center-align waves-effect waves-light chip-default">文件上传</span>
+            </a>
+            
+            
+            
+            <a href="/tags/%E5%AE%89%E8%A3%85/">
+                <span class="chip center-align waves-effect waves-light chip-default">安装</span>
+            </a>
+            
+            
+            
+            <a href="/tags/%E5%9B%9E%E8%B0%83/">
+                <span class="chip center-align waves-effect waves-light chip-default">回调</span>
+            </a>
+            
+            
+            
+            <a href="/tags/Callbacks/">
+                <span class="chip center-align waves-effect waves-light chip-default">Callbacks</span>
+            </a>
+            
+            
+            
+            <a href="/tags/ChatMessageHistory/">
+                <span class="chip center-align waves-effect waves-light chip-default">ChatMessageHistory</span>
             </a>
             
             
@@ -1049,7 +1127,7 @@
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">44.5k</span>&nbsp;字
+                class="white-color">84.8k</span>&nbsp;字
             
             
             
