@@ -1,0 +1,1428 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="LangChain OutputParser输出解析器, Apzx7">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>LangChain OutputParser输出解析器 | Apzx7</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Apzx7</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tag" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/category" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Apzx7</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tag" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/category" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">LangChain OutputParser输出解析器</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/AI/">
+                                <span class="chip bg-color">AI</span>
+                            </a>
+                        
+                            <a href="/tags/LangChain/">
+                                <span class="chip bg-color">LangChain</span>
+                            </a>
+                        
+                            <a href="/tags/LLM/">
+                                <span class="chip bg-color">LLM</span>
+                            </a>
+                        
+                            <a href="/tags/OutputParser/">
+                                <span class="chip bg-color">OutputParser</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/AI/" class="post-category">
+                                AI
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2026-03-20
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2.6k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    9 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="LangChain输出解析器"><a href="#LangChain输出解析器" class="headerlink" title="LangChain输出解析器"></a>LangChain输出解析器</h1><p>在构建基于大语言模型（LLM）的应用时，你是否遇到过这样的尴尬：你让AI“生成一个商品信息的JSON”，它却回复“好的，这是你要的JSON：{…}”，让你不得不手动从一大段话里抠出那个JSON对象？或者你只想要一个简单的“是”或“否”，AI却给你来了一段充满哲理的分析？<strong>输出解析器（Output Parser）</strong> 就是专门为解决这类“沟通障碍”而生的核心组件。它本质上是一个<strong>“翻译官”兼“质检员”</strong>，负责将LLM输出的、人类可读的自然语言“翻译”成你的程序能够直接理解和处理的、干净的结构化数据。</p>
+<h2 id="一、为什么我们需要输出解析器？"><a href="#一、为什么我们需要输出解析器？" class="headerlink" title="一、为什么我们需要输出解析器？"></a>一、为什么我们需要输出解析器？</h2><p>其必要性根植于LLM工作方式与程序需求之间的根本矛盾：</p>
+<ol>
+<li><p><strong>模型输出是“自然语言”，程序需要“结构化数据”</strong>：大语言模型天生擅长生成连贯、自由的文本，例如“北京今天的天气是晴，气温25度”。然而，对于程序逻辑而言，这段描述是<strong>非结构化</strong>的，无法直接用于条件判断、数据库存储或API调用。程序需要的是像 <code>&#123;“city”: “北京”, “weather”: “晴”, “temperature”: 25&#125;</code> 这样的字典或对象。输出解析器自动化了这个转换过程。</p>
+</li>
+<li><p><strong>提高应用可靠性与一致性</strong>：没有解析器，模型的输出格式可能每次都有细微差别（比如有时带前言，有时不带），导致下游处理逻辑频繁出错。解析器通过预定义的格式指令，<strong>强制约束</strong>模型的输出，确保每次返回的数据结构都一致，极大提升了应用的稳定性。</p>
+</li>
+<li><p><strong>简化下游处理与系统集成</strong>：结构化数据是不同系统间对话的“通用语言”。当你的LangChain应用需要与数据库、业务API或数据分析工具交互时，解析后的JSON、Pydantic对象可以直接被使用，无需编写复杂的文本清洗和提取代码，实现了<strong>高效的系统集成</strong>。</p>
+</li>
+<li><p><strong>增强开发效率与体验</strong>：手动解析文本不仅繁琐，而且极易出错。输出解析器将开发者从重复的“字符串手术”中解放出来，让你能更专注于核心的业务逻辑和提示词优化，从而<strong>提升整体的开发体验和效率</strong>。</p>
+</li>
+</ol>
+<h2 id="二、输出解析器的核心组件：一个标准的“翻译”流程"><a href="#二、输出解析器的核心组件：一个标准的“翻译”流程" class="headerlink" title="二、输出解析器的核心组件：一个标准的“翻译”流程"></a>二、输出解析器的核心组件：一个标准的“翻译”流程</h2><p>在LangChain中，一个输出解析器并非魔法黑箱，它遵循清晰的接口契约。其核心组件可以概括为 <strong>“指令生成”</strong> 和 <strong>“结果解析”</strong> 两大功能：</p>
+<ol>
+<li><p><strong><code>get_format_instructions()</code> 方法：事前“约法三章”</strong></p>
+<ul>
+<li><strong>功能</strong>：此方法生成一段<strong>详细的文本指令</strong>，明确告诉LLM：“你必须按照以下格式来回答我”。这段指令通常包含对输出结构、字段、类型甚至分隔符的严格规定。</li>
+<li><strong>工作流程</strong>：开发者需要将这个方法返回的指令字符串，通过 <strong><code>partial_variables</code></strong> 或 <strong><code>.partial()</code></strong> 方法，<strong>注入到提示词模板（PromptTemplate）中</strong>。这样，LLM在生成回答时，就能同时看到问题要求和格式规范。</li>
+</ul>
+</li>
+<li><p><strong><code>parse()</code> 方法：事后“验收翻译”</strong></p>
+<ul>
+<li><strong>功能</strong>：这是解析器的核心。它接收LLM返回的原始字符串（<code>str</code>），并尝试按照事先约定好的规则，将其<strong>解析（parse）</strong> 成目标数据结构（如列表、字典、Pydantic对象等）。</li>
+<li><strong>结果</strong>：如果解析成功，返回一个结构化的Python对象；如果失败（如格式不符），则会抛出一个 <strong><code>OutputParserException</code></strong> 异常。</li>
+</ul>
+</li>
+<li><p><strong><code>parse_with_prompt()</code> 方法（可选）：带上下文的“二次校对”</strong></p>
+<ul>
+<li><strong>功能</strong>：这是一个高级功能。当<code>parse()</code>方法失败时，一些智能解析器（如<code>RetryOutputParser</code>）会调用此方法。它不仅接收失败的输出，还接收原始的提示词，从而让LLM能结合完整的任务上下文，尝试<strong>修复或重新生成</strong>一个符合格式的输出。</li>
+</ul>
+</li>
+</ol>
+<p><strong>重要特性</strong>：在LangChain现代语法（LCEL）中，所有的输出解析器都是 <strong><code>Runnable</code></strong> 对象。这意味着它们可以像拼积木一样，用管道符 <code>|</code> 无缝接入链式调用：<code>prompt | llm | parser</code>，并且原生支持 <code>invoke</code>（调用）、<code>stream</code>（流式）、<code>batch</code>（批量）等操作。</p>
+<h2 id="三、各类解析器及其最适合的运用场景"><a href="#三、各类解析器及其最适合的运用场景" class="headerlink" title="三、各类解析器及其最适合的运用场景"></a>三、各类解析器及其最适合的运用场景</h2><p>LangChain提供了丰富的内置解析器，就像一套功能各异的“翻译模具”，应对不同的业务需求。选择正确的解析器是成功的关键。</p>
+<table>
+<thead>
+<tr>
+<th>解析器类型</th>
+<th>核心类名</th>
+<th>最适合的运用场景</th>
+<th>输出示例（Python对象）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>基础文本提取</strong></td>
+<td><code>StrOutputParser</code></td>
+<td>当你只需要模型回答的<strong>纯文本内容</strong>时。尤其在模型使用了工具调用（Tool Calling）后，返回结构复杂，此解析器能自动提取出其中的文本部分。</td>
+<td><code>&quot;这是一个纯文本回答。&quot;</code></td>
+</tr>
+<tr>
+<td><strong>列表处理</strong></td>
+<td><code>CommaSeparatedListOutputParser</code></td>
+<td>让模型生成并解析<strong>逗号分隔的列表</strong>。适用于生成标签、关键词、选项清单等。</td>
+<td><code>[“红色”, “蓝色”, “绿色”]</code></td>
+</tr>
+<tr>
+<td><strong>JSON&#x2F;对象结构化</strong></td>
+<td><code>JsonOutputParser</code> &#x2F; <code>PydanticOutputParser</code></td>
+<td><strong>最强大、最常用</strong>的场景。需要模型返回具有固定字段和类型的复杂数据时。<code>PydanticOutputParser</code>基于Pydantic库，提供<strong>强类型验证</strong>，确保数据完整性和正确性，适合用户信息、订单详情等。</td>
+<td><code>&#123;“name”: “张三”, “age”: 30&#125;</code> 或一个Pydantic对象实例</td>
+</tr>
+<tr>
+<td><strong>特定类型解析</strong></td>
+<td><code>DatetimeOutputParser</code></td>
+<td>专门处理<strong>日期和时间</strong>信息，将“2025年5月15日”这样的自然语言转换为标准的Python <code>datetime</code>对象。</td>
+<td><code>datetime.datetime(2025, 5, 15, 0, 0)</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>EnumOutputParser</code></td>
+<td>当答案必须从<strong>有限的预定义选项</strong>中选择时。例如，让模型从[“支持”, “反对”, “中立”]中选一个。</td>
+<td><code>&lt;Colors.RED: ‘红色’&gt;</code> (枚举成员)</td>
+</tr>
+<tr>
+<td></td>
+<td><code>BooleanOutputParser</code></td>
+<td>解析“是&#x2F;否”、“YES&#x2F;NO”等答案为Python的 <code>bool</code> 值（True&#x2F;False）。</td>
+<td><code>True</code> 或 <code>False</code></td>
+</tr>
+<tr>
+<td><strong>容错与修复</strong></td>
+<td><code>OutputFixingParser</code></td>
+<td>当模型偶尔输出<strong>格式略有错误</strong>的JSON或其他结构时，此解析器会调用另一个LLM尝试自动修复，而不是直接报错。</td>
+<td>修复后的结构化数据</td>
+</tr>
+<tr>
+<td></td>
+<td><code>RetryOutputParser</code></td>
+<td>处理更复杂的错误，当输出<strong>完全不完整或不符合要求</strong>时，它会结合原始提示，要求模型<strong>重试</strong>生成。</td>
+<td>重试后生成的结构化数据</td>
+</tr>
+</tbody></table>
+<h2 id="四、输出解析器常见问题与“说人话”的解决方案"><a href="#四、输出解析器常见问题与“说人话”的解决方案" class="headerlink" title="四、输出解析器常见问题与“说人话”的解决方案"></a>四、输出解析器常见问题与“说人话”的解决方案</h2><p>即使使用了输出解析器，实践中仍会踩坑。以下是典型问题及其接地气的解决方案：</p>
+<p><strong>问题1：模型“话多”或格式不规范</strong></p>
+<ul>
+<li><strong>现象</strong>：你要求返回JSON，模型却回复“好的，根据您的要求，生成的JSON如下：<code>json &#123;...&#125;</code> ”。解析器因为前面的废话而解析失败。</li>
+<li><strong>“说人话”的根因</strong>：提示词没把“规矩”讲死，模型觉得加句客气话更友好。</li>
+<li><strong>解决方案</strong>：<ol>
+<li><strong>强化提示词指令</strong>：在提示词中必须<strong>明确且强硬地</strong>指出：“你必须<strong>仅</strong>返回一个JSON对象，<strong>不要</strong>包含任何额外的解释、前缀或后缀文本。”。</li>
+<li>**充分利用 <code>get_format_instructions()</code>**：确保将解析器生成的、极其详细的格式指令（例如，要求用三个反引号包裹JSON）完整地注入提示词。</li>
+</ol>
+</li>
+</ul>
+<p><strong>问题2：解析器直接报错 <code>OutputParserException</code></strong></p>
+<ul>
+<li><strong>现象</strong>：程序运行中断，抛出 <code>Failed to parse LLM output...</code> 错误。</li>
+<li><strong>“说人话”的根因</strong>：要么是上述的格式问题，要么是模型（尤其是较小或较旧的模型）对格式控制的能力不足。</li>
+<li><strong>解决方案</strong>：<ol>
+<li><strong>启用“自动修理工”</strong>：使用 <strong><code>OutputFixingParser</code></strong> 包裹你的主解析器。当解析失败时，它会请另一个LLM（比如GPT-4）帮忙看看哪里错了并修正，通常能解决简单的格式错误。</li>
+</ol>
+</li>
+</ul>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> langchain<span class="token punctuation">.</span>output_parsers <span class="token keyword">import</span> OutputFixingParser
+<span class="token keyword">from</span> langchain<span class="token punctuation">.</span>chat_models <span class="token keyword">import</span> ChatOpenAI
+
+<span class="token comment"># 假设你已有一个 StructuredOutputParser</span>
+fixing_parser <span class="token operator">=</span> OutputFixingParser<span class="token punctuation">.</span>from_parser<span class="token punctuation">(</span>parser<span class="token punctuation">,</span> llm<span class="token operator">=</span>ChatOpenAI<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 使用 fixing_parser.parse(output) 自动尝试修复格式错误</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre><code>1. **启用“重试机制”**：对于更顽固的错误，使用 **`RetryOutputParser`**。它不仅尝试修复，还会把原始问题和要求（提示词）一起给LLM，让它“重新回答一遍”。
+2. **升级模型**：如果条件允许，尝试使用更新、更强大的模型（如从GPT-3.5升级到GPT-4）。它们在遵循复杂格式指令方面通常表现更好。
+</code></pre>
+<p><strong>问题3：需要更可靠的结构化输出（进阶）</strong></p>
+<ul>
+<li><strong>现象</strong>：即使结合了修复和重试，在极高可靠性的生产环境中，基于文本解析的方式仍有风险。</li>
+<li><strong>“说人话”的根因</strong>：依赖模型“自由发挥”后再解析，本质上是“事后补救”。</li>
+<li><strong>终极解决方案</strong>：<ul>
+<li><strong>使用工具调用（Tool Calling）或函数调用（Function Calling）</strong>：这是OpenAI等模型提供的原生能力。你可以将你期望的输出结构<strong>定义为一个“工具”或“函数”</strong>，然后要求模型“调用”这个函数并传入参数。模型会以<strong>严格的、机器可读的JSON结构</strong>来返回参数，几乎100%可解析，可靠性远超文本指令。</li>
+<li><strong>转向LangGraph</strong>：对于极其复杂、多步骤的代理（Agent）工作流，旧的Agent内部可能隐式使用了不稳定的解析器。官方推荐使用 <strong>LangGraph</strong> 来显式地、可视化地组合你的逻辑，从而获得更精细的控制和稳定性。</li>
+</ul>
+</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>输出解析器是LangChain Model I&#x2F;O流水线上不可或缺的“标准化质检员”。它通过 <strong><code>get_format_instructions</code> 事前约定</strong>和 <strong><code>parse</code> 事后校验</strong>，将LLM随性的“自然语言”转化为程序严谨的“结构化数据”。根据场景选用 <code>StrOutputParser</code>、<code>PydanticOutputParser</code> 或 <code>EnumOutputParser</code> 等工具，并在遇到格式错误时善用 <code>OutputFixingParser</code> 和强化提示词，能极大提升AI应用的健壮性。而对于追求极致可靠性的场景，则应考虑<strong>工具调用</strong>或 <strong>LangGraph</strong> 这类更底层的结构化输出方案。理解并用好输出解析器，是你构建真正可用、好用的AI应用的关键一步。</p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Apzx7</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://Apzx7.github.io/2026/03/20/LangChain/OutputParser/">http://Apzx7.github.io/2026/03/20/LangChain/OutputParser/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Apzx7</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/AI/">
+                                    <span class="chip bg-color">AI</span>
+                                </a>
+                            
+                                <a href="/tags/LangChain/">
+                                    <span class="chip bg-color">LangChain</span>
+                                </a>
+                            
+                                <a href="/tags/LLM/">
+                                    <span class="chip bg-color">LLM</span>
+                                </a>
+                            
+                                <a href="/tags/OutputParser/">
+                                    <span class="chip bg-color">OutputParser</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2026/04/24/LangChain/Runnable%E7%BB%84%E4%BB%B6/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="LangChain Runnable组件">
+                        
+                        <span class="card-title">LangChain Runnable组件</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2026-04-24
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/AI/" class="post-category">
+                                    AI
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AI/">
+                        <span class="chip bg-color">AI</span>
+                    </a>
+                    
+                    <a href="/tags/LangChain/">
+                        <span class="chip bg-color">LangChain</span>
+                    </a>
+                    
+                    <a href="/tags/LCEL/">
+                        <span class="chip bg-color">LCEL</span>
+                    </a>
+                    
+                    <a href="/tags/Runnable/">
+                        <span class="chip bg-color">Runnable</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2026/03/18/LangChain/%E4%B8%8D%E5%90%8C%E8%AE%B0%E5%BF%86%E7%BB%84%E4%BB%B6%E4%BB%8B%E7%BB%8D/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="LangChain不同记忆组件介绍">
+                        
+                        <span class="card-title">LangChain不同记忆组件介绍</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2026-03-18
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/AI/" class="post-category">
+                                    AI
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AI/">
+                        <span class="chip bg-color">AI</span>
+                    </a>
+                    
+                    <a href="/tags/LangChain/">
+                        <span class="chip bg-color">LangChain</span>
+                    </a>
+                    
+                    <a href="/tags/%E8%AE%B0%E5%BF%86/">
+                        <span class="chip bg-color">记忆</span>
+                    </a>
+                    
+                    <a href="/tags/%E7%BB%84%E4%BB%B6/">
+                        <span class="chip bg-color">组件</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2025-2026</span>
+            
+            <span id="year">2025</span>
+            <a href="/about" target="_blank">Apzx7</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">84.8k</span>&nbsp;字
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Apzx7" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:2182672468@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2182672468" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2182672468" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+	
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

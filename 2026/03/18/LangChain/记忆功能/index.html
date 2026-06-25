@@ -1,0 +1,1626 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="LangChain记忆系统, Apzx7">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>LangChain记忆系统 | Apzx7</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Apzx7</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tag" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/category" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Apzx7</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tag" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/category" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">LangChain记忆系统</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/AI/">
+                                <span class="chip bg-color">AI</span>
+                            </a>
+                        
+                            <a href="/tags/LangChain/">
+                                <span class="chip bg-color">LangChain</span>
+                            </a>
+                        
+                            <a href="/tags/LLM/">
+                                <span class="chip bg-color">LLM</span>
+                            </a>
+                        
+                            <a href="/tags/%E8%AE%B0%E5%BF%86/">
+                                <span class="chip bg-color">记忆</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/AI/" class="post-category">
+                                AI
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2026-03-18
+                </div>
+                
+
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    6k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    22 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="LangChain记忆系统：从理论到实践的全面解析"><a href="#LangChain记忆系统：从理论到实践的全面解析" class="headerlink" title="LangChain记忆系统：从理论到实践的全面解析"></a>LangChain记忆系统：从理论到实践的全面解析</h1><p>在构建基于大语言模型的智能应用时，记忆功能是实现连续对话、个性化服务和上下文理解的核心技术。记忆系统不仅决定了AI能否记住用户偏好和历史对话，还直接影响着应用的智能水平和用户体验。本文将深入探讨LangChain中常见的记忆功能思路、实现模式以及实际应用示例，为开发者提供一套完整的记忆系统设计框架。</p>
+<h2 id="一、记忆系统的理论基础与分类体系"><a href="#一、记忆系统的理论基础与分类体系" class="headerlink" title="一、记忆系统的理论基础与分类体系"></a>一、记忆系统的理论基础与分类体系</h2><h3 id="1-1-记忆的心理学基础与AI类比"><a href="#1-1-记忆的心理学基础与AI类比" class="headerlink" title="1.1 记忆的心理学基础与AI类比"></a>1.1 记忆的心理学基础与AI类比</h3><p>从心理学角度看，人类记忆是一个复杂的认知过程，包括信息的编码、存储和提取三个基本环节。记忆过程由识记、保持、回忆和再认四个环节组成，其中识记是记忆的开端，保持是对识记内容的强化，回忆和再认则是信息的再现形式。这种心理学模型为AI记忆系统的设计提供了重要参考。</p>
+<p>在AI智能体中，记忆系统借鉴了人脑记忆的层次结构，通常分为三个层次：<strong>短期记忆（上下文记忆）</strong>、<strong>长期记忆（外挂存储）</strong>和<strong>参数记忆（模型微调）</strong>。短期记忆类似于人脑的短时记忆，容量有限且易遗忘，主要用于处理当前任务所需信息；长期记忆则通过向量数据库、知识图谱等外挂存储方式实现，支持动态写入与读取；参数记忆则是通过模型微调将知识融入模型参数中。</p>
+<h3 id="1-2-记忆类型的多维分类"><a href="#1-2-记忆类型的多维分类" class="headerlink" title="1.2 记忆类型的多维分类"></a>1.2 记忆类型的多维分类</h3><p>根据记忆内容和形式的不同，记忆可以从多个维度进行分类：</p>
+<p><strong>按内容分类</strong>：</p>
+<ul>
+<li><strong>形象记忆</strong>：借助事物的具体形象进行记忆，画家、作曲家等专业人士往往在这方面表现突出</li>
+<li><strong>语词-逻辑记忆</strong>：利用概念、公式、定理等逻辑关系进行记忆</li>
+<li><strong>情绪记忆</strong>：对体验过的情感进行记忆，演员通常在这方面有优势</li>
+<li><strong>运动记忆</strong>：对动作和技能的记忆，体操运动员对此特别擅长</li>
+</ul>
+<p><strong>按时间维度分类</strong>：</p>
+<ul>
+<li><strong>瞬时记忆（感觉记忆）</strong>：保持信息十分短暂，为进一步加工提供可能</li>
+<li><strong>短时记忆</strong>：保持时间约一分钟，是信息通往长时记忆的中间环节</li>
+<li><strong>长时记忆</strong>：信息储存一分钟以上，最长可保持终生</li>
+</ul>
+<p><strong>按意识状态分类</strong>：</p>
+<ul>
+<li><strong>内隐记忆</strong>：难以用语言描述，如技能记忆</li>
+<li><strong>外显记忆</strong>：可用语言描述，需有意识调取</li>
+</ul>
+<h2 id="二、常见记忆功能思路与实现策略"><a href="#二、常见记忆功能思路与实现策略" class="headerlink" title="二、常见记忆功能思路与实现策略"></a>二、常见记忆功能思路与实现策略</h2><h3 id="2-1-联想记忆：建立知识间的超链接"><a href="#2-1-联想记忆：建立知识间的超链接" class="headerlink" title="2.1 联想记忆：建立知识间的超链接"></a>2.1 联想记忆：建立知识间的超链接</h3><p>联想记忆是记忆的一种重要形式，通过与已有知识单元建立联系来进行记忆。相互之间存在联系的形式或概念构成知识在记忆中的具体形态，这种记忆一般是一对多的联合关系，根据关键字按内容进行存储。</p>
+<p><strong>实现思路</strong>：</p>
+<ol>
+<li><strong>接近联想</strong>：基于时间或空间上的接近性建立联系</li>
+<li><strong>相似联想</strong>：基于事物间的相似性建立联系</li>
+<li><strong>对比联想</strong>：基于事物间的对比关系建立联系</li>
+</ol>
+<p><strong>应用示例</strong>：<br>在外语单词记忆中，可以采用按场景分类的联想方法。例如记忆“boarding pass”（登机牌）时，可以联想机场场景；或者将“benevolent”（仁慈的）与“benefit”（利益）进行语义联想。在历史学习中，可采用纵向、横向、相似、相反等联想方法记忆历史事件。</p>
+<p><strong>技术实现</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">class AssociativeMemory:
+    def __init__(self):
+        self.memory_graph &#x3D; &#123;&#125;  # 知识图谱存储关联关系
+    
+    def add_association(self, key, related_concepts):
+        &quot;&quot;&quot;添加关联关系&quot;&quot;&quot;
+        if key not in self.memory_graph:
+            self.memory_graph[key] &#x3D; []
+        self.memory_graph[key].extend(related_concepts)
+    
+    def retrieve_by_association(self, query):
+        &quot;&quot;&quot;通过关联检索记忆&quot;&quot;&quot;
+        related &#x3D; []
+        for key, concepts in self.memory_graph.items():
+            if query in concepts or self.semantic_similarity(query, key):
+                related.append(key)
+        return related<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="2-2-摘要记忆：压缩历史对话的核心信息"><a href="#2-2-摘要记忆：压缩历史对话的核心信息" class="headerlink" title="2.2 摘要记忆：压缩历史对话的核心信息"></a>2.2 摘要记忆：压缩历史对话的核心信息</h3><p>摘要记忆通过对历史对话进行定期摘要，将冗长的对话内容压缩为关键事实和要点，从而节省token使用并提高效率。</p>
+<p><strong>实现思路</strong>：</p>
+<ol>
+<li><strong>定期触发摘要</strong>：每X条消息或超出token阈值时触发摘要生成</li>
+<li><strong>关键信息提取</strong>：使用LLM提取对话中的核心事实、决策和用户偏好</li>
+<li><strong>分层摘要</strong>：创建多级摘要，从详细摘要到高度概括的要点</li>
+</ol>
+<p><strong>应用示例</strong>：<br>在长会话聊天机器人中，当对话历史超过10条消息或token数超过2000时，自动触发摘要生成。摘要内容保留用户的关键需求、已提供的解决方案和达成的共识，而省略具体的对话细节。</p>
+<p><strong>技术实现</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">class SummaryMemory:
+    def __init__(self, llm, threshold_messages&#x3D;10):
+        self.llm &#x3D; llm
+        self.threshold &#x3D; threshold_messages
+        self.conversation_history &#x3D; []
+        self.summary &#x3D; &quot;&quot;
+    
+    def add_message(self, role, content):
+        &quot;&quot;&quot;添加消息到历史&quot;&quot;&quot;
+        self.conversation_history.append(&#123;&quot;role&quot;: role, &quot;content&quot;: content&#125;)
+        
+        # 触发摘要条件
+        if len(self.conversation_history) &gt;&#x3D; self.threshold:
+            self.generate_summary()
+    
+    def generate_summary(self):
+        &quot;&quot;&quot;生成对话摘要&quot;&quot;&quot;
+        prompt &#x3D; f&quot;请总结以下对话的关键信息：\n&#123;self.format_history()&#125;&quot;
+        self.summary &#x3D; self.llm.invoke(prompt)
+        # 保留最近几条详细对话，其余清空
+        self.conversation_history &#x3D; self.conversation_history[-3:]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="2-3-向量检索记忆：实现语义级别的长期记忆"><a href="#2-3-向量检索记忆：实现语义级别的长期记忆" class="headerlink" title="2.3 向量检索记忆：实现语义级别的长期记忆"></a>2.3 向量检索记忆：实现语义级别的长期记忆</h3><p>向量检索记忆将重要信息片段转换为embedding并存储到向量数据库中，支持基于语义相似性的检索，适用于长期事实记忆和知识库场景。</p>
+<p><strong>实现思路</strong>：</p>
+<ol>
+<li><strong>嵌入生成</strong>：使用嵌入模型将文本转换为向量表示</li>
+<li><strong>向量存储</strong>：将向量存入Chroma、FAISS、Pinecone等向量数据库</li>
+<li><strong>语义检索</strong>：基于余弦相似度或欧氏距离检索相关记忆</li>
+<li><strong>元数据过滤</strong>：结合时间戳、重要性评分等元数据进行筛选</li>
+</ol>
+<p><strong>应用示例</strong>：<br>在研究助理应用中，用户提到的研究主题、参考文献、关键发现等信息被转换为向量并存储。当用户后续询问相关主题时，系统通过语义检索召回相关的历史信息，实现跨会话的知识延续。</p>
+<p><strong>技术实现</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">from langchain.vectorstores import Chroma
+from langchain.embeddings import OpenAIEmbeddings
+
+class VectorMemory:
+    def __init__(self, persist_directory&#x3D;&quot;.&#x2F;chroma_db&quot;):
+        self.embeddings &#x3D; OpenAIEmbeddings()
+        self.vectorstore &#x3D; Chroma(
+            persist_directory&#x3D;persist_directory,
+            embedding_function&#x3D;self.embeddings
+        )
+    
+    def store_memory(self, text, metadata&#x3D;None):
+        &quot;&quot;&quot;存储记忆到向量数据库&quot;&quot;&quot;
+        if metadata is None:
+            metadata &#x3D; &#123;&quot;timestamp&quot;: datetime.now().isoformat()&#125;
+        self.vectorstore.add_texts([text], metadatas&#x3D;[metadata])
+    
+    def retrieve_memory(self, query, k&#x3D;5):
+        &quot;&quot;&quot;检索相关记忆&quot;&quot;&quot;
+        return self.vectorstore.similarity_search(query, k&#x3D;k)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="2-4-实体记忆：结构化存储关键信息"><a href="#2-4-实体记忆：结构化存储关键信息" class="headerlink" title="2.4 实体记忆：结构化存储关键信息"></a>2.4 实体记忆：结构化存储关键信息</h3><p>实体记忆专门用于提取和存储对话中提到的结构化实体信息，如人物、地点、事件、偏好等，支持精确的键值检索和更新。</p>
+<p><strong>实现思路</strong>：</p>
+<ol>
+<li><strong>实体识别</strong>：使用NER（命名实体识别）技术提取对话中的实体</li>
+<li><strong>关系建模</strong>：建立实体间的关系网络</li>
+<li><strong>属性管理</strong>：为每个实体维护属性集合</li>
+<li><strong>版本控制</strong>：支持实体信息的更新和版本追踪</li>
+</ol>
+<p><strong>应用示例</strong>：<br>在客服系统中，当用户提到“我的订单号是12345，收货地址是北京市海淀区”时，系统自动提取“订单号”和“收货地址”作为实体存储。后续用户询问订单状态时，系统可以直接使用存储的订单号进行查询。</p>
+<p><strong>技术实现</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">class EntityMemory:
+    def __init__(self):
+        self.entities &#x3D; &#123;&#125;  # &#123;entity_type: &#123;entity_name: &#123;attributes&#125;&#125;&#125;
+    
+    def extract_entities(self, text):
+        &quot;&quot;&quot;从文本中提取实体&quot;&quot;&quot;
+        # 使用NER模型或规则提取实体
+        entities &#x3D; self.ner_model.predict(text)
+        for entity in entities:
+            self.store_entity(entity)
+    
+    def store_entity(self, entity):
+        &quot;&quot;&quot;存储实体&quot;&quot;&quot;
+        entity_type &#x3D; entity[&quot;type&quot;]
+        entity_name &#x3D; entity[&quot;name&quot;]
+        attributes &#x3D; entity.get(&quot;attributes&quot;, &#123;&#125;)
+        
+        if entity_type not in self.entities:
+            self.entities[entity_type] &#x3D; &#123;&#125;
+        
+        if entity_name not in self.entities[entity_type]:
+            self.entities[entity_type][entity_name] &#x3D; attributes
+        else:
+            # 更新现有实体属性
+            self.entities[entity_type][entity_name].update(attributes)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="2-5-混合记忆系统：综合多种记忆策略"><a href="#2-5-混合记忆系统：综合多种记忆策略" class="headerlink" title="2.5 混合记忆系统：综合多种记忆策略"></a>2.5 混合记忆系统：综合多种记忆策略</h3><p>混合记忆系统结合了多种记忆策略的优点，通过合理的架构设计实现短期记忆与长期记忆的协同工作。</p>
+<p><strong>实现思路</strong>：</p>
+<ol>
+<li><strong>分层架构</strong>：短期记忆处理实时对话，长期记忆存储重要知识</li>
+<li><strong>路由机制</strong>：根据信息类型和重要性决定存储策略</li>
+<li><strong>同步策略</strong>：定期将短期记忆中的重要信息转移到长期记忆</li>
+<li><strong>检索融合</strong>：查询时同时检索多种记忆源并融合结果</li>
+</ol>
+<p><strong>应用示例</strong>：<br>在智能个人助理中，系统使用对话缓冲记忆保持最近5轮对话的上下文，同时使用向量记忆存储用户长期偏好和重要事实，实体记忆存储用户的联系人、地址等结构化信息。当用户提问时，系统同时查询这三种记忆源，综合生成回答。</p>
+<p><strong>技术实现</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">class HybridMemorySystem:
+    def __init__(self):
+        self.buffer_memory &#x3D; ConversationBufferMemory(k&#x3D;5)
+        self.vector_memory &#x3D; VectorMemory()
+        self.entity_memory &#x3D; EntityMemory()
+        self.summary_memory &#x3D; SummaryMemory()
+    
+    def process_interaction(self, user_input, ai_response):
+        &quot;&quot;&quot;处理一次交互&quot;&quot;&quot;
+        # 更新缓冲记忆
+        self.buffer_memory.add(user_input, ai_response)
+        
+        # 提取并存储实体
+        self.entity_memory.extract_entities(user_input)
+        
+        # 判断是否为重要信息，决定是否存入向量记忆
+        if self.is_important_info(user_input):
+            self.vector_memory.store(user_input)
+        
+        # 检查是否需要生成摘要
+        if self.buffer_memory.should_summarize():
+            summary &#x3D; self.summary_memory.generate(self.buffer_memory.get_history())
+            self.vector_memory.store(summary)
+    
+    def retrieve_context(self, query):
+        &quot;&quot;&quot;检索相关上下文&quot;&quot;&quot;
+        contexts &#x3D; []
+        contexts.extend(self.buffer_memory.get_recent())  # 短期记忆
+        contexts.extend(self.vector_memory.retrieve(query))  # 长期记忆
+        contexts.extend(self.entity_memory.get_related(query))  # 实体记忆
+        
+        return self.rank_and_merge(contexts)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="三、记忆系统的设计原则与最佳实践"><a href="#三、记忆系统的设计原则与最佳实践" class="headerlink" title="三、记忆系统的设计原则与最佳实践"></a>三、记忆系统的设计原则与最佳实践</h2><h3 id="3-1-记忆生命周期管理"><a href="#3-1-记忆生命周期管理" class="headerlink" title="3.1 记忆生命周期管理"></a>3.1 记忆生命周期管理</h3><p>有效的记忆系统需要合理管理记忆的生命周期，包括记忆的创建、更新、检索和遗忘。</p>
+<p><strong>关键原则</strong>：</p>
+<ol>
+<li><strong>重要性评估</strong>：根据信息的重要性决定存储策略和保留时间</li>
+<li><strong>衰减机制</strong>：实现记忆的自然衰减，模拟人类的遗忘曲线</li>
+<li><strong>定期清理</strong>：移除过时、错误或不再相关的记忆</li>
+<li><strong>记忆巩固</strong>：通过重复和关联强化重要记忆</li>
+</ol>
+<h3 id="3-2-个性化记忆策略"><a href="#3-2-个性化记忆策略" class="headerlink" title="3.2 个性化记忆策略"></a>3.2 个性化记忆策略</h3><p>记忆系统应该能够适应用户的个性化需求和交互模式。</p>
+<p><strong>实现方法</strong>：</p>
+<ol>
+<li><strong>用户画像构建</strong>：基于交互历史构建用户心理模型</li>
+<li><strong>偏好学习</strong>：从对话中学习用户的偏好和习惯</li>
+<li><strong>自适应调整</strong>：根据用户反馈调整记忆策略</li>
+<li><strong>隐私保护</strong>：确保敏感信息的存储和使用符合隐私规范</li>
+</ol>
+<h3 id="3-3-性能优化策略"><a href="#3-3-性能优化策略" class="headerlink" title="3.3 性能优化策略"></a>3.3 性能优化策略</h3><p>记忆系统的性能直接影响应用的响应速度和用户体验。</p>
+<p><strong>优化技巧</strong>：</p>
+<ol>
+<li><strong>缓存策略</strong>：对频繁访问的记忆实施缓存</li>
+<li><strong>异步处理</strong>：将耗时的记忆操作异步化</li>
+<li><strong>批量操作</strong>：合并相似操作减少IO次数</li>
+<li><strong>压缩存储</strong>：对记忆内容进行适当压缩</li>
+</ol>
+<h2 id="四、未来发展趋势与挑战"><a href="#四、未来发展趋势与挑战" class="headerlink" title="四、未来发展趋势与挑战"></a>四、未来发展趋势与挑战</h2><h3 id="4-1-技术发展趋势"><a href="#4-1-技术发展趋势" class="headerlink" title="4.1 技术发展趋势"></a>4.1 技术发展趋势</h3><p>从当前的研究和实践来看，记忆系统正朝着以下方向发展：</p>
+<ol>
+<li><strong>精细化管理</strong>：不同类型的记忆需要区别处理，采用类似Multi-Agent中的分治策略</li>
+<li><strong>混合存储结构</strong>：结合标签、文本、图谱等多种结构，提升检索准确性</li>
+<li><strong>检索优化</strong>：混合检索（向量+全文+图检索）成为主流</li>
+<li><strong>动态调度与路由</strong>：根据访问模式实现记忆的冷热转换与自我更新</li>
+</ol>
+<h3 id="4-2-面临的挑战"><a href="#4-2-面临的挑战" class="headerlink" title="4.2 面临的挑战"></a>4.2 面临的挑战</h3><p>尽管记忆技术取得了显著进展，但仍面临一些挑战：</p>
+<ol>
+<li><strong>记忆一致性</strong>：确保记忆在不同会话和不同时间点的一致性</li>
+<li><strong>冲突解决</strong>：当接收到矛盾信息时如何更新记忆</li>
+<li><strong>可解释性</strong>：让用户理解系统记住了什么以及为什么记住</li>
+<li><strong>可扩展性</strong>：支持大规模用户和海量记忆数据的管理</li>
+</ol>
+<h2 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h2><p>记忆系统是智能体实现长期交互、持续学习和个性化服务的核心。从简单的对话缓冲到复杂的混合记忆系统，不同的记忆策略适用于不同的应用场景。开发者需要根据具体需求选择合适的记忆模式，并考虑记忆的生命周期管理、个性化适配和性能优化。</p>
+<p>在实际应用中，建议从简单的记忆模式开始，逐步增加复杂度。同时，要重视记忆系统的可观测性，通过日志和监控了解记忆的存储和检索情况，不断优化记忆策略。随着AI技术的不断发展，记忆系统将在构建更加智能、更加人性化的AI应用中发挥越来越重要的作用。</p>
+<h1 id="LangChain-Memory组件深度解析：运行流程、分类与源码剖析"><a href="#LangChain-Memory组件深度解析：运行流程、分类与源码剖析" class="headerlink" title="LangChain Memory组件深度解析：运行流程、分类与源码剖析"></a>LangChain Memory组件深度解析：运行流程、分类与源码剖析</h1><p>在构建基于大型语言模型（LLM）的智能应用时，记忆功能是实现上下文连贯性和个性化交互的核心技术。LangChain框架提供了完善的记忆系统，通过多种记忆组件来管理对话历史和上下文信息。本文将深入解析Memory组件的运行流程、不同组件分类，并详细剖析BaseChatMemory的源码实现。</p>
+<h2 id="一、Memory组件概述与开发状态"><a href="#一、Memory组件概述与开发状态" class="headerlink" title="一、Memory组件概述与开发状态"></a>一、Memory组件概述与开发状态</h2><p>LangChain的记忆模块目前仍处于测试阶段，这主要受限于两大技术因素：一是除ChatMessageHistory外，多数功能尚未通过企业级稳定性验证；二是现有组件主要适配传统链式编程范式，对新兴的LCEL语法（LangChain Expression Language）支持有限。开发路线图显示，LangChain团队计划在0.3.0-0.4.0版本实现重大升级，包括重构Memory接口以原生支持LCEL语法树、引入增量式记忆持久化机制以及增加多模态记忆处理能力。</p>
+<p>记忆系统的核心功能包括存储对话历史、管理上下文窗口、提取相关信息以及处理长期记忆。这些功能使得AI应用能够记住和使用过去的交互信息，从而提供更加智能和连贯的用户体验。</p>
+<h2 id="二、Memory组件分类与特性对比"><a href="#二、Memory组件分类与特性对比" class="headerlink" title="二、Memory组件分类与特性对比"></a>二、Memory组件分类与特性对比</h2><p>LangChain的记忆组件基于分层设计理念构建，基类体系采用以下结构：</p>
+<pre class="line-numbers language-none"><code class="language-none">BaseMemory
+├── SimpleMemory（轻量级无状态实现）
+└── BaseChatMemory（对话场景专用）
+    ├── ConversationBufferMemory
+    ├── ConversationSummaryMemory
+    └── VectorStoreBackedMemory<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="1-SimpleMemory组件"><a href="#1-SimpleMemory组件" class="headerlink" title="1. SimpleMemory组件"></a>1. SimpleMemory组件</h3><p>SimpleMemory是一个轻量级无状态容器，适用于无需记忆功能的场景。开发者可通过此类实现代码结构兼容性，例如当LLM应用不需要记忆功能，但又不想更改代码结构时，可以使用SimpleMemory组件进行代替。它实现了记忆组件的相关方法，但不存储任何记忆，可以在不修改代码结构的情况下替换记忆组件，实现无记忆功能。</p>
+<h3 id="2-BaseChatMemory组件"><a href="#2-BaseChatMemory组件" class="headerlink" title="2. BaseChatMemory组件"></a>2. BaseChatMemory组件</h3><p>BaseChatMemory是对话系统的专用基类，提供三大增强能力：多轮对话历史管理、上下文感知的prompt构建以及自动化的记忆存储&#x2F;检索流水线。这是LangChain中内置的其他记忆组件的基类，针对对话历史进行了特定的封装，以适用聊天模型对话的场合。</p>
+<h3 id="3-具体记忆组件类型"><a href="#3-具体记忆组件类型" class="headerlink" title="3. 具体记忆组件类型"></a>3. 具体记忆组件类型</h3><p><strong>对话缓冲记忆（ConversationBufferMemory）</strong>：最简单的记忆类型，存储所有之前的对话。其特点是简单易用，存储完整对话历史，但随着对话增长可能超出上下文窗口。</p>
+<p><strong>对话摘要记忆（ConversationSummaryMemory）</strong>：通过总结之前的对话来节省上下文空间。这种记忆类型适合长对话场景，通过摘要压缩历史信息，但可能丢失细节信息。</p>
+<p><strong>对话摘要缓冲记忆（ConversationSummaryBufferMemory）</strong>：结合缓冲和摘要的混合方法，在不超过max_token_limit的限制下保存对话历史数据，对于超过的部分进行信息的提取与总结。</p>
+<p><strong>对话缓冲窗口记忆（ConversationBufferWindowMemory）</strong>：通过设定k值，只保留一定数量（2*k）的对话信息作为历史。这是生产环境优先选择的经过稳定性验证的记忆机制。</p>
+<p><strong>对话令牌缓冲记忆（ConversationTokenBufferMemory）</strong>：通过设置最大标记数量（max_token_limits）来决定何时清除交互信息，当对话信息超过max_token_limits时，抛弃旧对话信息。</p>
+<h2 id="三、BaseChatMemory运行流程详解"><a href="#三、BaseChatMemory运行流程详解" class="headerlink" title="三、BaseChatMemory运行流程详解"></a>三、BaseChatMemory运行流程详解</h2><h3 id="1-核心属性与方法"><a href="#1-核心属性与方法" class="headerlink" title="1. 核心属性与方法"></a>1. 核心属性与方法</h3><p>在LangChain的BaseChatMemory组件中，不同的属性与方法有不同的作用：</p>
+<ul>
+<li><strong>chat_memory</strong>：用于管理记忆中的历史消息对话，默认使用InMemoryChatMessageHistory。</li>
+<li><strong>output_key</strong>：定义AI内容输出键。</li>
+<li><strong>input_key</strong>：定义Human内容输入键。</li>
+<li><strong>return_messages</strong>：load_memory_variables函数是否返回消息列表，默认为False代表返回字符串。</li>
+<li><strong>save_context</strong>：存储上下文到记忆组件中（存储消息对话）。</li>
+<li><strong>load_memory_variables</strong>：生成加载到链的记忆字典信息。</li>
+<li><strong>clear</strong>：清除记忆中的对话消息历史。</li>
+</ul>
+<h3 id="2-运行流程分析"><a href="#2-运行流程分析" class="headerlink" title="2. 运行流程分析"></a>2. 运行流程分析</h3><p>在聊天机器人的运行流程中，添加BaseChatMemory组件后，整体流程发生变化。流程开始于用户提问，经过Prompt提示模板处理后传递给LLM大语言模型。LLM生成回答后，输出解析器将结果格式化为包含question和answer两个key的JSON格式。</p>
+<p>关键的记忆管理环节包括：</p>
+<ol>
+<li><strong>加载记忆变量</strong>：BaseChatMemory通过load_memory_variables()方法加载记忆变量，生成包含chat_history的字典。</li>
+<li><strong>存储上下文</strong>：通过save_context()方法将用户输入和AI输出保存到记忆中，存储到BaseChatMessageHistory中。</li>
+<li><strong>记忆传递</strong>：加载的记忆变量（chat_history）被传递到Chat Model聊天模型中，作为上下文的一部分。</li>
+</ol>
+<h3 id="3-源码实现解析"><a href="#3-源码实现解析" class="headerlink" title="3. 源码实现解析"></a>3. 源码实现解析</h3><p>BaseChatMemory的核心源码实现了记忆管理的关键逻辑：</p>
+<pre class="line-numbers language-none"><code class="language-none">class BaseChatMemory(BaseMemory, ABC):
+    chat_memory: BaseChatMessageHistory &#x3D; Field(
+        default_factory&#x3D;InMemoryChatMessageHistory
+    )
+    output_key: Optional[str] &#x3D; None
+    input_key: Optional[str] &#x3D; None
+    return_messages: bool &#x3D; False
+    
+    def _get_input_output(
+        self, inputs: Dict[str, Any], outputs: Dict[str, str]
+    ) -&gt; Tuple[str, str]:
+        &quot;&quot;&quot;从输入和输出字典中提取对应的字符串（人类提问、AI输出）&quot;&quot;&quot;
+        if self.input_key is None:
+            # 如果没有传递input_key则从inputs中提取人类提问的key
+            prompt_input_key &#x3D; get_prompt_input_key(inputs, self.memory_variables)
+        else:
+            prompt_input_key &#x3D; self.input_key
+        
+        if self.output_key is None:
+            if len(outputs) &#x3D;&#x3D; 1:
+                output_key &#x3D; list(outputs.keys())
+            elif &quot;output&quot; in outputs:
+                output_key &#x3D; &quot;output&quot;
+                warnings.warn(
+                    f&quot;&#39;&#123;self.__class__.__name__&#125;&#39; got multiple output keys:&quot;
+                    f&quot; &#123;outputs.keys()&#125;. The default &#39;output&#39; key is being used.&quot;
+                    f&quot; If this is not desired, please manually set &#39;output_key&#39;.&quot;
+                )
+            else:
+                raise ValueError(
+                    f&quot;Got multiple output keys: &#123;outputs.keys()&#125;, cannot &quot;
+                    f&quot;determine which to store in memory. Please set the &quot;
+                    f&quot;&#39;output_key&#39; explicitly.&quot;
+                )
+        else:
+            output_key &#x3D; self.output_key
+        
+        return inputs[prompt_input_key], outputs[output_key]
+    
+    def save_context(self, inputs: Dict[str, Any], outputs: Dict[str, str]) -&gt; None:
+        &quot;&quot;&quot;保存对话上下文到记忆缓冲区&quot;&quot;&quot;
+        # 从输入和输出中获取输入字符串、输出字符串
+        input_str, output_str &#x3D; self._get_input_output(inputs, outputs)
+        # 存储对应的对话信息
+        self.chat_memory.add_messages(
+            [HumanMessage(content&#x3D;input_str), AIMessage(content&#x3D;output_str)]
+        )<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>从源码可以看出，BaseChatMemory通过<code>_get_input_output</code>方法智能地从输入输出字典中提取人类提问和AI回答的内容。当没有明确指定input_key和output_key时，它会自动推断合适的键值。<code>save_context</code>方法则负责将提取出的对话内容存储到chat_memory中，完成记忆的持久化。</p>
+<h2 id="四、ChatMessageHistory：记忆管理的基石"><a href="#四、ChatMessageHistory：记忆管理的基石" class="headerlink" title="四、ChatMessageHistory：记忆管理的基石"></a>四、ChatMessageHistory：记忆管理的基石</h2><p>在LangChain中，记忆功能的实现主要涉及两个核心问题：存储的历史信息是什么？以及如何检索与处理历史信息？为了解决这些问题，LangChain封装了一个管理历史信息的基类——<strong>BaseChatMessageHistory</strong>。这是一个抽象类，用于管理历史消息，涵盖了对消息的多种管理功能，包括添加消息、清空历史消息、查看历史消息列表、查看历史消息文本等。</p>
+<p>所有扩展的消息历史组件均继承BaseChatMessageHistory，包括自定义消息历史组件。其中，InMemoryChatMessageHistory是langchain_core包中内置的对话消息历史类，可以将对话消息存储到临时内存中。其他第三方集成的聊天消息历史组件则通过langchain_community包进行导入，如RedisChatMessageHistory、PostgresChatMessageHistory、MongoDBChatMessageHistory等。</p>
+<p><strong>FileChatMessageHistory</strong>是一个将对话历史存储到本地文件的组件。通过结合原生的OpenAI SDK，可以使用这个记忆组件在命令行界面实现带有记忆功能的对话。即使在关闭对话后，下次运行代码时，仍然可以读取到之前的对话内容，实现了持久化的记忆功能。</p>
+<h2 id="五、开发实践建议与最佳实践"><a href="#五、开发实践建议与最佳实践" class="headerlink" title="五、开发实践建议与最佳实践"></a>五、开发实践建议与最佳实践</h2><p>基于当前LangChain记忆组件的状态和特性，以下是一些开发实践建议：</p>
+<ol>
+<li><p><strong>语法适配策略</strong>：在LCEL语法成熟前，建议通过ChatMessageHistory手动集成记忆功能。现有组件主要适配传统链式编程范式，对新兴的LCEL语法支持有限。</p>
+</li>
+<li><p><strong>生产环境选择</strong>：生产环境优先选择经过稳定性验证的ConversationBufferWindowMemory（窗口记忆机制）。这种记忆类型通过设定k值，只保留一定数量的对话信息作为历史，避免了无限增长的问题。</p>
+</li>
+<li><p><strong>性能监控与优化</strong>：监控记忆组件的token消耗量，当单次对话超过2K tokens时需启用摘要或向量存储方案。对话摘要记忆（ConversationSummaryMemory）通过总结之前的对话来节省上下文空间，适合长对话场景。</p>
+</li>
+<li><p><strong>记忆组件选择原则</strong>：根据应用场景选择合适的记忆组件。对于简单的短期对话，可以使用ConversationBufferMemory；对于长对话需要节省上下文空间的场景，应选择ConversationSummaryMemory；对于需要平衡细节保留和空间效率的场景，ConversationSummaryBufferMemory是理想选择。</p>
+</li>
+</ol>
+<h2 id="六、总结与展望"><a href="#六、总结与展望" class="headerlink" title="六、总结与展望"></a>六、总结与展望</h2><p>LangChain的记忆系统为构建智能对话应用提供了强大的支持。通过BaseMemory基类及其衍生出的SimpleMemory和BaseChatMemory，开发者可以根据不同场景选择合适的记忆策略。BaseChatMemory作为对话系统的专用基类，通过chat_memory、output_key、input_key等核心属性，以及save_context、load_memory_variables等关键方法，实现了自动化的记忆管理流程。</p>
+<p>随着LangChain框架的不断发展，记忆组件将逐步完善对LCEL语法的支持，并引入更先进的记忆持久化机制和多模态处理能力。开发者应密切关注框架的更新，同时根据当前版本的特点选择合适的记忆策略，构建出更加智能、连贯的AI应用。</p>
+<p>在记忆系统的设计理念上，可以借鉴更广泛的记忆理论。从心理学角度看，人类记忆包括感知记忆、短期记忆和长期记忆等不同结构。在AI智能体中，记忆系统也可以设计为类似的层次结构，包括感知记忆（记录感知输入）、短期记忆（暂时缓冲最近的感知）和长期记忆（存储智能体的经验和知识）。这种多层次记忆结构可以帮助智能体积累经验、自我进化，并以更加一致、合理、有效的方式完成任务。</p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Apzx7</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://Apzx7.github.io/2026/03/18/LangChain/%E8%AE%B0%E5%BF%86%E5%8A%9F%E8%83%BD/">http://Apzx7.github.io/2026/03/18/LangChain/%E8%AE%B0%E5%BF%86%E5%8A%9F%E8%83%BD/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Apzx7</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/AI/">
+                                    <span class="chip bg-color">AI</span>
+                                </a>
+                            
+                                <a href="/tags/LangChain/">
+                                    <span class="chip bg-color">LangChain</span>
+                                </a>
+                            
+                                <a href="/tags/LLM/">
+                                    <span class="chip bg-color">LLM</span>
+                                </a>
+                            
+                                <a href="/tags/%E8%AE%B0%E5%BF%86/">
+                                    <span class="chip bg-color">记忆</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2026/03/18/LangChain/%E8%AE%B0%E5%BF%86%E5%8A%9F%E8%83%BD%E7%9A%84%E5%AE%9E%E7%8E%B0/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="LangChain记忆功能的实现">
+                        
+                        <span class="card-title">LangChain记忆功能的实现</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2026-03-18
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/AI/" class="post-category">
+                                    AI
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AI/">
+                        <span class="chip bg-color">AI</span>
+                    </a>
+                    
+                    <a href="/tags/LangChain/">
+                        <span class="chip bg-color">LangChain</span>
+                    </a>
+                    
+                    <a href="/tags/%E8%AE%B0%E5%BF%86/">
+                        <span class="chip bg-color">记忆</span>
+                    </a>
+                    
+                    <a href="/tags/ChatMessageHistory/">
+                        <span class="chip bg-color">ChatMessageHistory</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2026/03/17/LangChain/%E5%9B%9E%E8%B0%83%E5%8A%9F%E8%83%BD/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="LangChain回调功能">
+                        
+                        <span class="card-title">LangChain回调功能</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2026-03-17
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/AI/" class="post-category">
+                                    AI
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/AI/">
+                        <span class="chip bg-color">AI</span>
+                    </a>
+                    
+                    <a href="/tags/LangChain/">
+                        <span class="chip bg-color">LangChain</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%9B%9E%E8%B0%83/">
+                        <span class="chip bg-color">回调</span>
+                    </a>
+                    
+                    <a href="/tags/Callbacks/">
+                        <span class="chip bg-color">Callbacks</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2025-2026</span>
+            
+            <span id="year">2025</span>
+            <a href="/about" target="_blank">Apzx7</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">84.8k</span>&nbsp;字
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/Apzx7" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:2182672468@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2182672468" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2182672468" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+	
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

@@ -552,7 +552,7 @@
                 name: '文章篇数',
                 type: 'line',
                 color: ['#6772e5'],
-                data: [1,1,0,0,1,2,0,0,0,0,0,0,1],
+                data: [1,1,0,0,1,2,0,0,0,10,1,0,1],
                 markPoint: {
                     symbolSize: 45,
                     color: ['#fa755a','#3ecf8e','#82d3f4'],
@@ -594,7 +594,7 @@
                 type: 'pie',
                 radius: '50%',
                 color: ['#6772e5', '#ff9e0f', '#fa755a', '#3ecf8e', '#82d3f4', '#ab47bc', '#525f7f', '#f51c47', '#26A69A'],
-                data: [{"name":"工具","value":2},{"name":"CTF","value":3},{"name":"Web安全","value":3},{"name":"Java安全","value":2},{"name":"AI","value":11},{"name":"sql","value":1}],
+                data: [{"name":"Web安全","value":3},{"name":"CTF","value":3},{"name":"工具","value":2},{"name":"Java安全","value":2},{"name":"AI","value":11},{"name":"sql","value":1}],
                 itemStyle: {
                     emphasis: {
                         shadowBlur: 10,
@@ -618,7 +618,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: ["AI","LangChain","LLM","CTF","Web","Web安全","漏洞原理","Python","记忆","工具"]
+                data: ["AI","LangChain","LLM","Web安全","漏洞原理","CTF","Web","Python","记忆","RCE"]
             }
         ],
         yAxis: [
@@ -801,20 +801,20 @@
         <div class="tag-chips center-align">
             
             
-            <a href="/tags/%E5%B7%A5%E5%85%B7/">
-                <span class="chip center-align waves-effect waves-light chip-default">工具</span>
+            <a href="/tags/CSRF/">
+                <span class="chip center-align waves-effect waves-light chip-default">CSRF</span>
             </a>
             
             
             
-            <a href="/tags/%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F/">
-                <span class="chip center-align waves-effect waves-light chip-default">目录扫描</span>
+            <a href="/tags/Web%E5%AE%89%E5%85%A8/">
+                <span class="chip center-align waves-effect waves-light chip-default">Web安全</span>
             </a>
             
             
             
-            <a href="/tags/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">
-                <span class="chip center-align waves-effect waves-light chip-default">信息收集</span>
+            <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86/">
+                <span class="chip center-align waves-effect waves-light chip-default">漏洞原理</span>
             </a>
             
             
@@ -843,20 +843,20 @@
             
             
             
-            <a href="/tags/CSRF/">
-                <span class="chip center-align waves-effect waves-light chip-default">CSRF</span>
+            <a href="/tags/%E5%B7%A5%E5%85%B7/">
+                <span class="chip center-align waves-effect waves-light chip-default">工具</span>
             </a>
             
             
             
-            <a href="/tags/Web%E5%AE%89%E5%85%A8/">
-                <span class="chip center-align waves-effect waves-light chip-default">Web安全</span>
+            <a href="/tags/%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F/">
+                <span class="chip center-align waves-effect waves-light chip-default">目录扫描</span>
             </a>
             
             
             
-            <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86/">
-                <span class="chip center-align waves-effect waves-light chip-default">漏洞原理</span>
+            <a href="/tags/%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">
+                <span class="chip center-align waves-effect waves-light chip-default">信息收集</span>
             </a>
             
             
@@ -923,30 +923,6 @@
             
             
             
-            <a href="/tags/Prompt/">
-                <span class="chip center-align waves-effect waves-light chip-default">Prompt</span>
-            </a>
-            
-            
-            
-            <a href="/tags/LLM/">
-                <span class="chip center-align waves-effect waves-light chip-default">LLM</span>
-            </a>
-            
-            
-            
-            <a href="/tags/Model/">
-                <span class="chip center-align waves-effect waves-light chip-default">Model</span>
-            </a>
-            
-            
-            
-            <a href="/tags/OutputParser/">
-                <span class="chip center-align waves-effect waves-light chip-default">OutputParser</span>
-            </a>
-            
-            
-            
             <a href="/tags/LCEL/">
                 <span class="chip center-align waves-effect waves-light chip-default">LCEL</span>
             </a>
@@ -959,14 +935,14 @@
             
             
             
-            <a href="/tags/%E8%AE%B0%E5%BF%86/">
-                <span class="chip center-align waves-effect waves-light chip-default">记忆</span>
+            <a href="/tags/Model/">
+                <span class="chip center-align waves-effect waves-light chip-default">Model</span>
             </a>
             
             
             
-            <a href="/tags/%E7%BB%84%E4%BB%B6/">
-                <span class="chip center-align waves-effect waves-light chip-default">组件</span>
+            <a href="/tags/LLM/">
+                <span class="chip center-align waves-effect waves-light chip-default">LLM</span>
             </a>
             
             
@@ -977,8 +953,32 @@
             
             
             
+            <a href="/tags/Prompt/">
+                <span class="chip center-align waves-effect waves-light chip-default">Prompt</span>
+            </a>
+            
+            
+            
+            <a href="/tags/OutputParser/">
+                <span class="chip center-align waves-effect waves-light chip-default">OutputParser</span>
+            </a>
+            
+            
+            
             <a href="/tags/%E5%AE%89%E8%A3%85/">
                 <span class="chip center-align waves-effect waves-light chip-default">安装</span>
+            </a>
+            
+            
+            
+            <a href="/tags/%E8%AE%B0%E5%BF%86/">
+                <span class="chip center-align waves-effect waves-light chip-default">记忆</span>
+            </a>
+            
+            
+            
+            <a href="/tags/%E7%BB%84%E4%BB%B6/">
+                <span class="chip center-align waves-effect waves-light chip-default">组件</span>
             </a>
             
             
